@@ -1,5 +1,5 @@
-import {ImagesIcon} from '@sanity/icons'
-import {defineField, defineType} from 'sanity'
+import { ImagesIcon } from '@sanity/icons'
+import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'aboutCarouselImage',
@@ -22,7 +22,6 @@ export default defineType({
       options: {
         source: 'title',
         maxLength: 120,
-        isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
       validation: (Rule) => Rule.required(),
     }),
@@ -30,7 +29,7 @@ export default defineType({
       name: 'image',
       title: 'Image',
       type: 'image',
-      options: {hotspot: true},
+      options: { hotspot: true },
       fields: [
         defineField({
           name: 'alt',
@@ -62,8 +61,8 @@ export default defineType({
       title: 'Sort Order',
       name: 'sortOrderAsc',
       by: [
-        {field: 'sortOrder', direction: 'asc'},
-        {field: 'title', direction: 'asc'},
+        { field: 'sortOrder', direction: 'asc' },
+        { field: 'title', direction: 'asc' },
       ],
     },
   ],
@@ -72,7 +71,7 @@ export default defineType({
       title: 'title',
       media: 'image',
     },
-    prepare({title, media}) {
+    prepare({ title, media }) {
       return {
         title: title || 'Untitled carousel image',
         subtitle: 'About carousel image',

@@ -1,5 +1,5 @@
-import {defineField, defineType} from 'sanity'
-import {DocumentIcon} from '@sanity/icons'
+import { defineField, defineType } from 'sanity'
+import { DocumentIcon } from '@sanity/icons'
 
 export default defineType({
   name: 'post',
@@ -22,7 +22,6 @@ export default defineType({
       options: {
         source: 'title',
         maxLength: 96,
-        isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
       validation: (Rule) =>
         Rule.required()
@@ -54,7 +53,7 @@ export default defineType({
       ],
       validation: (Rule) =>
         Rule.custom((value, context) => {
-          const parent = context.document as {featured?: boolean}
+          const parent = context.document as { featured?: boolean }
           if (parent?.featured && !value) {
             return 'Hero image is required for featured posts'
           }
@@ -94,17 +93,17 @@ export default defineType({
         {
           type: 'block',
           styles: [
-            {title: 'Normal', value: 'normal'},
-            {title: 'H2', value: 'h2'},
-            {title: 'H3', value: 'h3'},
-            {title: 'Quote', value: 'blockquote'},
+            { title: 'Normal', value: 'normal' },
+            { title: 'H2', value: 'h2' },
+            { title: 'H3', value: 'h3' },
+            { title: 'Quote', value: 'blockquote' },
           ],
-          lists: [{title: 'Bullet', value: 'bullet'}, {title: 'Numbered', value: 'number'}],
+          lists: [{ title: 'Bullet', value: 'bullet' }, { title: 'Numbered', value: 'number' }],
           marks: {
             decorators: [
-              {title: 'Strong', value: 'strong'},
-              {title: 'Emphasis', value: 'em'},
-              {title: 'Code', value: 'code'},
+              { title: 'Strong', value: 'strong' },
+              { title: 'Emphasis', value: 'em' },
+              { title: 'Code', value: 'code' },
             ],
             annotations: [
               {
@@ -128,7 +127,7 @@ export default defineType({
         },
         {
           type: 'image',
-          options: {hotspot: true},
+          options: { hotspot: true },
           fields: [
             {
               name: 'alt',
@@ -151,7 +150,7 @@ export default defineType({
       title: 'Tags',
       type: 'array',
       description: 'Keywords for filtering and SEO',
-      of: [{type: 'string'}],
+      of: [{ type: 'string' }],
       options: {
         layout: 'tags',
       },
@@ -203,7 +202,7 @@ export default defineType({
       type: 'boolean',
       description: 'Archive this post (hides from public lists)',
       initialValue: false,
-      hidden: ({document}) => !document?.archived,
+      hidden: ({ document }) => !document?.archived,
     }),
   ],
   preview: {
@@ -214,7 +213,7 @@ export default defineType({
       featured: 'featured',
       archived: 'archived',
     },
-    prepare({title, media, publishedAt, featured, archived}) {
+    prepare({ title, media, publishedAt, featured, archived }) {
       const badges = []
       if (featured) badges.push('⭐ Featured')
       if (archived) badges.push('📦 Archived')

@@ -32,7 +32,6 @@ export default defineType({
       options: {
         source: 'title',
         maxLength: 96,
-        isUnique: (value, context) => context.defaultIsUnique(value, context),
       },
       validation: (Rule) =>
         Rule.required().error('Generate a slug so this asset can be referenced'),
