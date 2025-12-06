@@ -1,0 +1,204 @@
+/**
+ * Cielitos Wrld Studio - Mobile-First Customizations
+ * Ensures 44px touch targets, better spacing, and brand consistency
+ */
+
+/* Global mobile optimizations */
+@media (max-width: 768px) {
+  /* Larger touch targets for mobile */
+  [data-ui='Button'],
+  [data-ui='MenuButton'],
+  button {
+    min-height: 44px !important;
+    padding: 0.75rem 1rem !important;
+  }
+
+  /* Larger form inputs */
+  input[type='text'],
+  input[type='email'],
+  input[type='url'],
+  textarea {
+    min-height: 44px !important;
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    padding: 0.75rem !important;
+  }
+
+  /* Stack form fields vertically */
+  [data-ui='Stack'] {
+    flex-direction: column !important;
+  }
+
+  /* Larger clickable areas for lists */
+  [data-ui='MenuItem'],
+  [data-ui='ListItem'] {
+    min-height: 48px !important;
+    padding: 0.75rem 1rem !important;
+  }
+
+  /* Better spacing in document editor */
+  [data-ui='FormField'] {
+    margin-bottom: 1.5rem !important;
+  }
+}
+
+/* Brand color overrides */
+[data-ui='Button'][data-mode='default'] {
+  background-color: #822c01 !important;
+  color: white !important;
+}
+
+[data-ui='Button'][data-mode='default']:hover {
+  background-color: #b33a16 !important;
+}
+
+/* Publish button - make it prominent */
+[data-ui='Button'][data-intent='publish'],
+[data-ui='Button'][aria-label*='Publish'] {
+  background: linear-gradient(135deg, #822c01 0%, #b33a16 100%) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  min-height: 48px !important;
+  padding: 0.875rem 1.5rem !important;
+  box-shadow: 0 4px 6px rgba(130, 44, 1, 0.25) !important;
+}
+
+[data-ui='Button'][data-intent='publish']:hover {
+  box-shadow: 0 8px 12px rgba(130, 44, 1, 0.3) !important;
+  transform: translateY(-1px);
+}
+
+/* Focus states - brand orange */
+*:focus-visible {
+  outline: 2px solid #822c01 !important;
+  outline-offset: 2px !important;
+}
+
+/* Image upload areas - larger drop zones */
+[data-ui='FileInputButton'] {
+  min-height: 120px !important;
+  border: 2px dashed #dde2d1 !important;
+  border-radius: 12px !important;
+}
+
+[data-ui='FileInputButton']:hover {
+  border-color: #822c01 !important;
+  background-color: #fef6f0 !important;
+}
+
+/* Sidebar - better mobile collapse */
+@media (max-width: 1024px) {
+  [data-ui='Sidebar'] {
+    position: fixed !important;
+    z-index: 1000 !important;
+  }
+}
+
+/* Document actions bar - fixed at bottom on mobile */
+@media (max-width: 768px) {
+  [data-ui='DocumentPanel'] [data-ui='DocumentActionShortcuts'] {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: white !important;
+    padding: 1rem !important;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1) !important;
+    z-index: 100 !important;
+  }
+}
+
+/* Hide technical UI elements for cleaner client experience */
+[data-ui='DocumentInspector'],
+[data-ui='TimelineMenu'],
+[data-ui='DocumentHistoryTimeline'] {
+  display: none !important;
+}
+
+/* Cleaner field labels */
+[data-ui='FormField'] > label {
+  font-weight: 600 !important;
+  color: #371d13 !important;
+  margin-bottom: 0.5rem !important;
+  font-size: 0.95rem !important;
+}
+
+/* Field descriptions - softer color */
+[data-ui='FormField'] [data-ui='Text'][data-muted] {
+  color: #5d3c2a !important;
+  font-size: 0.875rem !important;
+  line-height: 1.5 !important;
+}
+
+/* Card styling - match website */
+[data-ui='Card'] {
+  border-radius: 12px !important;
+  border-color: #dde2d1 !important;
+}
+
+/* Toast notifications - brand colors */
+[data-ui='Toast'][data-status='success'] {
+  background-color: #2c3325 !important;
+  color: white !important;
+}
+
+[data-ui='Toast'][data-status='error'] {
+  background-color: #e03131 !important;
+  color: white !important;
+}
+
+/* Portable Text editor - better mobile */
+@media (max-width: 768px) {
+  [data-slate-editor] {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+    padding: 1rem !important;
+  }
+
+  [data-slate-editor] [data-block] {
+    margin-bottom: 1rem !important;
+  }
+}
+
+/* Tags input - larger touch targets */
+[data-ui='Autocomplete'] input {
+  min-height: 44px !important;
+  font-size: 16px !important;
+}
+
+/* Image hotspot tool - mobile friendly */
+[data-ui='ImageHotspot'] button {
+  min-width: 44px !important;
+  min-height: 44px !important;
+}
+
+/* Better spacing in arrays/lists */
+[data-ui='ArrayOfObjectsInput'] > [data-ui='Stack'] > * {
+  margin-bottom: 1rem !important;
+}
+
+/* Validation messages - more visible */
+[data-ui='ValidationList'] {
+  background-color: #fef6f0 !important;
+  border-left: 4px solid #822c01 !important;
+  padding: 1rem !important;
+  border-radius: 8px !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Loading states - brand colors */
+[data-ui='Spinner'] {
+  color: #822c01 !important;
+}
+
+/* Preview pane toggle - mobile */
+@media (max-width: 1024px) {
+  [data-ui='PreviewPane'] {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    z-index: 1001 !important;
+    background: white !important;
+  }
+}
