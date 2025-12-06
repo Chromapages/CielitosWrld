@@ -31,13 +31,13 @@ export default defineType({
       type: 'image',
       options: { hotspot: true },
       fields: [
-        defineField({
+        {
           name: 'alt',
           title: 'Alt Text',
           type: 'string',
           description: 'Describe the image for accessibility and SEO',
           validation: (Rule) => Rule.required(),
-        }),
+        },
       ],
       validation: (Rule) => Rule.required(),
     }),
