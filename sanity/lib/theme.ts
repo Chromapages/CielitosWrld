@@ -1,4 +1,4 @@
-import {buildLegacyTheme} from 'sanity'
+import { buildLegacyTheme } from 'sanity'
 
 // Brand colors from Cielitos Wrld website
 const colors = {
@@ -89,42 +89,6 @@ export const cielitosTheme = buildLegacyTheme({
 
   /* Focus */
   '--focus-color': colors.orange[900],
-
-  /* Typography */
-  '--font-family-sans-serif': "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-  '--font-family-monospace': "'Fira Code', 'Courier New', monospace",
-
-  /* Shadows - Material Design elevation */
-  '--shadow-outline': `0 0 0 3px ${colors.orange[200]}`,
-  '--shadow-elevation-low': '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
-  '--shadow-elevation-medium': '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
-  '--shadow-elevation-high': '0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)',
-
-  /* Borders */
-  '--border-color': colors.sage[200],
-  '--border-color-focus': colors.orange[900],
-
-  /* Buttons & Inputs */
-  '--input-bg': '#fff',
-  '--input-fg': colors.mud[900],
-  '--input-border-color': colors.sage[300],
-  '--input-border-color-focus': colors.orange[900],
-
-  /* Cards */
-  '--card-bg-color': '#fff',
-  '--card-border-color': colors.sage[200],
-  '--card-shadow-outline-color': colors.orange[100],
-
-  /* Code */
-  '--code-bg-color': colors.sage[100],
-  '--code-fg-color': colors.mud[800],
-
-  /* Selected */
-  '--selected-bg-color': colors.orange[50],
-  '--selected-fg-color': colors.orange[900],
-
-  /* Link colors */
-  '--link-fg-color': colors.orange[900],
 })
 
 export default cielitosTheme
