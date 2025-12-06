@@ -98,11 +98,13 @@ export default function GalleryPreview() {
 
   // Transform Sanity assets to gallery items
   const transformAssets = (assets: GalleryAsset[]): GalleryItem[] => {
-    return assets.map((asset) => {
+    const items: GalleryItem[] = [];
+
+    for (const asset of assets) {
       const isVideo = asset.mediaType === 'video';
       const imageAsset = isVideo ? asset.videoThumbnail : asset.image;
-      
-      if (!imageAsset) return null;
+
+      if (!imageAsset) continue;
 
       const imageUrl = urlFor(imageAsset.asset)
         .width(600)
@@ -117,7 +119,7 @@ export default function GalleryPreview() {
         day: '2-digit',
       });
 
-      return {
+      items.push({
         id: asset._id,
         title: asset.title,
         src: imageUrl,
@@ -126,19 +128,21 @@ export default function GalleryPreview() {
         filename: `${asset.title.replace(/\s+/g, '_')}.${isVideo ? 'mp4' : 'jpg'}`,
         size: isVideo ? '~85 MB' : '~1.5 MB',
         date,
-        blurDataURL: imageAsset.asset.metadata.lqip,
-      };
-    }).filter((item): item is GalleryItem => item !== null);
+        blurDataURL: imageAsset.asset.metadata?.lqip,
+      });
+    }
+
+    return items;
   };
 
   // Get filtered items based on selected category
   const getFilteredItems = (): GalleryItem[] => {
     const allItems = transformAssets(galleryAssets);
-    
+
     if (selectedCategory === 'all') {
       return allItems;
     }
-    
+
     return allItems.filter((item) => {
       const asset = galleryAssets.find((a) => a._id === item.id);
       return asset?.category === selectedCategory;
@@ -194,7 +198,7 @@ export default function GalleryPreview() {
           style={{ backgroundImage: "url('/images/contactsheets/CONTACT3.png')" }}
         />
         <div className="absolute inset-0 h-full w-full bg-black/45 backdrop-blur-sm" aria-hidden />
-        
+
         <style jsx>{`
           @keyframes shimmer {
             0% {
@@ -215,7 +219,7 @@ export default function GalleryPreview() {
             background-size: 1000px 100%;
           }
         `}</style>
-        
+
         <div className="relative z-10 max-w-7xl mx-auto">
           {/* Header Skeleton */}
           <div className="text-center mb-12">
@@ -279,7 +283,7 @@ export default function GalleryPreview() {
       />
       {/* Overlay */}
       <div className="absolute inset-0 h-full w-full bg-black/45 backdrop-blur-sm" aria-hidden />
-      
+
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
@@ -317,23 +321,20 @@ export default function GalleryPreview() {
                     <li key={category.id}>
                       <button
                         onClick={() => handleCategorySelect(category.id, category.hasSubfolders)}
-                        className={`flex items-center gap-2.5 p-2 rounded-md transition-colors cursor-pointer w-full text-left ${
-                          selectedCategory === category.id
+                        className={`flex items-center gap-2.5 p-2 rounded-md transition-colors cursor-pointer w-full text-left ${selectedCategory === category.id
                             ? 'bg-orange-500/10 dark:bg-orange-500/20 text-orange-600 dark:text-orange-500'
                             : 'hover:bg-gray-100 dark:hover:bg-gray-700/50 text-gray-800 dark:text-gray-200'
-                        }`}
+                          }`}
                       >
                         {category.hasSubfolders && (
                           <ChevronRight
-                            className={`w-5 h-5 -ml-0.5 transition-transform ${
-                              expandedCategories.has(category.id) ? 'rotate-90' : ''
-                            }`}
+                            className={`w-5 h-5 -ml-0.5 transition-transform ${expandedCategories.has(category.id) ? 'rotate-90' : ''
+                              }`}
                           />
                         )}
                         <Folder className="w-5 h-5 text-orange-600" />
-                        <span className={`text-sm truncate ${
-                          selectedCategory === category.id ? 'font-semibold' : 'font-medium'
-                        }`}>
+                        <span className={`text-sm truncate ${selectedCategory === category.id ? 'font-semibold' : 'font-medium'
+                          }`}>
                           {category.name}
                         </span>
                       </button>
@@ -393,8 +394,8 @@ export default function GalleryPreview() {
                 ) : (
                   <div className="col-span-full text-center py-12">
                     <p className="text-gray-500 dark:text-gray-400 mb-2">
-                      {selectedCategory === 'all' 
-                        ? 'No featured images yet. Check back soon!' 
+                      {selectedCategory === 'all'
+                        ? 'No featured images yet. Check back soon!'
                         : `No ${selectedCategory} images found.`}
                     </p>
                     <Link
@@ -436,7 +437,7 @@ export default function GalleryPreview() {
             </button>
 
             {/* Image Container */}
-            <div 
+            <div
               className="relative w-full h-full max-w-4xl max-h-[90vh] flex items-center justify-center p-4"
               onClick={(e) => e.stopPropagation()}
             >
@@ -473,7 +474,7 @@ export default function GalleryPreview() {
             </button>
 
             {/* Pagination Dots */}
-            <div 
+            <div
               className="absolute bottom-5 left-1/2 -translate-x-1/2 flex space-x-2"
               onClick={(e) => e.stopPropagation()}
             >
