@@ -2,9 +2,6 @@
 const nextConfig = {
   // Removed 'output: export' to support Sanity Studio (requires server-side rendering)
   // For static deployment, use ISR with revalidate on pages instead
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   images: {
     // Re-enable Next.js image optimization now that we're not doing static export
     unoptimized: false,
@@ -35,9 +32,6 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
-  },
-  experimental: {
-    serverActions: true,
   },
 };
 
