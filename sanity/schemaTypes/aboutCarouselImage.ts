@@ -25,7 +25,7 @@ export default defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
-    defineField({
+    {
       name: 'image',
       title: 'Image',
       type: 'image',
@@ -36,11 +36,10 @@ export default defineType({
           title: 'Alt Text',
           type: 'string',
           description: 'Describe the image for accessibility and SEO',
-          validation: (Rule) => Rule.required(),
         },
       ],
       validation: (Rule) => Rule.required(),
-    }),
+    },
     defineField({
       name: 'sortOrder',
       title: 'Sort Order',
