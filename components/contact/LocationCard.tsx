@@ -1,11 +1,10 @@
 "use client";
 
 import React, { useEffect, useState, KeyboardEvent } from "react";
-import { LocalizedText } from "@/components/common/localized-text";
 import { MapPin, ChevronDown, ChevronUp } from "lucide-react";
 import ContactMap from "@/components/contact/ContactMap";
 
-interface LocationCardProps {}
+interface LocationCardProps { }
 
 export function LocationCard(_: LocationCardProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,14 +51,13 @@ export function LocationCard(_: LocationCardProps) {
               <MapPin className="w-6 h-6 text-orange-600" />
             </div>
             <h3 className="text-xl sm:text-3xl font-bold text-stone-800">
-              <LocalizedText k="contact.map.title" />
+              Location
             </h3>
           </div>
           <span className="md:hidden inline-flex items-center justify-center w-9 h-9 rounded-full border border-stone-200 text-stone-600">
             {isOpen ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
           </span>
         </button>
-        {/* Description lives inside collapsible on mobile to avoid extra space */}
       </div>
 
       {/* Collapsible content wrapper */}
@@ -71,7 +69,7 @@ export function LocationCard(_: LocationCardProps) {
         <div className="overflow-hidden">
           <div className="p-6 sm:p-8 lg:p-10 border-t border-stone-200 bg-white">
             <p className="text-stone-600 leading-relaxed max-w-2xl mb-4">
-              <LocalizedText k="contact.map.description" />
+              Based in Southern California, serving the Inland Empire, Los Angeles, and San Diego areas.
             </p>
           </div>
           <ContactMap />

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState, KeyboardEvent } from "react";
-import { LocalizedText } from "@/components/common/localized-text";
 import { Instagram, AtSign } from "lucide-react";
 
 interface SocialLink {
@@ -10,7 +9,7 @@ interface SocialLink {
   label: string;
 }
 
-interface SocialLinksCardProps {}
+interface SocialLinksCardProps { }
 
 export function SocialLinksCard(_: SocialLinksCardProps) {
   const [isOpen, setIsOpen] = useState(true);
@@ -71,10 +70,9 @@ export function SocialLinksCard(_: SocialLinksCardProps) {
       >
         <div className="flex items-center justify-center">
           <h3 className="text-xl font-bold text-stone-800">
-            <LocalizedText k="contact.social.title" />
+            Connect
           </h3>
         </div>
-        {/* Icon removed as requested */}
       </button>
 
       {/* Content: collapsed by default on mobile, always visible on md+ */}
@@ -118,11 +116,11 @@ export function SocialLinksCard(_: SocialLinksCardProps) {
 
           <div className="flex items-center justify-center gap-2 px-3 py-2 bg-orange-50 text-orange-700 rounded-full text-xs font-medium border border-orange-200 mx-auto w-fit">
             <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
-            <LocalizedText k="footer.availability_badge" />
+            Available for Bookings
           </div>
 
           <p className="text-xs text-stone-500 mt-4 leading-relaxed text-center">
-            <LocalizedText k="contact.social.note" />
+            DM for inquiries or use the contact form above.
           </p>
         </div>
       </div>

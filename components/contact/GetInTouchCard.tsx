@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useEffect, useState, KeyboardEvent } from "react";
-import { LocalizedText } from "@/components/common/localized-text";
 import { Users, Mail, Phone, MapPin, Clock, ChevronDown, ChevronUp } from "lucide-react";
 
-interface GetInTouchCardProps {}
+interface GetInTouchCardProps { }
 
 export function GetInTouchCard(_: GetInTouchCardProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -33,8 +32,6 @@ export function GetInTouchCard(_: GetInTouchCardProps) {
     return () => mq.removeEventListener?.("change", onChange as (e: MediaQueryListEvent) => void);
   }, []);
 
-  // NOTE: We removed height measurements for performance; expansion uses CSS grid-rows animation.
-
   return (
     <div
       className="bg-white rounded-2xl border border-stone-200 p-6 sm:p-8 group transition-all duration-300 hover:shadow-md"
@@ -53,7 +50,7 @@ export function GetInTouchCard(_: GetInTouchCardProps) {
             <Users className="w-5 h-5 text-orange-600" />
           </div>
           <h2 className="text-xl font-bold text-stone-800">
-            <LocalizedText k="contact.info.title" />
+            Get in Touch
           </h2>
         </div>
         {/* Icon: show only on mobile */}
@@ -75,7 +72,7 @@ export function GetInTouchCard(_: GetInTouchCardProps) {
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-semibold text-stone-800 text-sm mb-1">
-                <LocalizedText k="contact.info.email" />
+                Email
               </p>
               <a
                 href="mailto:Abajo.Del.Cieloo@gmail.com"
@@ -93,7 +90,7 @@ export function GetInTouchCard(_: GetInTouchCardProps) {
             </div>
             <div className="flex-1">
               <p className="font-semibold text-stone-800 text-sm mb-1">
-                <LocalizedText k="contact.info.phone" />
+                Phone
               </p>
               <a
                 href="tel:+19515632759"
@@ -111,14 +108,14 @@ export function GetInTouchCard(_: GetInTouchCardProps) {
             </div>
             <div className="flex-1">
               <p className="font-semibold text-stone-800 text-sm mb-1">
-                <LocalizedText k="contact.info.areas" />
+                Service Areas
               </p>
               <p className="text-stone-600 text-sm leading-relaxed">
-                <LocalizedText k="contact.info.areas.ie" />
+                Inland Empire
                 <br />
-                <LocalizedText k="contact.info.areas.la" />
+                Los Angeles
                 <br />
-                <LocalizedText k="contact.info.areas.sd" />
+                San Diego
               </p>
             </div>
           </div>
@@ -129,12 +126,12 @@ export function GetInTouchCard(_: GetInTouchCardProps) {
             </div>
             <div className="flex-1">
               <p className="font-semibold text-stone-800 text-sm mb-1">
-                <LocalizedText k="contact.info.availability" />
+                Availability
               </p>
               <p className="text-stone-600 text-sm leading-relaxed">
-                <LocalizedText k="contact.info.availability.weekdays" />
+                Weekdays: 9am - 6pm
                 <br />
-                <LocalizedText k="contact.info.availability.weekends" />
+                Weekends: By appointment
               </p>
             </div>
           </div>
