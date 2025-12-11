@@ -1,0 +1,54 @@
+# Netlify Configuration for Cielito's Wrld
+# https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  # Build command
+  command = "npm run build"
+  
+  # Directory with the build output
+  publish = ".next"
+  
+  # Functions directory (for serverless functions if needed)
+  functions = "netlify/functions"
+
+[build.environment]
+  # Node version
+  NODE_VERSION = "18.17.0"
+  
+  # Next.js specific
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# Redirect rules for Next.js
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
+  
+# Headers for security and performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Plugin configuration
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
