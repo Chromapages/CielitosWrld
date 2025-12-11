@@ -5,26 +5,16 @@
   # Build command
   command = "npm run build"
   
-  # Directory with the build output
+  # Directory - Let the Next.js plugin handle this
   publish = ".next"
-  
-  # Functions directory (for serverless functions if needed)
-  functions = "netlify/functions"
 
 [build.environment]
-  # Node version
-  NODE_VERSION = "18.17.0"
+  # Node version - Use LTS version compatible with Next.js 16
+  NODE_VERSION = "20"
   
   # Next.js specific
   NEXT_TELEMETRY_DISABLED = "1"
 
-# Redirect rules for Next.js
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = false
-  
 # Headers for security and performance
 [[headers]]
   for = "/*"
@@ -35,12 +25,7 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
 
 [[headers]]
-  for = "/*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*.css"
+  for = "/_next/static/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
@@ -49,6 +34,6 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Plugin configuration
+# Next.js Runtime Plugin - handles SSR/ISR automatically
 [[plugins]]
   package = "@netlify/plugin-nextjs"
