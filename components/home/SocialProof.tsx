@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { urlFor } from '@/sanity/lib/image';
 
 interface CollaborationItem {
+  name: string;
   asset: {
     _id: string;
     url: string;
@@ -64,7 +65,7 @@ export default function SocialProof({ data }: SocialProofProps) {
                 <div className="relative h-12 w-32 md:h-16 md:w-40">
                   <Image
                     src={item.asset.url.startsWith('/') ? item.asset.url : urlFor(item.asset).url()}
-                    alt={item.alt || 'Partner Logo'}
+                    alt={item.alt || item.name || 'Partner Logo'}
                     fill
                     className="object-contain"
                   />

@@ -268,6 +268,7 @@ export const HOME_PAGE_QUERY = `
       "title": heading,
       "backgroundImage": backgroundImage { asset->{ _id, url, metadata { dimensions, lqip } } },
       "logos": items[] {
+        name,
         "asset": logo.asset->{ _id, url },
         "alt": logo.alt
       }

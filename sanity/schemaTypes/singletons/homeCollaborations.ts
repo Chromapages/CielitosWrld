@@ -42,6 +42,7 @@ export default defineType({
                             name: 'name',
                             title: 'Name',
                             type: 'string',
+                            description: 'Partner name (used for alt text if logo alt is missing)',
                             validation: (rule) => rule.required(),
                         }),
                         defineField({
@@ -56,14 +57,10 @@ export default defineType({
                                     name: 'alt',
                                     type: 'string',
                                     title: 'Alternative Text',
+                                    description: 'Describe the logo for accessibility',
                                 }),
                             ],
-                        }),
-                        defineField({
-                            name: 'url',
-                            title: 'URL',
-                            type: 'url',
-                            description: 'Optional link to the collaborator\'s website',
+                            validation: (rule) => rule.required(),
                         }),
                     ],
                     preview: {
