@@ -156,6 +156,7 @@ export default async function RootLayout({
     <html
       lang="en"
       className={`${inter.variable} ${tiktokSans.variable} ${pattaya.variable} ${roboto.variable} font-sans`}
+      suppressHydrationWarning
     >
       <body
         className="min-h-screen flex flex-col dark:bg-stone-950 dark:text-stone-50"
