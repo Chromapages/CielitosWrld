@@ -26,7 +26,6 @@ export default async function Contact() {
     title = "Let's Connect",
     introText = "Have a project in mind, a question, or just want to say hello? I'd love to hear from you.",
     email = "Abajo.Del.Cieloo@gmail.com",
-    phone = "(951) 563-2759",
     location = "Southern California, USA",
     socialLinks: rawSocialLinks,
     faqs: rawFaqs,
@@ -34,7 +33,10 @@ export default async function Contact() {
     emailLabel = "Email",
     phoneLabel = "Phone",
     followMeLabel = "Follow Me"
-  } = data as any;
+  } = data || {};
+
+  // Handle phone separately to catch null values (Sanity returns null for empty fields)
+  const phone = data?.phone || "(951) 563-2759";
 
   const socialLinks = rawSocialLinks || {};
   const faqs = rawFaqs || [];

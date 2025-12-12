@@ -348,7 +348,6 @@ export const CONTACT_PAGE_QUERY = `
     title,
     introText,
     pageBackground { asset->{ _id, url, metadata { dimensions, lqip } } },
-    pageBackground { asset->{ _id, url, metadata { dimensions, lqip } } },
     email,
     phone,
     location,

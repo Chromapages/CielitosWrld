@@ -77,6 +77,7 @@ export default defineType({
                 { name: 'instagram', type: 'url', title: 'Instagram URL' },
                 { name: 'tiktok', type: 'url', title: 'TikTok URL' },
                 { name: 'threads', type: 'url', title: 'Threads URL' },
+                { name: 'linkedin', type: 'url', title: 'LinkedIn URL' },
             ],
         }),
         defineField({
