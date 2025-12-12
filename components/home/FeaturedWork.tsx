@@ -130,7 +130,11 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                         <Link
                             href="/gallery"
                             key={project.id}
-                            className="group relative block break-inside-avoid rounded-xl overflow-hidden bg-stone-200 dark:bg-stone-900 shadow-md hover:shadow-xl ring-1 ring-stone-200/50 dark:ring-stone-700/50 hover:ring-orange-500/30 dark:hover:ring-orange-400/30 transition-all duration-250 ease-out hover:scale-[1.02]"
+                            className={cn(
+                                "group relative block break-inside-avoid rounded-xl overflow-hidden bg-stone-200 dark:bg-stone-900 shadow-md hover:shadow-xl ring-1 ring-stone-200/50 dark:ring-stone-700/50 hover:ring-orange-500/30 dark:hover:ring-orange-400/30 transition-all duration-250 ease-out hover:scale-[1.02]",
+                                // Show only first 5 items on mobile, all on desktop
+                                index >= 5 && "hidden md:block"
+                            )}
                         >
                             <div className="relative w-full">
                                 <Image
