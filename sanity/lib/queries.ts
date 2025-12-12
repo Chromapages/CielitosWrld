@@ -219,7 +219,6 @@ export const HOME_PAGE_QUERY = `
       subtitle,
       backgroundImage { asset->{ _id, url, metadata { dimensions, lqip } } },
       mobileBackgroundImage { asset->{ _id, url, metadata { dimensions, lqip } } },
-      pageBackground { asset->{ _id, url, metadata { dimensions, lqip } } },
       ctaText,
       ctaLink,
       secondaryCtaText,
