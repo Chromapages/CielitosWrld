@@ -131,6 +131,7 @@ export default function ContactForm() {
             className="block w-full rounded-none border-0 border-b-2 border-stone-300 dark:border-stone-700 bg-transparent py-3 text-black dark:text-stone-100 focus:ring-0 focus:border-orange-600 dark:focus:border-orange-500 sm:text-base sm:leading-6 transition-colors duration-300"
           >
             <option value="" className="text-black dark:text-stone-900">Select Budget Range</option>
+            <option value="200-300" className="dark:text-stone-900">$200 - $300</option>
             <option value="500-1000" className="dark:text-stone-900">$500 - $1,000</option>
             <option value="1000-2500" className="dark:text-stone-900">$1,000 - $2,500</option>
             <option value="2500-5000" className="dark:text-stone-900">$2,500 - $5,000</option>

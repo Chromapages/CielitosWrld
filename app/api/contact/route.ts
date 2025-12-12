@@ -1,15 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { ContactFormData } from '@/lib/types';
+import { Resend } from 'resend';
+import React from 'react';
+import { ContactFormEmail } from '@/lib/emails/ContactFormEmail';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+// Email address to receive contact form submissions
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'Abajo.Del.Cieloo@gmail.com';
+
+interface ContactFormData {
+  name: string;
+  email: string;
+  budget?: string;
+  message: string;
+}
 
 export async function POST(request: NextRequest) {
   try {
     const body: ContactFormData = await request.json();
-    const { name, email, message } = body;
+    const { name, email, budget, message } = body;
 
     // Validate required fields
     if (!name || !email || !message) {
       return NextResponse.json(
-        { error: 'All fields are required' },
+        { error: 'Name, email, and message are required' },
         { status: 400 }
       );
     }
@@ -23,32 +37,27 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Here you would typically send the email using a service like:
-    // - Nodemailer with SMTP
-    // - SendGrid
-    // - AWS SES
-    // - Resend
-    // - etc.
-
-    // For demo purposes, we'll just log the message
-    console.log('Contact form submission:', {
-      name,
-      email,
-      message,
-      timestamp: new Date().toISOString(),
+    // Send email using Resend
+    const { data, error } = await resend.emails.send({
+      from: 'Cielito\'s World <onboarding@resend.dev>',
+      to: [CONTACT_EMAIL],
+      replyTo: email,
+      subject: `New Contact: ${name} - ${budget || 'No budget specified'}`,
+      react: ContactFormEmail({ name, email, budget: budget || '', message }) as React.ReactElement,
     });
 
-    // Simulate email sending delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    if (error) {
+      console.error('Resend error:', error);
+      return NextResponse.json(
+        { error: 'Failed to send email' },
+        { status: 500 }
+      );
+    }
 
-    // In a real implementation, you might want to:
-    // 1. Send an email to yourself with the contact details
-    // 2. Send a confirmation email to the user
-    // 3. Store the message in a database
-    // 4. Integrate with a CRM system
+    console.log('Email sent successfully:', data);
 
     return NextResponse.json(
-      { message: 'Message sent successfully' },
+      { message: 'Message sent successfully', id: data?.id },
       { status: 200 }
     );
   } catch (error) {
