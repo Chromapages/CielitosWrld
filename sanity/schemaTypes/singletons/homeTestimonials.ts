@@ -1,9 +1,11 @@
 import { defineField, defineType } from 'sanity'
+import { StarIcon } from '@sanity/icons'
 
 export default defineType({
     name: 'homeTestimonials',
     title: 'Home - Testimonials Section',
     type: 'document',
+    icon: StarIcon,
     fields: [
         defineField({
             name: 'badge',
