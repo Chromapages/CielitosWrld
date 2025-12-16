@@ -3,7 +3,17 @@ import { Resend } from 'resend';
 import React from 'react';
 import { ContactFormEmail } from '@/lib/emails/ContactFormEmail';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+/**
+ * Initialize Resend client lazily to avoid build-time errors
+ * Only creates the client when the API route is actually called
+ */
+function getResendClient() {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    throw new Error('RESEND_API_KEY environment variable is not set');
+  }
+  return new Resend(apiKey);
+}
 
 // Email address to receive contact form submissions
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'Abajo.Del.Cieloo@gmail.com';
@@ -38,6 +48,17 @@ export async function POST(request: NextRequest) {
     }
 
     // Send email using Resend
+    let resend;
+    try {
+      resend = getResendClient();
+    } catch (error) {
+      console.error('Resend configuration error:', error);
+      return NextResponse.json(
+        { error: 'Email service is not configured' },
+        { status: 500 }
+      );
+    }
+
     const { data, error } = await resend.emails.send({
       from: 'Cielito\'s World <onboarding@resend.dev>',
       to: [CONTACT_EMAIL],
