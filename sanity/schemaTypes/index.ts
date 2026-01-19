@@ -11,6 +11,7 @@ import aboutCarouselImage from './documents/aboutCarouselImage'
 import page from './documents/page'
 import siteSettings from './documents/siteSettings'
 import navigation from './documents/navigation'
+import work from './documents/work'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Singletons (one-of-a-kind page configurations)
@@ -47,6 +48,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     page,
     siteSettings,
     navigation,
+    work,
 
     // Singletons
     homePage,

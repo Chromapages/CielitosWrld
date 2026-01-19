@@ -1,200 +1,182 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import { Sparkles, ArrowUpRight } from 'lucide-react';
+import React from 'react';
+import { Sparkles, ArrowUpRight, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { urlFor } from '@/sanity/lib/image';
 
-// --- Types ---
-type ProjectCategory = 'Portraits' | 'Couples' | 'Events' | 'Music & Artists' | 'Brands' | 'Personal' | 'Other';
-type FilterCategory = 'All' | ProjectCategory;
-
 interface Project {
     id: string;
     title: string;
-    category: ProjectCategory;
+    category?: string; // e.g. "Nike" or "Weddings" (mapped from client)
     image: string;
-    story: string;
-    tags: string[];
+    slug: string;
+    year: number;
+    excerpt?: string;
 }
 
 interface FeaturedWorkProps {
     data?: {
         title?: string;
-        categories?: string[];
         items?: any[];
     };
 }
 
 export default function FeaturedWork({ data }: FeaturedWorkProps) {
-    const [projects, setProjects] = useState<Project[]>([]);
-    const [activeFilter, setActiveFilter] = useState<FilterCategory>('All');
+    // Process items safely
+    const projects: Project[] = (data?.items || []).map((item: any) => ({
+        id: item._id,
+        title: item.title || 'Untitled Project',
+        // 'category' here comes from the query mapping 'client' -> 'category'
+        category: item.category || 'Portfolio',
+        image: item.coverImage
+            ? urlFor(item.coverImage).width(1200).url()
+            : 'https://placehold.co/800x1000/png?text=No+Image',
+        slug: item.slug,
+        year: item.year || new Date().getFullYear(),
+        excerpt: item.excerpt
+    }));
 
-    // Dynamic categories from Sanity data
-    const categories: FilterCategory[] = ['All', ...(data?.categories || []) as ProjectCategory[]];
+    const hasProjects = projects.length > 0;
 
-    // Process Data
-    useEffect(() => {
-        if (data?.items && data.items.length > 0) {
-            const formattedProjects: Project[] = data.items.map((item: any) => {
-                const imageUrl = item.coverImage
-                    ? urlFor(item.coverImage).width(1200).url() // No height constraint for natural aspect ratio
-                    : 'https://placehold.co/800x1000/png?text=No+Image';
-
-                // Use category from Sanity or default
-                const category: ProjectCategory = item.category || 'Portraits';
-
-                // Format year from _createdAt
-                const year = item.year ? new Date(item.year).getFullYear() : new Date().getFullYear();
-
-                return {
-                    id: item.slug,
-                    title: item.title || 'Untitled Project',
-                    category: category,
-                    image: imageUrl,
-                    story: `${year} • ${item.title}`,
-                    tags: [category, 'Photo'],
-                };
-            });
-            setProjects(formattedProjects);
-        } else {
-            setProjects([]);
-        }
-    }, [data]);
-
-    const filteredProjects = activeFilter === 'All'
-        ? projects
-        : projects.filter(p => p.category === activeFilter);
+    // Split into Hero (first item) and Grid (next 4)
+    const heroProject = hasProjects ? projects[0] : null;
+    const gridProjects = hasProjects ? projects.slice(1, 5) : [];
 
     return (
-        <section className="pt-10 pb-10 md:pt-16 md:pb-16 bg-stone-50 dark:bg-stone-950 overflow-hidden">
+        <section className="py-20 md:py-32 bg-stone-50 dark:bg-stone-950 overflow-hidden">
             <div className="container mx-auto px-4 md:px-8 max-w-[1600px]">
 
                 {/* Header */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-20 gap-8">
-                    <div className="max-w-3xl">
+                <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 gap-8">
+                    <div className="max-w-2xl">
                         <div className="flex items-center gap-3 mb-4">
                             <Sparkles className="w-5 h-5 text-orange-600" />
                             <span className="text-sm font-medium tracking-[0.2em] uppercase text-stone-500">Selected Works</span>
                         </div>
                         <h2 className="font-pattaya text-5xl md:text-7xl font-bold text-stone-900 dark:text-stone-50 mb-6 leading-tight">
-                            {data?.title || 'Signature Sessions'}
+                            {data?.title || 'Recent Sessions'}
                         </h2>
-                        <p className="text-stone-600 dark:text-stone-400 text-lg md:text-xl font-light leading-relaxed max-w-2xl">
-                            Curated highlights from recent editorial, commercial, and portrait commissions.
+                        <p className="text-stone-600 dark:text-stone-400 text-lg md:text-xl font-light leading-relaxed">
+                            A curated selection of editorial, commercial, and personal projects.
                         </p>
                     </div>
 
-                    {/* Desktop Filters */}
-                    <div className="hidden md:flex flex-wrap justify-end gap-2 max-w-2xl">
-                        {categories.map((cat) => (
-                            <button
-                                key={cat}
-                                onClick={() => setActiveFilter(cat)}
-                                className={cn(
-                                    "px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 border",
-                                    activeFilter === cat
-                                        ? "bg-stone-900 text-white border-stone-900 shadow-lg scale-105"
-                                        : "bg-transparent text-stone-600 border-stone-200 hover:border-stone-400 hover:text-stone-900 dark:text-stone-400 dark:border-stone-800 dark:hover:border-stone-600"
-                                )}
-                            >
-                                {cat}
-                            </button>
-                        ))}
+                    <Link
+                        href="/work"
+                        className="hidden md:inline-flex items-center text-stone-900 dark:text-stone-100 font-medium hover:text-orange-600 dark:hover:text-orange-400 transition-colors group"
+                    >
+                        View Full Portfolio <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </Link>
+                </div>
+
+                {!hasProjects ? (
+                    <div className="py-20 text-center border-2 border-dashed border-stone-200 dark:border-stone-800 rounded-3xl bg-white dark:bg-stone-900/50">
+                        <div className="max-w-md mx-auto px-6">
+                            <Sparkles className="w-12 h-12 text-stone-300 dark:text-stone-700 mx-auto mb-4" />
+                            <h3 className="text-xl font-bold text-stone-900 dark:text-stone-100 mb-2">No Projects Found</h3>
+                            <p className="text-stone-500 dark:text-stone-400 mb-6">
+                                Head to Sanity Studio and add some &quot;Work&quot; items with the &quot;Featured&quot; toggle enabled to populate this section.
+                            </p>
+                            <Link href="/studio" target="_blank" className="inline-flex items-center px-6 py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-medium text-sm hover:scale-105 transition-transform">
+                                Go to Studio
+                            </Link>
+                        </div>
                     </div>
-                </div>
+                ) : (
+                    <>
+                        {/* LAYOUT: Hero Left, Grid Right (Desktop) / Stacked (Mobile) */}
+                        <div className="flex flex-col xl:flex-row gap-6 md:gap-8">
 
-                {/* Mobile Filters (Scrollable) */}
-                <div className="md:hidden flex overflow-x-auto pb-8 gap-3 scrollbar-hide -mx-4 px-4 mb-4">
-                    {categories.map((cat) => (
-                        <button
-                            key={cat}
-                            onClick={() => setActiveFilter(cat)}
-                            className={cn(
-                                "whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-medium border transition-colors",
-                                activeFilter === cat
-                                    ? "bg-stone-900 text-white border-stone-900 shadow-md"
-                                    : "bg-white text-stone-600 border-stone-200"
-                            )}
-                        >
-                            {cat}
-                        </button>
-                    ))}
-                </div>
+                            {/* HERO PROJECT (50% width on XL) */}
+                            {heroProject && (
+                                <Link
+                                    href={`/work/${heroProject.slug}`}
+                                    className="group relative w-full xl:w-1/2 rounded-[2rem] overflow-hidden shadow-xl aspect-[4/5] xl:aspect-[3/4]"
+                                >
+                                    <Image
+                                        src={heroProject.image}
+                                        alt={heroProject.title}
+                                        fill
+                                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                                        priority
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 100vw, 50vw"
+                                    />
 
-                {/* --- MASONRY GRID LAYOUT --- */}
-                <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 md:gap-6 space-y-4 md:space-y-6">
-                    {filteredProjects.map((project, index) => (
-                        <Link
-                            href="/gallery"
-                            key={project.id}
-                            className={cn(
-                                "group relative block break-inside-avoid rounded-xl overflow-hidden bg-stone-200 dark:bg-stone-900 shadow-md hover:shadow-xl ring-1 ring-stone-200/50 dark:ring-stone-700/50 hover:ring-orange-500/30 dark:hover:ring-orange-400/30 transition-all duration-250 ease-out hover:scale-[1.02]",
-                                // Show only first 5 items on mobile, all on desktop
-                                index >= 5 && "hidden md:block"
-                            )}
-                        >
-                            <div className="relative w-full">
-                                <Image
-                                    src={project.image}
-                                    alt={project.title}
-                                    width={800}
-                                    height={1200}
-                                    className="w-full h-auto object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"
-                                    sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                                    priority={index < 4}
-                                />
+                                    {/* Persistent Overlay (Gradient) */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
 
-                                {/* Overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6">
-                                    <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                        <div className="flex flex-wrap gap-2 mb-2">
-                                            {project.tags.map(tag => (
-                                                <span key={tag} className="px-2 py-0.5 bg-white/20 backdrop-blur-md text-white text-[10px] font-medium rounded-md border border-white/10">
-                                                    {tag}
-                                                </span>
-                                            ))}
-                                        </div>
-                                        <h3 className="text-xl font-bold text-white mb-1 leading-tight">{project.title}</h3>
-                                        <p className="text-stone-300 text-xs line-clamp-2 mb-3 font-light">{project.story}</p>
-                                        <div className="flex items-center text-white font-medium text-xs tracking-wide group/btn">
-                                            VIEW PROJECT <ArrowUpRight className="w-3 h-3 ml-1 transition-transform group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1" />
+                                    {/* Content Bottom */}
+                                    <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
+                                        <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                                            <div className="flex items-center gap-3 text-white/80 text-sm font-medium mb-3">
+                                                <span>{heroProject.category}</span>
+                                                <span>•</span>
+                                                <span>{heroProject.year}</span>
+                                            </div>
+                                            <h3 className="text-3xl md:text-5xl font-bold text-white mb-3 leading-tight">
+                                                {heroProject.title}
+                                            </h3>
+                                            {heroProject.excerpt && (
+                                                <p className="text-white/80 text-base md:text-lg line-clamp-2 max-w-lg mb-6 font-light">
+                                                    {heroProject.excerpt}
+                                                </p>
+                                            )}
+                                            <div className="inline-flex items-center px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white font-medium text-sm transition-colors group-hover:bg-white group-hover:text-stone-900">
+                                                View Case Study <ArrowUpRight className="ml-2 w-4 h-4" />
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </Link>
-                    ))}
-                </div>
+                                </Link>
+                            )}
 
-                {/* Empty State */}
-                {filteredProjects.length === 0 && (
-                    <div className="py-20 text-center">
-                        <p className="text-stone-500 dark:text-stone-400 text-lg">No projects found in this category.</p>
-                        <button
-                            onClick={() => setActiveFilter('All')}
-                            className="mt-4 text-orange-600 hover:text-orange-700 font-medium"
-                        >
-                            View all projects
-                        </button>
-                    </div>
+                            {/* GRID PROJECTS (50% width on XL) */}
+                            <div className="w-full xl:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
+                                {gridProjects.map((project) => (
+                                    <Link
+                                        href={`/work/${project.slug}`}
+                                        key={project.id}
+                                        className="group relative w-full aspect-[4/5] rounded-[1.5rem] overflow-hidden shadow-lg bg-stone-200 dark:bg-stone-800"
+                                    >
+                                        <Image
+                                            src={project.image}
+                                            alt={project.title}
+                                            fill
+                                            className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                                            sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
+                                        />
+
+                                        {/* Hover Overlay */}
+                                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                                            <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                                                <p className="text-orange-400 text-xs font-bold tracking-widest uppercase mb-1">
+                                                    {project.category}
+                                                </p>
+                                                <h4 className="text-xl font-bold text-white mb-2 leading-tight">
+                                                    {project.title}
+                                                </h4>
+                                                <div className="flex items-center text-white text-xs font-medium mt-3">
+                                                    View Project <ArrowUpRight className="ml-1 w-3 h-3" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+
+                        </div>
+                    </>
                 )}
 
-                {/* Footer CTA */}
-                <div className="mt-20 md:mt-32 flex flex-col sm:flex-row items-center justify-center gap-6">
+                {/* Mobile Bottom CTA */}
+                <div className="mt-12 md:hidden text-center">
                     <Link
-                        href="/gallery"
-                        className="px-10 py-5 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-medium text-lg transition-all hover:scale-105 active:scale-95 shadow-xl hover:shadow-2xl flex items-center"
+                        href="/work"
+                        className="inline-flex items-center px-8 py-4 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-medium text-lg w-full justify-center shadow-lg"
                     >
-                        Browse Full Portfolio
-                    </Link>
-                    <Link
-                        href="/contact"
-                        className="px-10 py-5 bg-transparent border border-stone-300 dark:border-stone-700 text-stone-900 dark:text-stone-100 rounded-full font-medium text-lg transition-colors hover:bg-stone-100 dark:hover:bg-stone-800"
-                    >
-                        Book a Session
+                        View Full Portfolio
                     </Link>
                 </div>
 

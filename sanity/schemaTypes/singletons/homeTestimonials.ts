@@ -68,6 +68,32 @@ export default defineType({
                             rows: 4,
                             validation: (rule) => rule.required(),
                         }),
+                        defineField({
+                            name: 'company',
+                            title: 'Company / Business',
+                            type: 'string',
+                            description: 'e.g., "Sony Music" or "Vogue"',
+                        }),
+                        defineField({
+                            name: 'avatar',
+                            title: 'Client Photo',
+                            type: 'image',
+                            options: { hotspot: true },
+                        }),
+                        defineField({
+                            name: 'rating',
+                            title: 'Star Rating',
+                            type: 'number',
+                            initialValue: 5,
+                            validation: (rule) => rule.min(1).max(5),
+                        }),
+                        defineField({
+                            name: 'highlight',
+                            title: 'Highlight / Hero',
+                            type: 'boolean',
+                            initialValue: false,
+                            description: 'Show this testimonial as the large hero card',
+                        }),
                     ],
                     preview: {
                         select: {

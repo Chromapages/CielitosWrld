@@ -8,6 +8,12 @@ export default defineType({
     icon: UserIcon,
     fields: [
         defineField({
+            name: 'eyebrow',
+            title: 'Eyebrow',
+            type: 'string',
+            description: 'Small text above the heading (e.g., "About Me")',
+        }),
+        defineField({
             name: 'heading',
             title: 'Heading',
             type: 'string',
@@ -18,6 +24,16 @@ export default defineType({
             title: 'Bio',
             type: 'text',
             description: 'Main description text about the photographer.',
+        }),
+        defineField({
+            name: 'testimonial',
+            title: 'Featured Testimonial',
+            type: 'object',
+            fields: [
+                defineField({ name: 'quote', type: 'text', title: 'Quote', rows: 3 }),
+                defineField({ name: 'author', type: 'string', title: 'Author Name' }),
+                defineField({ name: 'role', type: 'string', title: 'Author Role/Context' }),
+            ],
         }),
         defineField({
             name: 'profileImage',
@@ -87,7 +103,7 @@ export default defineType({
         }),
         defineField({
             name: 'features',
-            title: 'Features (How I shoot / Who I work with)',
+            title: 'Features Links (Value Props)',
             type: 'array',
             of: [
                 defineField({
@@ -99,12 +115,7 @@ export default defineType({
                             title: 'Title',
                             type: 'string',
                         }),
-                        defineField({
-                            name: 'description',
-                            title: 'Description',
-                            type: 'text',
-                            rows: 3,
-                        }),
+                        // Removed description to encourage single-line value props as per plan
                         defineField({
                             name: 'icon',
                             title: 'Icon Name',
@@ -115,6 +126,7 @@ export default defineType({
                                     { title: 'Users', value: 'Users' },
                                     { title: 'Camera', value: 'Camera' },
                                     { title: 'Heart', value: 'Heart' },
+                                    { title: 'Star', value: 'Star' },
                                 ],
                             },
                         }),
@@ -124,7 +136,7 @@ export default defineType({
         }),
         defineField({
             name: 'ctaPrimary',
-            title: 'Primary CTA (Desktop)',
+            title: 'Primary CTA',
             type: 'object',
             fields: [
                 defineField({ name: 'label', type: 'string', title: 'Label' }),
@@ -133,7 +145,7 @@ export default defineType({
         }),
         defineField({
             name: 'ctaSecondary',
-            title: 'Secondary CTA (Mobile)',
+            title: 'Secondary CTA',
             type: 'object',
             fields: [
                 defineField({ name: 'label', type: 'string', title: 'Label' }),

@@ -1,0 +1,91 @@
+#!/bin/bash
+
+# Define the root directory
+PROJECT_ROOT=$(pwd)
+
+echo "starting cleanup... project root: $PROJECT_ROOT"
+
+# --- 1. Custom Components ---
+echo "removing unused custom components..."
+rm -f "$PROJECT_ROOT/components/DarkModeSwitcher.tsx"
+rm -f "$PROJECT_ROOT/components/home/Hero.tsx"
+rm -f "$PROJECT_ROOT/components/home/GalleryPreview.tsx"
+rm -f "$PROJECT_ROOT/components/home/VideoSection.tsx"
+rm -f "$PROJECT_ROOT/components/gallery/FileBrowserSidebar.tsx"
+rm -f "$PROJECT_ROOT/components/gallery/GalleryFeed.tsx"
+rm -f "$PROJECT_ROOT/components/contact/GetInTouchCard.tsx"
+rm -f "$PROJECT_ROOT/components/contact/ServicesCard.tsx"
+rm -f "$PROJECT_ROOT/components/contact/SocialLinksCard.tsx"
+rm -f "$PROJECT_ROOT/components/contact/LocationCard.tsx"
+rm -f "$PROJECT_ROOT/components/sections/PageSections.tsx"
+rm -f "$PROJECT_ROOT/components/sections/CTASection.tsx"
+rm -f "$PROJECT_ROOT/components/sections/GallerySection.tsx"
+rm -f "$PROJECT_ROOT/components/sections/TextSection.tsx"
+rm -f "$PROJECT_ROOT/components/sections/HeroSection.tsx"
+rm -f "$PROJECT_ROOT/components/ui/MagneticCursor.tsx"
+rm -f "$PROJECT_ROOT/components/ui/AnimatedSection.tsx"
+rm -f "$PROJECT_ROOT/components/ui/ParallaxBackground.tsx"
+rm -f "$PROJECT_ROOT/components/ui/StaggeredChildren.tsx"
+
+# --- 2. ShadCN/UI Components ---
+# Keeping: dialog.tsx, skeleton.tsx, PageBackground.tsx
+# Removed Toast system as it is not used in layout.tsx
+
+echo "removing unused shadcn/ui components..."
+rm -f "$PROJECT_ROOT/components/ui/accordion.tsx"
+rm -f "$PROJECT_ROOT/components/ui/alert-dialog.tsx"
+rm -f "$PROJECT_ROOT/components/ui/alert.tsx"
+rm -f "$PROJECT_ROOT/components/ui/aspect-ratio.tsx"
+rm -f "$PROJECT_ROOT/components/ui/avatar.tsx"
+rm -f "$PROJECT_ROOT/components/ui/badge.tsx"
+rm -f "$PROJECT_ROOT/components/ui/breadcrumb.tsx"
+rm -f "$PROJECT_ROOT/components/ui/button.tsx"
+rm -f "$PROJECT_ROOT/components/ui/calendar.tsx"
+rm -f "$PROJECT_ROOT/components/ui/card.tsx"
+rm -f "$PROJECT_ROOT/components/ui/carousel.tsx"
+rm -f "$PROJECT_ROOT/components/ui/chart.tsx"
+rm -f "$PROJECT_ROOT/components/ui/checkbox.tsx"
+rm -f "$PROJECT_ROOT/components/ui/collapsible.tsx"
+rm -f "$PROJECT_ROOT/components/ui/command.tsx"
+rm -f "$PROJECT_ROOT/components/ui/context-menu.tsx"
+rm -f "$PROJECT_ROOT/components/ui/drawer.tsx"
+rm -f "$PROJECT_ROOT/components/ui/dropdown-menu.tsx"
+rm -f "$PROJECT_ROOT/components/ui/form.tsx"
+rm -f "$PROJECT_ROOT/components/ui/hover-card.tsx"
+rm -f "$PROJECT_ROOT/components/ui/input-otp.tsx"
+rm -f "$PROJECT_ROOT/components/ui/input.tsx"
+rm -f "$PROJECT_ROOT/components/ui/label.tsx"
+rm -f "$PROJECT_ROOT/components/ui/menubar.tsx"
+rm -f "$PROJECT_ROOT/components/ui/navigation-menu.tsx"
+rm -f "$PROJECT_ROOT/components/ui/pagination.tsx"
+rm -f "$PROJECT_ROOT/components/ui/popover.tsx"
+rm -f "$PROJECT_ROOT/components/ui/progress.tsx"
+rm -f "$PROJECT_ROOT/components/ui/radio-group.tsx"
+rm -f "$PROJECT_ROOT/components/ui/resizable.tsx"
+rm -f "$PROJECT_ROOT/components/ui/scroll-area.tsx"
+rm -f "$PROJECT_ROOT/components/ui/select.tsx"
+rm -f "$PROJECT_ROOT/components/ui/separator.tsx"
+rm -f "$PROJECT_ROOT/components/ui/sheet.tsx"
+rm -f "$PROJECT_ROOT/components/ui/slider.tsx"
+rm -f "$PROJECT_ROOT/components/ui/sonner.tsx"
+rm -f "$PROJECT_ROOT/components/ui/switch.tsx"
+rm -f "$PROJECT_ROOT/components/ui/table.tsx"
+rm -f "$PROJECT_ROOT/components/ui/tabs.tsx"
+rm -f "$PROJECT_ROOT/components/ui/textarea.tsx"
+rm -f "$PROJECT_ROOT/components/ui/toast.tsx"
+rm -f "$PROJECT_ROOT/components/ui/toaster.tsx"
+rm -f "$PROJECT_ROOT/components/ui/toggle-group.tsx"
+rm -f "$PROJECT_ROOT/components/ui/toggle.tsx"
+rm -f "$PROJECT_ROOT/components/ui/tooltip.tsx"
+
+# --- 3. Hooks ---
+echo "removing unused hooks..."
+rm -f "$PROJECT_ROOT/hooks/use-toast.ts"
+
+# --- 4. Directories ---
+echo "removing empty directories..."
+rm -rf "$PROJECT_ROOT/components/test"
+rm -rf "$PROJECT_ROOT/components/common"
+rm -rf "$PROJECT_ROOT/app/test"
+
+echo "Cleanup complete!"

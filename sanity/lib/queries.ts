@@ -225,6 +225,10 @@ export const HOME_PAGE_QUERY = `
       secondaryCtaLink
     },
     "about": *[_type == "homeAbout"][0] {
+      eyebrow,
+      heading,
+      bio,
+      testimonial,
       "title": heading,
       "content": bio,
       "image": profileImage { asset->{ _id, url, metadata { dimensions, lqip } } },
@@ -243,14 +247,14 @@ export const HOME_PAGE_QUERY = `
     },
     "featuredWork": {
       "title": coalesce(*[_type == "homePage"][0].featuredWork.title, "Featured Work"),
-      "categories": array::unique(*[_type == "galleryAsset" && featured == true].category),
-      "items": *[_type == "galleryAsset" && featured == true] | order(_createdAt desc) [0...12] {
+      "items": *[_type == "work" && featured == true] | order(_createdAt desc) [0...5] {
         _id,
         title,
         "slug": slug.current,
-        category,
-        "coverImage": image { asset->{ _id, url, metadata { dimensions, lqip } } },
-        "year": _createdAt
+        "category": client,
+        "excerpt": excerpt,
+        "coverImage": coverImage { asset->{ _id, url, metadata { dimensions, lqip } } },
+        "year": year
       }
     },
     "testimonials": *[_type == "homeTestimonials"][0] {
@@ -261,6 +265,10 @@ export const HOME_PAGE_QUERY = `
       "items": testimonials[] {
         name,
         role,
+        company,
+        "avatar": avatar.asset->{ _id, url, metadata { dimensions, lqip } },
+        rating,
+        highlight,
         "quote": content
       }
     },

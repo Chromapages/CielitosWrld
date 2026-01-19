@@ -17,10 +17,10 @@ export default function MobileNavbar() {
 
   return (
     <nav
-      className="sm:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50"
-      style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+      className="sm:hidden fixed bottom-0 left-0 right-0 z-50 w-full border-t border-stone-200 bg-white dark:border-stone-800 dark:bg-stone-950 shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.05)]"
+      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
-      <div className="flex items-center justify-center gap-2 rounded-full bg-white/70 dark:bg-moss-900/70 px-4 py-3 text-sm shadow-xl ring-1 ring-white/20 backdrop-blur-md">
+      <div className="grid grid-cols-4 h-20 w-full items-center px-2">
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
@@ -29,14 +29,32 @@ export default function MobileNavbar() {
             <Link
               key={item.href}
               href={item.href}
-              className={cn(
-                'group flex flex-col items-center gap-1 px-4 py-1 transition-all duration-200 ease-in-out',
-                isActive ? 'text-orange-600 dark:text-orange-500' : 'text-moss-800 dark:text-gray-300 hover:text-orange-600 dark:hover:text-orange-500'
-              )}
+              className="group flex flex-col items-center justify-center gap-1 h-full w-full transition-transform active:scale-95"
               aria-label={item.label}
+              data-active={isActive}
             >
-              <Icon className="text-xl" size={20} strokeWidth={2} />
-              <span className="font-medium text-xs tracking-wide">
+              <div
+                className={cn(
+                  "flex items-center justify-center w-16 h-8 rounded-full transition-all duration-300 ease-out-quad",
+                  isActive
+                    ? "bg-orange-100 text-orange-900 dark:bg-orange-900/40 dark:text-orange-100"
+                    : "bg-transparent text-stone-500 group-hover:bg-stone-100 dark:text-stone-400 dark:group-hover:bg-stone-900"
+                )}
+              >
+                <Icon
+                  size={20}
+                  strokeWidth={isActive ? 2.5 : 2}
+                  className="transition-transform duration-300"
+                />
+              </div>
+              <span
+                className={cn(
+                  "text-[10px] font-medium tracking-wide transition-colors duration-300",
+                  isActive
+                    ? "text-stone-900 dark:text-stone-100 font-bold"
+                    : "text-stone-500 dark:text-stone-400 group-hover:text-stone-700 dark:group-hover:text-stone-300"
+                )}
+              >
                 {item.label}
               </span>
             </Link>
