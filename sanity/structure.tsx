@@ -101,6 +101,15 @@ export const structure: StructureResolver = (S) =>
                     .title('Gallery Page Settings')
                 ),
               S.listItem()
+                .title('Services Page')
+                .icon(StarIcon)
+                .child(
+                  S.document()
+                    .schemaType('servicesPage')
+                    .documentId('servicesPage')
+                    .title('Services Page Settings')
+                ),
+              S.listItem()
                 .title('Contact Page')
                 .icon(EnvelopeIcon)
                 .child(
@@ -138,6 +147,16 @@ export const structure: StructureResolver = (S) =>
               { field: 'category', direction: 'asc' },
               { field: '_createdAt', direction: 'desc' },
             ])
+        ),
+
+      S.listItem()
+        .title('Service Packages')
+        .icon(StarIcon)
+        .child(
+          S.documentList()
+            .title('Service Packages')
+            .filter('_type == "service"')
+            .defaultOrdering([{ field: 'price', direction: 'asc' }])
         ),
 
       S.listItem()

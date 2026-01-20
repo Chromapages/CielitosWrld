@@ -425,3 +425,30 @@ export const ALL_POSTS_QUERY = `
     linkUrl
   }
 `
+
+export const SERVICES_PAGE_QUERY = `
+  {
+    "page": *[_type == "servicesPage"][0] {
+      heroHeading,
+      heroSubhead,
+      heroTrustText,
+      processSteps,
+      faqs,
+      "seo": {
+        "title": seoTitle,
+        "description": seoDescription
+      }
+    },
+    "packages": *[_type == "service"] | order(price asc) {
+      _id,
+      name,
+      tagline,
+      price,
+      priceNote,
+      features,
+      popular,
+      ctaText,
+      ctaLink
+    }
+  }
+`

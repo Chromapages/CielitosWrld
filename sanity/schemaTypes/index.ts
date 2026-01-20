@@ -12,6 +12,7 @@ import page from './documents/page'
 import siteSettings from './documents/siteSettings'
 import navigation from './documents/navigation'
 import work from './documents/work'
+import service from './documents/service'
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Singletons (one-of-a-kind page configurations)
@@ -20,6 +21,7 @@ import homePage from './singletons/homePage'
 import homeAbout from './singletons/homeAbout'
 import homeTestimonials from './singletons/homeTestimonials'
 import homeCollaborations from './singletons/homeCollaborations'
+import servicesPage from './singletons/servicesPage'
 import blogPage from './singletons/blogPage'
 import galleryPage from './singletons/galleryPage'
 import contactPage from './singletons/contactPage'
@@ -49,9 +51,11 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     siteSettings,
     navigation,
     work,
+    service,
 
     // Singletons
     homePage,
+    servicesPage,
     homeAbout,
     homeTestimonials,
     homeCollaborations,
