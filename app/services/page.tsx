@@ -2,7 +2,8 @@ import { sanityFetch } from "@/sanity/lib/client";
 import { SERVICES_PAGE_QUERY } from "@/sanity/lib/queries";
 import { urlFor } from "@/sanity/lib/image";
 import Link from "next/link";
-import { Check, HelpCircle, ArrowRight, ShieldCheck } from "lucide-react";
+import { Check, HelpCircle, ArrowRight, ShieldCheck, Quote } from "lucide-react";
+import ProcessGallery from "@/components/services/ProcessGallery";
 import {
     Accordion,
     AccordionContent,
@@ -136,6 +137,46 @@ export default async function ServicesPage() {
     ];
     const steps = page?.processSteps?.length ? page.processSteps : defaultSteps;
 
+    const placeholderGalleryItems = [
+        {
+            id: '1',
+            image: 'https://images.pexels.com/photos/3062541/pexels-photo-3062541.jpeg',
+            title: 'Concept & Styling',
+            caption: 'We start by mood-boarding your vision to ensure every detail aligns with your brand.'
+        },
+        {
+            id: '2',
+            image: 'https://images.pexels.com/photos/1540977/pexels-photo-1540977.jpeg',
+            title: 'On-Location Shoot',
+            caption: 'Finding the perfect light and angles to capture authentic moments.'
+        },
+        {
+            id: '3',
+            image: 'https://images.pexels.com/photos/1264210/pexels-photo-1264210.jpeg',
+            title: 'Creative Direction',
+            caption: 'hands-on guidance with posing, movement, and energy throughout the session.'
+        },
+        {
+            id: '4',
+            image: 'https://images.pexels.com/photos/256658/pexels-photo-256658.jpeg',
+            title: 'Editing & Retouching',
+            caption: 'Meticulous color grading and skin retouching for a polished, high-end look.'
+        },
+        {
+            id: '5',
+            image: 'https://images.pexels.com/photos/1762851/pexels-photo-1762851.jpeg',
+            title: 'The Final Gallery',
+            caption: 'Delivered in an easy-to-share online gallery, ready for download and print.'
+        }
+    ];
+
+    const featuredTestimonial = {
+        quote: "Honestly, the best investment I made for my personal brand this year. Cielo made me feel so comfortable and the photos completely transformed my website.",
+        name: "Sarah Jenkins",
+        role: "Creative Director",
+        company: "Studio 88"
+    };
+
     return (
         <main className="bg-stone-50 dark:bg-stone-950 min-h-screen">
 
@@ -227,6 +268,12 @@ export default async function ServicesPage() {
             {/* ──────────────────────────────────────────────────────────────────
           Process Section
       ────────────────────────────────────────────────────────────────── */}
+
+            // ... existing return
+
+            {/* ──────────────────────────────────────────────────────────────────
+          Process Section
+      ────────────────────────────────────────────────────────────────── */}
             <section className="py-20 bg-white dark:bg-stone-900 border-t border-stone-100 dark:border-stone-800">
                 <div className="container mx-auto px-6 max-w-5xl">
                     <div className="text-center mb-16">
@@ -247,6 +294,38 @@ export default async function ServicesPage() {
                                 <p className="text-sm text-stone-500 leading-relaxed max-w-[200px]">{step.description}</p>
                             </div>
                         ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ──────────────────────────────────────────────────────────────────
+          Gallery Section
+      ────────────────────────────────────────────────────────────────── */}
+            <section className="py-16 bg-white dark:bg-stone-900 overflow-hidden">
+                <ProcessGallery items={placeholderGalleryItems} />
+            </section>
+
+
+            {/* ──────────────────────────────────────────────────────────────────
+          Single Testimonial Section
+      ────────────────────────────────────────────────────────────────── */}
+            <section className="pb-24 pt-8 bg-white dark:bg-stone-900">
+                <div className="container mx-auto px-6 max-w-3xl">
+                    <div className="relative bg-stone-50 dark:bg-stone-950 p-10 md:p-14 rounded-3xl border border-stone-100 dark:border-stone-800 text-center">
+                        <Quote className="w-10 h-10 text-orange-200 dark:text-orange-900/30 mx-auto mb-6" />
+
+                        <p className="text-xl md:text-2xl font-display font-bold text-stone-800 dark:text-stone-100 mb-8 leading-relaxed">
+                            &ldquo;{featuredTestimonial.quote}&rdquo;
+                        </p>
+
+                        <div className="flex flex-col items-center gap-1">
+                            <span className="font-bold text-stone-900 dark:text-white uppercase tracking-wider text-sm">
+                                {featuredTestimonial.name}
+                            </span>
+                            <span className="text-stone-500 text-sm">
+                                {featuredTestimonial.role} • {featuredTestimonial.company}
+                            </span>
+                        </div>
                     </div>
                 </div>
             </section>
