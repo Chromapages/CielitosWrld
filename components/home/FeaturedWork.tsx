@@ -1,9 +1,10 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Sparkles, ArrowUpRight, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import useEmblaCarousel from 'embla-carousel-react';
 import { cn } from '@/lib/utils';
 import { urlFor } from '@/sanity/lib/image';
 
@@ -44,6 +45,13 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
     // Split into Hero (first item) and Grid (next 4)
     const heroProject = hasProjects ? projects[0] : null;
     const gridProjects = hasProjects ? projects.slice(1, 5) : [];
+
+    // Embla Carousel for Mobile
+    const [emblaRef] = useEmblaCarousel({
+        loop: true,
+        align: 'start',
+        containScroll: 'trimSnaps'
+    });
 
     return (
         <section className="py-20 md:py-32 bg-stone-50 dark:bg-stone-950 overflow-hidden">
@@ -87,8 +95,8 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                     </div>
                 ) : (
                     <>
-                        {/* LAYOUT: Hero Left, Grid Right (Desktop) / Stacked (Mobile) */}
-                        <div className="flex flex-col xl:flex-row gap-6 md:gap-8">
+                        {/* LAYOUT: Hero Left, Grid Right (Desktop Only) */}
+                        <div className="hidden md:flex flex-col xl:flex-row gap-6 md:gap-8">
 
                             {/* HERO PROJECT (50% width on XL) */}
                             {heroProject && (
@@ -165,20 +173,51 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                                     </Link>
                                 ))}
                             </div>
+                        </div>
 
+                        {/* MOBILE CAROUSEL (Visible only on mobile) */}
+                        <div className="md:hidden -mx-4 overflow-hidden" ref={emblaRef}>
+                            <div className="flex touch-pan-y pl-4">
+                                {projects.map((project) => (
+                                    <Link
+                                        key={project.id}
+                                        href={`/work/${project.slug}`}
+                                        className="flex-[0_0_92%] min-w-0 pr-4 relative"
+                                    >
+                                        <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden shadow-lg bg-stone-200 dark:bg-stone-800">
+                                            <Image
+                                                src={project.image}
+                                                alt={project.title}
+                                                fill
+                                                className="object-cover"
+                                                sizes="(max-width: 768px) 85vw"
+                                            />
+                                            {/* Overlay */}
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90 flex flex-col justify-end p-6">
+                                                <p className="text-orange-400 text-xs font-bold tracking-widest uppercase mb-1">
+                                                    {project.category}
+                                                </p>
+                                                <h3 className="text-2xl font-bold font-archivo text-white leading-tight">
+                                                    {project.title}
+                                                </h3>
+                                            </div>
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Mobile Bottom CTA */}
+                        <div className="mt-12 md:hidden text-center">
+                            <Link
+                                href="/work"
+                                className="btn-press inline-flex items-center px-8 py-4 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-medium text-lg w-full justify-center shadow-lg"
+                            >
+                                View Full Portfolio
+                            </Link>
                         </div>
                     </>
                 )}
-
-                {/* Mobile Bottom CTA */}
-                <div className="mt-12 md:hidden text-center">
-                    <Link
-                        href="/work"
-                        className="btn-press inline-flex items-center px-8 py-4 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-medium text-lg w-full justify-center shadow-lg"
-                    >
-                        View Full Portfolio
-                    </Link>
-                </div>
 
             </div>
         </section>
