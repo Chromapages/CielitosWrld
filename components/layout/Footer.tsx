@@ -9,12 +9,13 @@ const navigation = {
     { name: 'Gallery', href: '/gallery' },
     { name: 'Featured Work', href: '/work' },
     { name: 'Services', href: '/services' },
-    { name: 'About', href: '/about' },
+    { name: 'About', href: '/#about' },
   ],
   legal: [
     { name: 'Privacy Policy', href: '/privacy' },
     { name: 'Terms of Service', href: '/terms' },
     { name: 'Cookies', href: '/cookies' },
+    { name: 'Admin', href: '/studio' },
   ],
 };
 
@@ -39,13 +40,13 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
   ];
 
   return (
-    <footer className="bg-stone-950 text-stone-400 border-t border-stone-900 font-sans">
+    <footer className="relative z-10 bg-stone-950 text-stone-400 border-t border-stone-900 font-sans">
       {/* Main Footer Content */}
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 pt-20 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
 
           {/* Column 1: Brand & Identity */}
-          <div className="space-y-6">
+          <div className="space-y-6 stagger-1">
             <Link
               href="/"
               className="inline-block text-3xl font-bold font-pattaya text-stone-100 hover:text-orange-500 transition-colors"
@@ -74,7 +75,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
           </div>
 
           {/* Column 2: Explore Navigation */}
-          <div>
+          <div className="stagger-2">
             <h3 className="text-stone-100 font-bold uppercase tracking-widest text-xs mb-6">
               Explore
             </h3>
@@ -93,7 +94,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
           </div>
 
           {/* Column 3: Contact Info */}
-          <div>
+          <div className="stagger-3">
             <h3 className="text-stone-100 font-bold uppercase tracking-widest text-xs mb-6">
               Contact
             </h3>
@@ -123,7 +124,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
           </div>
 
           {/* Column 4: CTA */}
-          <div className="lg:pl-8">
+          <div className="lg:pl-8 stagger-4">
             <h3 className="text-stone-100 font-bold uppercase tracking-widest text-xs mb-6">
               Let's Create
             </h3>
@@ -132,7 +133,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
             </p>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center w-full px-6 py-3 bg-stone-100 text-stone-950 font-bold text-sm rounded-lg hover:bg-orange-500 hover:text-white transition-all duration-300 group"
+              className="btn-press inline-flex items-center justify-center w-full px-6 py-3 bg-stone-100 text-stone-950 font-bold text-sm rounded-lg hover:bg-orange-500 hover:text-white transition-all duration-300 group"
             >
               Book a Session
               <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />

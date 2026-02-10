@@ -30,7 +30,7 @@ export default defineType({
         defineField({
             name: 'content',
             title: 'Review Content',
-            type: 'text',
+            type: 'text' as const,
             rows: 4,
             validation: (Rule) => Rule.required().min(10).max(1000),
         }),

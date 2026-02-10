@@ -3,7 +3,7 @@ import { defineField, defineType } from 'sanity'
 export default defineType({
     name: 'heroSection',
     title: 'Hero Section',
-    type: 'object',
+    type: 'object' as const,
     fields: [
         defineField({
             name: 'heading',
@@ -13,13 +13,13 @@ export default defineType({
         defineField({
             name: 'subheading',
             title: 'Subheading',
-            type: 'text',
+            type: 'text' as const,
             rows: 3,
         }),
         defineField({
             name: 'backgroundImage',
             title: 'Background Image',
-            type: 'image',
+            type: 'image' as const,
             options: {
                 hotspot: true,
             },

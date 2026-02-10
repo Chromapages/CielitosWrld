@@ -1,6 +1,7 @@
 import { client } from '@/sanity/lib/client'
 import CommentForm from './CommentForm'
 import CommentList from './CommentList'
+import { MessageCircle } from 'lucide-react'
 
 interface CommentsProps {
   postId: string
@@ -52,18 +53,28 @@ export default async function Comments({ postId }: CommentsProps) {
   const commentTree = buildCommentTree(comments)
 
   return (
-    <section className="max-w-3xl mx-auto mt-24 pt-16 border-t border-sage-200 dark:border-sage-800">
-      <div className="flex items-center justify-between mb-10">
-        <h2 className="text-3xl font-fitzgerald text-mud-900 dark:text-sage-100">
-          Comments ({comments.length})
-        </h2>
+    <section className="max-w-3xl mx-auto mt-20 pt-16">
+      {/* Section Header */}
+      <div className="flex items-center gap-3 mb-8">
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center shadow-lg">
+          <MessageCircle className="w-5 h-5 text-white" />
+        </div>
+        <div>
+          <h2 className="text-h3 text-zinc-900 dark:text-white font-heading">
+            Discussion
+          </h2>
+          <p className="text-caption text-zinc-500 dark:text-zinc-400">
+            {comments.length} {comments.length === 1 ? 'comment' : 'comments'}
+          </p>
+        </div>
       </div>
 
-      <div className="mb-16 bg-white dark:bg-sage-900 p-8 rounded-2xl shadow-sm border border-sage-100 dark:border-sage-800">
-        <h3 className="text-lg font-inter font-medium text-mud-700 dark:text-sage-300 mb-6">Leave a note</h3>
+      {/* Comment Form Card */}
+      <div className="premium-card rounded-2xl p-6 md:p-8 mb-12 shadow-elevation-2">
         <CommentForm postId={postId} />
       </div>
 
+      {/* Comments List */}
       <CommentList comments={commentTree} postId={postId} />
     </section>
   )

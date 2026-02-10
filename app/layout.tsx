@@ -1,11 +1,12 @@
 import './globals.css';
 import type { Metadata } from 'next';
-// import localFont from 'next/font/local';
+
 import Navbar from '@/components/layout/Navbar';
 import MobileNavbar from '@/components/layout/MobileNavbar';
 import Footer from '@/components/layout/Footer';
 import { ScrollToTop } from '@/components/layout/ScrollToTop';
 import AnimationProvider from '@/components/providers/AnimationProvider';
+import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { client } from '@/sanity/lib/client';
 import { SITE_SETTINGS_QUERY } from '@/sanity/lib/queries';
 
@@ -18,7 +19,7 @@ import { SITE_SETTINGS_QUERY } from '@/sanity/lib/queries';
 // });
 
 // Import Google Fonts
-import { Inter, Pattaya, Roboto } from 'next/font/google';
+import { Inter, Pattaya, Roboto, Newsreader, Archivo, Space_Grotesk } from 'next/font/google';
 
 // Configure TikTok Sans (using Inter as base)
 const tiktokSans = Inter({
@@ -52,10 +53,38 @@ const pattaya = Pattaya({
   display: 'swap',
 });
 
+// Configure Newsreader font (for blog editorial)
+const newsreader = Newsreader({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-newsreader',
+  display: 'swap',
+});
+
+// Configure Archivo font (display headings)
+const archivo = Archivo({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800', '900'],
+  variable: '--font-archivo',
+  display: 'swap',
+});
+
+// Configure Space Grotesk font (body text)
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-space-grotesk',
+  display: 'swap',
+});
+
 // Font variables for CSS-in-JS
 const fontVariables = {
   '--font-sans': inter.style.fontFamily,
   '--font-display': pattaya.style.fontFamily,
+  '--font-heading': archivo.style.fontFamily,
+  '--font-body': spaceGrotesk.style.fontFamily,
+  '--font-archivo': archivo.style.fontFamily,
+  '--font-space-grotesk': spaceGrotesk.style.fontFamily,
 } as const;
 
 async function getSiteSettings() {
@@ -124,9 +153,6 @@ export async function generateMetadata(): Promise<Metadata> {
         'max-snippet': -1,
       },
     },
-    verification: {
-      google: 'google-site-verification-code',
-    },
   };
 }
 
@@ -155,25 +181,32 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${tiktokSans.variable} ${pattaya.variable} ${roboto.variable} font-sans`}
+      className={`${inter.variable} ${tiktokSans.variable} ${pattaya.variable} ${roboto.variable} ${newsreader.variable} ${archivo.variable} ${spaceGrotesk.variable} font-sans`}
       suppressHydrationWarning
     >
       <body
-        className="min-h-screen flex flex-col dark:bg-stone-950 dark:text-stone-50"
+        className="min-h-screen flex flex-col bg-brand-50 dark:bg-brand-950 dark:text-brand-50"
         style={fontVariables as React.CSSProperties}
         suppressHydrationWarning={true}
       >
-        <AnimationProvider>
-          <div className="flex flex-col min-h-screen">
-            <ScrollToTop />
-            <Navbar />
-            <MobileNavbar />
-            <main className="flex-1 pt-16 md:pt-24 pb-0">
-              {children}
-            </main>
-            <Footer contactInfo={contactInfo} />
-          </div>
-        </AnimationProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AnimationProvider>
+            <div className="flex flex-col min-h-screen">
+              <ScrollToTop />
+              <Navbar />
+              <MobileNavbar />
+              <main className="flex-1 pt-16 md:pt-24 pb-0">
+                {children}
+              </main>
+              <Footer contactInfo={contactInfo} />
+            </div>
+          </AnimationProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

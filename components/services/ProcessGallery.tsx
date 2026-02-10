@@ -5,10 +5,11 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { ArrowLeft, ArrowRight, Camera } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import { urlFor } from '@/sanity/lib/image';
 
 interface GalleryItem {
-    id: string;
-    image: string; // URL string for now
+    _key: string;
+    image: any;
     title: string;
     caption: string;
 }
@@ -103,23 +104,29 @@ export default function ProcessGallery({ items }: ProcessGalleryProps) {
                 <div className="flex touch-pan-y" style={{ marginLeft: "calc(max((100vw - 1024px) / 2, 24px))" /* Centers start on desktop, padded on mobile */ }}>
                     {items.map((item, index) => (
                         <div
-                            key={item.id}
+                            key={item._key}
                             className="flex-[0_0_85%] md:flex-[0_0_45%] lg:flex-[0_0_350px] min-w-0 pr-6"
                         >
                             <div className="group relative aspect-[4/5] rounded-2xl overflow-hidden bg-stone-200 dark:bg-stone-800 shadow-md">
-                                <Image
-                                    src={item.image}
-                                    alt={item.title}
-                                    fill
-                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                                />
+                                {item.image && (
+                                    <Image
+                                        src={
+                                            typeof item.image === 'string' && item.image.startsWith('http')
+                                                ? item.image
+                                                : urlFor(item.image).width(400).height(500).url()
+                                        }
+                                        alt={item.title || 'Process Image'}
+                                        fill
+                                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                    />
+                                )}
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/0 to-transparent opacity-90" />
 
                                 <div className="absolute bottom-0 left-0 p-6 w-full text-white">
                                     <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center mb-3 text-white">
                                         <Camera className="w-4 h-4" />
                                     </div>
-                                    <h4 className="font-bold text-lg mb-1">{item.title}</h4>
+                                    <h4 className="font-bold font-archivo text-lg mb-1">{item.title}</h4>
                                     <p className="text-sm text-stone-300 leading-snug">{item.caption}</p>
                                 </div>
                             </div>

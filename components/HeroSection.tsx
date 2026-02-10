@@ -45,7 +45,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
               {isDesktopVideo ? (
                 <img
                   src={desktopBgUrl}
-                  alt="Animated hero background"
+                  alt="Cinematic background video loop"
                   aria-label="Animated hero background"
                   tabIndex={0}
                   className="hidden sm:block object-cover w-full h-full"
@@ -54,7 +54,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
               ) : (
                 <Image
                   src={desktopBgUrl}
-                  alt="Hero background"
+                  alt="Cinematic portfolio background"
                   fill
                   priority
                   className="hidden sm:block object-cover"
@@ -112,13 +112,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
           <div className="flex flex-col space-y-3 sm:space-y-4 md:flex-row md:space-y-0 md:space-x-4 lg:space-x-6 justify-center items-center w-full">
             <Link
               href={ctaLink}
-              className="font-inter w-full max-w-xs sm:max-w-sm md:w-auto inline-block rounded-lg bg-orange-600 px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base text-white transition-all duration-300 hover:bg-orange-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 shadow-lg"
+              className="btn-press font-inter w-full max-w-xs sm:max-w-sm md:w-auto inline-block rounded-lg bg-orange-600 px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base text-white transition-all duration-300 hover:bg-orange-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 shadow-lg"
             >
               {ctaText}
             </Link>
             <Link
               href={secondaryCtaLink}
-              className="font-inter w-full max-w-xs sm:max-w-sm md:w-auto inline-block rounded-lg border-2 border-white bg-transparent px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base text-white transition-all duration-300 hover:bg-white/10 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 backdrop-blur-sm"
+              className="btn-press font-inter w-full max-w-xs sm:max-w-sm md:w-auto inline-block rounded-lg border-2 border-white bg-transparent px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base text-white transition-all duration-300 hover:bg-white/10 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 backdrop-blur-sm"
             >
               {secondaryCtaText}
             </Link>

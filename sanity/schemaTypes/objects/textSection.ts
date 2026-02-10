@@ -3,7 +3,7 @@ import { defineField, defineType } from 'sanity'
 export default defineType({
     name: 'textSection',
     title: 'Text Section',
-    type: 'object',
+    type: 'object' as const,
     fields: [
         defineField({
             name: 'heading',
@@ -13,7 +13,7 @@ export default defineType({
         defineField({
             name: 'content',
             title: 'Content',
-            type: 'array',
+            type: 'array' as const,
             of: [{ type: 'block' }],
         }),
         defineField({

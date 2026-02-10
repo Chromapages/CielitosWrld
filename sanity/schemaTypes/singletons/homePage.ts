@@ -10,7 +10,7 @@ export default defineType({
         defineField({
             name: 'hero',
             title: 'Hero Section',
-            type: 'object',
+            type: 'object' as const,
             description: 'Main hero banner at the top of the homepage',
             fields: [
                 defineField({
@@ -28,7 +28,7 @@ export default defineType({
                 }),
                 defineField({
                     name: 'backgroundImage',
-                    type: 'image',
+                    type: 'image' as const,
                     title: 'Hero Background Image (Desktop)',
                     description: 'Background image for desktop screens',
                     options: { hotspot: true },
@@ -36,7 +36,7 @@ export default defineType({
                 }),
                 defineField({
                     name: 'mobileBackgroundImage',
-                    type: 'image',
+                    type: 'image' as const,
                     title: 'Hero Background Image (Mobile)',
                     description: 'Optional. If set, this image will be used on mobile devices instead of the desktop background image.',
                     options: { hotspot: true }
@@ -70,6 +70,26 @@ export default defineType({
                     initialValue: '/blog'
                 }),
             ],
+        }),
+        defineField({
+            name: 'contact',
+            title: 'Contact Information',
+            type: 'object' as const,
+            description: 'Contact details displayed on the homepage',
+            fields: [
+                defineField({
+                    name: 'email',
+                    title: 'Email Address',
+                    type: 'string',
+                    description: 'Contact email address'
+                }),
+                defineField({
+                    name: 'phone',
+                    title: 'Phone Number',
+                    type: 'string',
+                    description: 'Contact phone number'
+                })
+            ]
         }),
     ],
     preview: {

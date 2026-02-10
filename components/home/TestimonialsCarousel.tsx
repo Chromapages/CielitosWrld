@@ -88,7 +88,7 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
         <div className="absolute inset-0 z-0">
           <Image
             src={urlFor(data.backgroundImage).url()}
-            alt="Background"
+            alt="Abstract texture background"
             fill
             className="object-cover opacity-[0.03]"
             placeholder={data.backgroundImage.metadata?.lqip ? 'blur' : 'empty'}
@@ -115,7 +115,7 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
 
             <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
               <DialogTrigger asChild>
-                <button className="mt-8 inline-flex items-center gap-2 px-6 py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full text-sm font-medium hover:scale-105 transition-transform shadow-lg">
+                <button className="btn-press mt-8 inline-flex items-center gap-2 px-6 py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full text-sm font-medium hover:scale-105 transition-transform shadow-lg">
                   <Plus className="w-4 h-4" />
                   Leave a Review
                 </button>
@@ -133,14 +133,14 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
           <div className="hidden md:flex gap-3">
             <button
               onClick={scrollPrev}
-              className="w-14 h-14 rounded-full border border-stone-200 dark:border-stone-800 flex items-center justify-center text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-900 transition-colors"
+              className="btn-press w-14 h-14 rounded-full border border-stone-200 dark:border-stone-800 flex items-center justify-center text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-900 transition-colors"
               aria-label="Previous testimonial"
             >
               <ArrowLeft className="w-6 h-6" />
             </button>
             <button
               onClick={scrollNext}
-              className="w-14 h-14 rounded-full bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 flex items-center justify-center hover:bg-stone-800 dark:hover:bg-stone-200 transition-colors shadow-md"
+              className="btn-press w-14 h-14 rounded-full bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 flex items-center justify-center hover:bg-stone-800 dark:hover:bg-stone-200 transition-colors shadow-md"
               aria-label="Next testimonial"
             >
               <ArrowRight className="w-6 h-6" />

@@ -16,14 +16,14 @@ export default defineType({
         defineField({
             name: 'subtitle',
             title: 'Subtitle',
-            type: 'text',
+            type: 'text' as const,
             rows: 2,
             initialValue: 'A curated collection of moments, captured in time.',
         }),
         defineField({
             name: 'pageBackground',
             title: 'Page Background Image',
-            type: 'image',
+            type: 'image' as const,
             options: { hotspot: true },
         }),
         defineField({

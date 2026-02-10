@@ -2,12 +2,13 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Camera, FileText, Mail } from 'lucide-react';
+import { Home, Camera, Briefcase, FileText, Mail } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const NAV_ITEMS = [
   { id: 'home', label: 'Home', href: '/', icon: Home },
   { id: 'gallery', label: 'Gallery', href: '/gallery', icon: Camera },
+  { id: 'services', label: 'Services', href: '/services', icon: Briefcase },
   { id: 'blog', label: 'Blog', href: '/blog', icon: FileText },
   { id: 'contact', label: 'Contact', href: '/contact', icon: Mail },
 ];
@@ -20,7 +21,7 @@ export default function MobileNavbar() {
       className="sm:hidden fixed bottom-0 left-0 right-0 z-50 w-full border-t border-stone-200 bg-white dark:border-stone-800 dark:bg-stone-950 shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.05)]"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
-      <div className="grid grid-cols-4 h-20 w-full items-center px-2">
+      <div className="grid grid-cols-5 h-20 w-full items-center px-2">
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
@@ -29,7 +30,7 @@ export default function MobileNavbar() {
             <Link
               key={item.href}
               href={item.href}
-              className="group flex flex-col items-center justify-center gap-1 h-full w-full transition-transform active:scale-95"
+              className="btn-press group flex flex-col items-center justify-center gap-1 h-full w-full transition-transform"
               aria-label={item.label}
               data-active={isActive}
             >

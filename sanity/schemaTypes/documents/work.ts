@@ -32,14 +32,14 @@ export default defineType({
         defineField({
             name: 'excerpt',
             title: 'Excerpt / Outcome',
-            type: 'text',
+            type: 'text' as const,
             rows: 3,
             description: 'Short summary or result for the card view.',
         }),
         defineField({
             name: 'coverImage',
             title: 'Cover Image',
-            type: 'image',
+            type: 'image' as const,
             options: {
                 hotspot: true,
             },
@@ -53,19 +53,19 @@ export default defineType({
         defineField({
             name: 'tags',
             title: 'Tags',
-            type: 'array',
+            type: 'array' as const,
             of: [{ type: 'string' }],
         }),
         defineField({
             name: 'body',
             title: 'Body',
-            type: 'array',
+            type: 'array' as const,
             of: [{ type: 'block' }, { type: 'image' }],
         }),
         defineField({
             name: 'gallery',
             title: 'Project Gallery',
-            type: 'array',
+            type: 'array' as const,
             of: [{ type: 'image' }],
         }),
         defineField({

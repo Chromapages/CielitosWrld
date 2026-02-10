@@ -38,7 +38,7 @@ export default function SocialProof({ data }: SocialProofProps) {
         <div className="absolute inset-0 z-0">
           <Image
             src={urlFor(data.backgroundImage).url()}
-            alt="Background"
+            alt="Abstract texture background"
             fill
             className="object-cover opacity-50"
             placeholder={data.backgroundImage.metadata?.lqip ? 'blur' : 'empty'}

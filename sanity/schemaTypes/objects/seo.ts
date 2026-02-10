@@ -6,7 +6,7 @@ import { defineType } from 'sanity'
 export default defineType({
     name: 'seo',
     title: 'SEO Settings',
-    type: 'object',
+    type: 'object' as const,
     options: {
         collapsible: true,
         collapsed: true,
@@ -22,7 +22,7 @@ export default defineType({
         {
             name: 'metaDescription',
             title: 'Meta Description',
-            type: 'text',
+            type: 'text' as const,
             rows: 2,
             description: 'Description shown in search results (max 160 characters)',
             validation: (Rule) => Rule.max(160).warning('Keep under 160 characters for best SEO'),
@@ -30,7 +30,7 @@ export default defineType({
         {
             name: 'ogImage',
             title: 'Social Share Image',
-            type: 'image',
+            type: 'image' as const,
             description: 'Image shown when shared on social media (1200x630 recommended)',
             options: {
                 hotspot: true,

@@ -17,7 +17,7 @@ export default defineType({
         defineField({
             name: 'backgroundImage',
             title: 'Background Image (Optional)',
-            type: 'image',
+            type: 'image' as const,
             options: {
                 hotspot: true,
             },
@@ -32,10 +32,10 @@ export default defineType({
         defineField({
             name: 'items',
             title: 'Collaboration Items',
-            type: 'array',
+            type: 'array' as const,
             of: [
                 defineField({
-                    type: 'object',
+                    type: 'object' as const,
                     name: 'item',
                     fields: [
                         defineField({
@@ -48,7 +48,7 @@ export default defineType({
                         defineField({
                             name: 'logo',
                             title: 'Logo',
-                            type: 'image',
+                            type: 'image' as const,
                             options: {
                                 hotspot: true,
                             },

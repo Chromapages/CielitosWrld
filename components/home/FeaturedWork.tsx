@@ -116,7 +116,7 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                                                 <span>•</span>
                                                 <span>{heroProject.year}</span>
                                             </div>
-                                            <h3 className="text-3xl md:text-5xl font-bold text-white mb-3 leading-tight">
+                                            <h3 className="text-3xl md:text-5xl font-bold font-archivo text-white mb-3 leading-tight">
                                                 {heroProject.title}
                                             </h3>
                                             {heroProject.excerpt && (
@@ -124,7 +124,7 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                                                     {heroProject.excerpt}
                                                 </p>
                                             )}
-                                            <div className="inline-flex items-center px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white font-medium text-sm transition-colors group-hover:bg-white group-hover:text-stone-900">
+                                            <div className="btn-press inline-flex items-center px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white font-medium text-sm transition-colors group-hover:bg-white group-hover:text-stone-900">
                                                 View Case Study <ArrowUpRight className="ml-2 w-4 h-4" />
                                             </div>
                                         </div>
@@ -134,11 +134,11 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
 
                             {/* GRID PROJECTS (50% width on XL) */}
                             <div className="w-full xl:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
-                                {gridProjects.map((project) => (
+                                {gridProjects.map((project, idx) => (
                                     <Link
                                         href={`/work/${project.slug}`}
                                         key={project.id}
-                                        className="group relative w-full aspect-[4/5] rounded-[1.5rem] overflow-hidden shadow-lg bg-stone-200 dark:bg-stone-800"
+                                        className={`group relative w-full aspect-[4/5] rounded-[1.5rem] overflow-hidden shadow-lg bg-stone-200 dark:bg-stone-800 ${idx < 4 ? `stagger-${idx + 1}` : ''}`}
                                     >
                                         <Image
                                             src={project.image}
@@ -154,7 +154,7 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                                                 <p className="text-orange-400 text-xs font-bold tracking-widest uppercase mb-1">
                                                     {project.category}
                                                 </p>
-                                                <h4 className="text-xl font-bold text-white mb-2 leading-tight">
+                                                <h4 className="text-xl font-bold font-archivo text-white mb-2 leading-tight">
                                                     {project.title}
                                                 </h4>
                                                 <div className="flex items-center text-white text-xs font-medium mt-3">
@@ -174,7 +174,7 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                 <div className="mt-12 md:hidden text-center">
                     <Link
                         href="/work"
-                        className="inline-flex items-center px-8 py-4 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-medium text-lg w-full justify-center shadow-lg"
+                        className="btn-press inline-flex items-center px-8 py-4 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-medium text-lg w-full justify-center shadow-lg"
                     >
                         View Full Portfolio
                     </Link>

@@ -53,7 +53,7 @@ export default defineType({
     defineField({
       name: 'image',
       title: 'Image',
-      type: 'image',
+      type: 'image' as const,
       group: 'media',
       options: { hotspot: true },
       fields: [
@@ -98,7 +98,7 @@ export default defineType({
     defineField({
       name: 'videoThumbnail',
       title: 'Video Thumbnail',
-      type: 'image',
+      type: 'image' as const,
       group: 'media',
       options: { hotspot: true },
       hidden: ({ document }) => document?.mediaType !== 'video',

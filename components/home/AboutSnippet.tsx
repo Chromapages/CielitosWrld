@@ -165,8 +165,9 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
               {displayData.features.map((feature, idx) => {
                 const Icon = ICON_MAP[feature.icon] || Sparkles;
+                const staggerClass = idx < 4 ? `stagger-${idx + 1}` : '';
                 return (
-                  <div key={idx} className="flex items-center space-x-3 p-3 rounded-lg hover:bg-stone-50 dark:hover:bg-stone-900 transition-colors">
+                  <div key={idx} className={`flex items-center space-x-3 p-3 rounded-lg hover:bg-stone-50 dark:hover:bg-stone-900 transition-colors ${staggerClass}`}>
                     <div className="flex-shrink-0 w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/20 flex items-center justify-center text-orange-600 dark:text-orange-400">
                       <Icon className="w-5 h-5" />
                     </div>
@@ -204,14 +205,14 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
             <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 justify-center lg:justify-start">
               <Link
                 href={displayData.ctaPrimary.link}
-                className="inline-flex items-center justify-center h-12 px-8 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-medium transition-all hover:scale-105 hover:shadow-lg active:scale-95 text-base w-full sm:w-auto"
+                className="btn-press inline-flex items-center justify-center h-12 px-8 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-medium transition-all hover:scale-105 hover:shadow-lg text-base w-full sm:w-auto"
               >
                 {displayData.ctaPrimary.label}
               </Link>
 
               <Link
                 href={displayData.ctaSecondary.link}
-                className="inline-flex items-center justify-center h-12 px-8 text-stone-600 dark:text-stone-300 hover:text-orange-600 dark:hover:text-orange-400 font-medium transition-colors group w-full sm:w-auto"
+                className="btn-press inline-flex items-center justify-center h-12 px-8 text-stone-600 dark:text-stone-300 hover:text-orange-600 dark:hover:text-orange-400 font-medium transition-colors group w-full sm:w-auto"
               >
                 {displayData.ctaSecondary.label}
                 <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />

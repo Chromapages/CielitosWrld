@@ -19,7 +19,7 @@ export default async function Home() {
       <FeaturedWork data={homeData?.featuredWork} />
       <TestimonialsCarousel data={homeData?.testimonials} />
       <SocialProof data={homeData?.socialProof} />
-      <ContactCTA data={homeData?.contactCta} />
+      <ContactCTA />
     </div>
   )
 }

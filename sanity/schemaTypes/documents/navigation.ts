@@ -30,10 +30,10 @@ export default defineType({
         defineField({
             name: 'items',
             title: 'Navigation Items',
-            type: 'array',
+            type: 'array' as const,
             of: [
                 {
-                    type: 'object',
+                    type: 'object' as const,
                     name: 'navItem',
                     title: 'Navigation Item',
                     fields: [

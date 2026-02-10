@@ -22,13 +22,13 @@ export default defineType({
         defineField({
             name: 'description',
             title: 'Description',
-            type: 'text',
+            type: 'text' as const,
             description: 'Subtitle below the heading',
         }),
         defineField({
             name: 'backgroundImage',
             title: 'Background Image (Optional)',
-            type: 'image',
+            type: 'image' as const,
             options: {
                 hotspot: true,
             },
@@ -43,10 +43,10 @@ export default defineType({
         defineField({
             name: 'testimonials',
             title: 'Testimonials',
-            type: 'array',
+            type: 'array' as const,
             of: [
                 defineField({
-                    type: 'object',
+                    type: 'object' as const,
                     name: 'testimonial',
                     fields: [
                         defineField({
@@ -64,7 +64,7 @@ export default defineType({
                         defineField({
                             name: 'content',
                             title: 'Quote',
-                            type: 'text',
+                            type: 'text' as const,
                             rows: 4,
                             validation: (rule) => rule.required(),
                         }),
@@ -77,7 +77,7 @@ export default defineType({
                         defineField({
                             name: 'avatar',
                             title: 'Client Photo',
-                            type: 'image',
+                            type: 'image' as const,
                             options: { hotspot: true },
                         }),
                         defineField({

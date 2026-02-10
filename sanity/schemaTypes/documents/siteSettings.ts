@@ -17,21 +17,21 @@ export default defineType({
     defineField({
       name: 'description',
       title: 'Site Description',
-      type: 'text',
+      type: 'text' as const,
       description: 'Brief description of your site (for SEO)',
       rows: 3,
     }),
     // defineField({
     //   name: 'pageBackgrounds',
     //   title: 'Page Backgrounds (Deprecated - Moved to individual pages)',
-    //   type: 'array',
+    //   type: 'array' as const,
     //   of: [{ type: 'string' }],
     //   hidden: true,
     // }),
     defineField({
       name: 'seo',
       title: 'Global SEO',
-      type: 'object',
+      type: 'object' as const,
       description: 'Default SEO settings',
       fields: [
         {
@@ -41,13 +41,13 @@ export default defineType({
         },
         {
           name: 'metaDescription',
-          type: 'text',
+          type: 'text' as const,
           title: 'Default Meta Description',
           rows: 2,
         },
         {
           name: 'ogImage',
-          type: 'image',
+          type: 'image' as const,
           title: 'Default Social Share Image',
           options: {
             hotspot: true,

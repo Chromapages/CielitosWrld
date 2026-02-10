@@ -222,7 +222,12 @@ export const HOME_PAGE_QUERY = `
       ctaText,
       ctaLink,
       secondaryCtaText,
+      secondaryCtaText,
       secondaryCtaLink
+    },
+    "contact": *[_type == "homePage"][0].contact {
+      email,
+      phone
     },
     "about": *[_type == "homeAbout"][0] {
       eyebrow,
@@ -247,14 +252,14 @@ export const HOME_PAGE_QUERY = `
     },
     "featuredWork": {
       "title": coalesce(*[_type == "homePage"][0].featuredWork.title, "Featured Work"),
-      "items": *[_type == "work" && featured == true] | order(_createdAt desc) [0...5] {
+      "items": *[_type == "galleryAsset" && featured == true && archived != true] | order(_createdAt desc) [0...5] {
         _id,
         title,
         "slug": slug.current,
-        "category": client,
-        "excerpt": excerpt,
-        "coverImage": coverImage { asset->{ _id, url, metadata { dimensions, lqip } } },
-        "year": year
+        category,
+        "excerpt": "",
+        "coverImage": image,
+        "year": string::split(_createdAt, "-")[0]
       }
     },
     "testimonials": *[_type == "homeTestimonials"][0] {
@@ -280,12 +285,6 @@ export const HOME_PAGE_QUERY = `
         "asset": logo.asset->{ _id, url },
         "alt": logo.alt
       }
-    },
-    "contactCta": *[_type == "homePage"][0].contactCta {
-      title,
-      text,
-      buttonText,
-      buttonLink
     }
   }
 `
@@ -312,7 +311,24 @@ export const BLOG_PAGE_QUERY = `
       listening,
       location
     },
-    curatedTags
+    curatedTags,
+    playlist[] {
+      title,
+      artist,
+      mood,
+      "url": audioFile.asset->url
+    },
+    newsletter {
+      heading,
+      description
+    },
+    "popularPosts": *[_type == "post" && featured == true && archived != true] | order(publishedAt desc) [0...3] {
+      _id,
+      title,
+      slug,
+      coverImage,
+      "viewCount": 0 // Placeholder as we don't have real views yet
+    }
   }
 `
 
@@ -400,11 +416,17 @@ export const POST_BY_SLUG_QUERY = `
   *[_type == "post" && slug.current == $slug][0] {
     _id,
     title,
+    slug,
     excerpt,
-    coverImage,
+    coverImage { asset->{ _id, url, metadata { dimensions, lqip } } },
     body,
     publishedAt,
-    tags
+    "tags": tags,
+    postType,
+    photos,
+    quoteText,
+    quoteSource,
+    linkUrl
   }
 `
 
@@ -433,6 +455,7 @@ export const SERVICES_PAGE_QUERY = `
       heroSubhead,
       heroTrustText,
       processSteps,
+      processGallery,
       faqs,
       "seo": {
         "title": seoTitle,

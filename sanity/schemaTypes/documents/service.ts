@@ -34,7 +34,7 @@ export default defineType({
         defineField({
             name: 'features',
             title: 'Features Included',
-            type: 'array',
+            type: 'array' as const,
             of: [{ type: 'string' }],
         }),
         defineField({

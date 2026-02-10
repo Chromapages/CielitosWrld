@@ -1,6 +1,8 @@
 import type { Config } from 'tailwindcss';
+import colors from 'tailwindcss/colors';
 
 const config: Config = {
+  darkMode: 'class',
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -15,46 +17,47 @@ const config: Config = {
       },
     },
     fontFamily: {
-      sans: ['var(--font-sans)'],
-      body: ['var(--font-body)'],
-      display: ['var(--font-display)'],
-      pattaya: ['var(--font-pattaya)'],
+      sans: ['Inter', 'sans-serif'],
+      body: ['var(--font-roboto)', 'Roboto', '-apple-system', 'sans-serif'],
+      heading: ['var(--font-newsreader)', 'Newsreader', 'Georgia', 'serif'],
+      display: ['var(--font-pattaya)', 'Pattaya', 'Georgia', 'serif'],
+      pattaya: ['var(--font-pattaya)', 'cursive'],
       inter: ['Inter', 'sans-serif'],
-      fitzgerald: ['var(--font-fitzgerald-bold)'],
+      archivo: ['var(--font-archivo)', 'sans-serif'],
     },
     extend: {
+      // Premium Typography System
       fontSize: {
+        // Display: Hero headlines
+        'display': ['clamp(48px, 8vw, 96px)', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '800' }],
+        // H1: Major sections
+        'h1': ['clamp(36px, 6vw, 60px)', { lineHeight: '1.15', letterSpacing: '-0.02em', fontWeight: '700' }],
+        // H2: Section titles
+        'h2': ['clamp(28px, 4vw, 40px)', { lineHeight: '1.2', letterSpacing: '-0.01em', fontWeight: '600' }],
+        // H3: Subsections
+        'h3': ['clamp(20px, 3vw, 28px)', { lineHeight: '1.3', fontWeight: '600' }],
+        // H4: Card titles
+        'h4': ['clamp(18px, 2.5vw, 24px)', { lineHeight: '1.4', fontWeight: '600' }],
+        // Body Large
+        'body-lg': ['20px', { lineHeight: '1.7', fontWeight: '400' }],
+        // Body Default
+        'body': ['18px', { lineHeight: '1.7', fontWeight: '400' }],
+        // Body Small (mobile)
+        'body-sm': ['16px', { lineHeight: '1.6', fontWeight: '400' }],
+        // Caption
+        'caption': ['14px', { lineHeight: '1.5', fontWeight: '400' }],
+        // Caption Small
+        'caption-sm': ['12px', { lineHeight: '1.4', fontWeight: '400' }],
+        // Legacy sizes
         '2xs': ['0.7rem', { lineHeight: '1rem' }],
         '3xs': ['0.6rem', { lineHeight: '0.9rem' }],
       },
       colors: {
-        // Earth tone color system
-        sage: {
-          DEFAULT: '#33361c',
-          50: '#f8f9f6',
-          100: '#f0f2ea',
-          200: '#dde2d1',
-          300: '#c4ccb0',
-          400: '#a6b088',
-          500: '#8b9669',
-          600: '#6f7d50',
-          700: '#5a6441',
-          800: '#484f37',
-          900: '#33361c',
-        },
-        mud: {
-          DEFAULT: '#371d13',
-          50: '#f9f6f4',
-          100: '#f2ebe6',
-          200: '#e3d3c9',
-          300: '#d0b5a4',
-          400: '#b8927b',
-          500: '#a47458',
-          600: '#925e41',
-          700: '#794d36',
-          800: '#5d3c2a',
-          900: '#371d13',
-        },
+        // Unified Brand System
+        brand: colors.stone,
+
+        // Accent System
+
         orange: {
           DEFAULT: '#822c01',
           50: '#fef6f0',
@@ -68,19 +71,7 @@ const config: Config = {
           800: '#96320f',
           900: '#822c01',
         },
-        moss: {
-          DEFAULT: '#2c3325',
-          50: '#f7f8f6',
-          100: '#eef0ec',
-          200: '#dae0d5',
-          300: '#bdc8b5',
-          400: '#9aab8f',
-          500: '#7c9070',
-          600: '#647558',
-          700: '#515e47',
-          800: '#424c3b',
-          900: '#2c3325',
-        },
+
         // Keep existing shadcn colors
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
@@ -123,11 +114,18 @@ const config: Config = {
           '5': 'hsl(var(--chart-5))',
         },
       },
-      fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        body: ['Inter', 'sans-serif'],
-        display: ['Inter', 'sans-serif'],
-        pattaya: ['Pattaya', 'serif'],
+      // Premium Multi-layer Shadows
+      boxShadow: {
+        'navbar-float': '0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)',
+        // Elevation Hierarchy
+        'elevation-1': '0 2px 4px rgba(0, 0, 0, 0.05)',
+        'elevation-2': '0 2px 4px rgba(0, 0, 0, 0.05), 0 8px 16px rgba(0, 0, 0, 0.08)',
+        'elevation-3': '0 2px 4px rgba(0, 0, 0, 0.05), 0 8px 16px rgba(0, 0, 0, 0.08), 0 16px 32px rgba(0, 0, 0, 0.04)',
+        'elevation-4': '0 4px 6px rgba(0, 0, 0, 0.07), 0 12px 24px rgba(0, 0, 0, 0.10), 0 24px 48px rgba(0, 0, 0, 0.05)',
+        // Dark mode shadows
+        'elevation-dark-1': '0 2px 4px rgba(0, 0, 0, 0.3)',
+        'elevation-dark-2': '0 2px 4px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.4)',
+        'elevation-dark-3': '0 2px 4px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.4), 0 16px 32px rgba(0, 0, 0, 0.2)',
       },
       aspectRatio: {
         '2/3': '2 / 3',
@@ -141,13 +139,32 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      // 8px Grid Spacing System
+      spacing: {
+        'space-1': '8px',    // xs
+        'space-2': '16px',   // sm
+        'space-3': '24px',   // md
+        'space-4': '32px',   // lg
+        'space-5': '40px',   // xl
+        'space-6': '48px',   // 2xl
+        'space-8': '64px',   // 3xl
+        'space-10': '80px',  // 4xl
+        'space-12': '96px',  // 5xl
+        'space-15': '120px', // 6xl
+        'space-20': '160px', // 7xl
+      },
+      // Section Padding
+      padding: {
+        'section-sm': '16px',
+        'section': '24px',
+        'section-lg': '40px',
+        'section-xl': '64px',
+        'section-2xl': '120px',
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
-      },
-      boxShadow: {
-        'navbar-float': '0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)',
       },
       keyframes: {
         'accordion-down': {

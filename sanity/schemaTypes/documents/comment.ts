@@ -10,15 +10,15 @@ export default defineType({
         defineField({
             name: 'post',
             title: 'Post',
-            type: 'reference',
-            to: [{ type: 'post' }],
+            type: 'reference' as const,
+            to: [{ type: 'post' as const }],
             validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: 'parent',
             title: 'Parent Comment',
-            type: 'reference',
-            to: [{ type: 'comment' }],
+            type: 'reference' as const,
+            to: [{ type: 'comment' as const }],
             description: 'The comment this is a reply to (optional)',
         }),
         defineField({
@@ -30,7 +30,7 @@ export default defineType({
         defineField({
             name: 'comment',
             title: 'Comment Body',
-            type: 'text',
+            type: 'text' as const,
             validation: (Rule) => Rule.required().min(2).max(1000),
         }),
         defineField({

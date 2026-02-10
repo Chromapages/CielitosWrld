@@ -22,15 +22,15 @@ export default defineType({
         defineField({
             name: 'bio',
             title: 'Bio',
-            type: 'text',
+            type: 'text' as const,
             description: 'Main description text about the photographer.',
         }),
         defineField({
             name: 'testimonial',
             title: 'Featured Testimonial',
-            type: 'object',
+            type: 'object' as const,
             fields: [
-                defineField({ name: 'quote', type: 'text', title: 'Quote', rows: 3 }),
+                defineField({ name: 'quote', type: 'text' as const, title: 'Quote', rows: 3 }),
                 defineField({ name: 'author', type: 'string', title: 'Author Name' }),
                 defineField({ name: 'role', type: 'string', title: 'Author Role/Context' }),
             ],
@@ -38,7 +38,7 @@ export default defineType({
         defineField({
             name: 'profileImage',
             title: 'Profile Image',
-            type: 'image',
+            type: 'image' as const,
             options: {
                 hotspot: true,
             },
@@ -54,7 +54,7 @@ export default defineType({
         defineField({
             name: 'backgroundImage',
             title: 'Background Image (Optional)',
-            type: 'image',
+            type: 'image' as const,
             options: {
                 hotspot: true,
             },
@@ -69,10 +69,10 @@ export default defineType({
         defineField({
             name: 'quickFacts',
             title: 'Quick Facts',
-            type: 'array',
+            type: 'array' as const,
             of: [
                 defineField({
-                    type: 'object',
+                    type: 'object' as const,
                     name: 'fact',
                     fields: [
                         defineField({
@@ -104,10 +104,10 @@ export default defineType({
         defineField({
             name: 'features',
             title: 'Features Links (Value Props)',
-            type: 'array',
+            type: 'array' as const,
             of: [
                 defineField({
-                    type: 'object',
+                    type: 'object' as const,
                     name: 'feature',
                     fields: [
                         defineField({
@@ -137,7 +137,7 @@ export default defineType({
         defineField({
             name: 'ctaPrimary',
             title: 'Primary CTA',
-            type: 'object',
+            type: 'object' as const,
             fields: [
                 defineField({ name: 'label', type: 'string', title: 'Label' }),
                 defineField({ name: 'link', type: 'string', title: 'Link' }),
@@ -146,7 +146,7 @@ export default defineType({
         defineField({
             name: 'ctaSecondary',
             title: 'Secondary CTA',
-            type: 'object',
+            type: 'object' as const,
             fields: [
                 defineField({ name: 'label', type: 'string', title: 'Label' }),
                 defineField({ name: 'link', type: 'string', title: 'Link' }),

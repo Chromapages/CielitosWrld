@@ -29,12 +29,27 @@ export default defineType({
         defineField({
             name: 'processSteps',
             title: 'Process Steps',
-            type: 'array',
+            type: 'array' as const,
             of: [{
-                type: 'object',
+                type: 'object' as const,
                 fields: [
                     defineField({ name: 'title', type: 'string' }),
-                    defineField({ name: 'description', type: 'text', rows: 2 }),
+                    defineField({ name: 'description', type: 'text' as const, rows: 2 }),
+                ]
+            }]
+        }),
+
+        // Process Gallery
+        defineField({
+            name: 'processGallery',
+            title: 'Process Gallery',
+            type: 'array' as const,
+            of: [{
+                type: 'object' as const,
+                fields: [
+                    defineField({ name: 'title', type: 'string' }),
+                    defineField({ name: 'caption', type: 'text' as const, rows: 2 }),
+                    defineField({ name: 'image', type: 'image' as const, options: { hotspot: true } }),
                 ]
             }]
         }),
@@ -43,13 +58,13 @@ export default defineType({
         defineField({
             name: 'faqs',
             title: 'FAQs',
-            type: 'array',
+            type: 'array' as const,
             of: [{
-                type: 'object',
+                type: 'object' as const,
                 name: 'faq',
                 fields: [
                     defineField({ name: 'question', type: 'string' }),
-                    defineField({ name: 'answer', type: 'text', rows: 3 }),
+                    defineField({ name: 'answer', type: 'text' as const, rows: 3 }),
                 ],
             }],
         }),
@@ -63,7 +78,7 @@ export default defineType({
         defineField({
             name: 'finalCtaText',
             title: 'Final CTA Text',
-            type: 'text',
+            type: 'text' as const,
             rows: 2,
         }),
 
@@ -76,7 +91,7 @@ export default defineType({
         defineField({
             name: 'seoDescription',
             title: 'SEO Description',
-            type: 'text',
+            type: 'text' as const,
             rows: 3,
         }),
     ],

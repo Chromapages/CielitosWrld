@@ -17,14 +17,14 @@ export default defineType({
         defineField({
             name: 'pageBackground',
             title: 'Page Background Image',
-            type: 'image',
+            type: 'image' as const,
             options: { hotspot: true },
         }),
 
         defineField({
             name: 'introText',
             title: 'Intro Text',
-            type: 'text',
+            type: 'text' as const,
             rows: 3,
             description: 'A brief message displayed above the contact form',
         }),
@@ -72,7 +72,7 @@ export default defineType({
         defineField({
             name: 'socialLinks',
             title: 'Social Links',
-            type: 'object',
+            type: 'object' as const,
             fields: [
                 { name: 'instagram', type: 'url', title: 'Instagram URL' },
                 { name: 'tiktok', type: 'url', title: 'TikTok URL' },
@@ -83,10 +83,10 @@ export default defineType({
         defineField({
             name: 'faqs',
             title: 'Frequently Asked Questions',
-            type: 'array',
+            type: 'array' as const,
             of: [
                 defineField({
-                    type: 'object',
+                    type: 'object' as const,
                     name: 'faq',
                     fields: [
                         defineField({
@@ -98,7 +98,7 @@ export default defineType({
                         defineField({
                             name: 'answer',
                             title: 'Answer',
-                            type: 'text',
+                            type: 'text' as const,
                             rows: 3,
                             validation: (Rule) => Rule.required(),
                         }),

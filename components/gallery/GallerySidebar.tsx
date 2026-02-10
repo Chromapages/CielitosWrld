@@ -59,7 +59,12 @@ function FilterGroup({ title, options, selected, onChange, counts }: FilterGroup
                                 {option}
                             </span>
                             {counts && (
-                                <span className="ml-auto text-xs text-stone-400">
+                                <span className={cn(
+                                    "ml-auto text-xs px-2 py-0.5 rounded-full font-medium transition-colors",
+                                    selected.includes(option)
+                                        ? "bg-white/20 text-white dark:bg-stone-900/50 dark:text-stone-200"
+                                        : "bg-stone-100 text-stone-500 dark:bg-stone-800 dark:text-stone-400 group-hover/label:bg-stone-200 dark:group-hover/label:bg-stone-700"
+                                )}>
                                     {counts[option] || 0}
                                 </span>
                             )}

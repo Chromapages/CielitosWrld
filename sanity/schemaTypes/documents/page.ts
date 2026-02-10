@@ -22,7 +22,7 @@ export default defineType({
         defineField({
             name: 'layoutSettings',
             title: 'Layout Settings',
-            type: 'object',
+            type: 'object' as const,
             fields: [
                 defineField({
                     name: 'useSiteBackground',
@@ -33,7 +33,7 @@ export default defineType({
                 defineField({
                     name: 'backgroundImage',
                     title: 'Background Image Override',
-                    type: 'image',
+                    type: 'image' as const,
                     options: { hotspot: true },
                     hidden: ({ parent }) => parent?.useSiteBackground !== false,
                 }),
@@ -42,7 +42,7 @@ export default defineType({
         defineField({
             name: 'sections',
             title: 'Page Sections',
-            type: 'array',
+            type: 'array' as const,
             of: [
                 { type: 'heroSection' },
                 { type: 'gallerySection' },

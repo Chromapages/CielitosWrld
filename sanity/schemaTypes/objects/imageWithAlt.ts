@@ -6,7 +6,7 @@ import { defineType } from 'sanity'
 export default defineType({
     name: 'imageWithAlt',
     title: 'Image',
-    type: 'image',
+    type: 'image' as const,
     options: {
         hotspot: true,
     },

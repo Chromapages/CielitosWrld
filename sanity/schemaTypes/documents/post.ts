@@ -26,7 +26,7 @@ export default defineType({
       validation: (Rule) =>
         Rule.required()
           .error('Click "Generate" to create a URL slug from the title')
-          .custom((slug) => {
+          .custom((slug: any) => {
             if (!slug?.current) {
               return 'Slug is required before publishing'
             }
@@ -36,7 +36,7 @@ export default defineType({
     defineField({
       name: 'coverImage',
       title: 'Hero Image',
-      type: 'image',
+      type: 'image' as const,
       description: 'Main image (min 1600px wide recommended). Use hotspot to set focus.',
       options: {
         hotspot: true,
@@ -63,7 +63,7 @@ export default defineType({
     defineField({
       name: 'excerpt',
       title: 'Excerpt',
-      type: 'text',
+      type: 'text' as const,
       description: 'Short summary (≤160 characters for best SEO)',
       rows: 3,
       validation: (Rule) =>
@@ -87,7 +87,7 @@ export default defineType({
     defineField({
       name: 'body',
       title: 'Body',
-      type: 'array',
+      type: 'array' as const,
       description: 'Main content of your post',
       of: [
         {
@@ -108,7 +108,7 @@ export default defineType({
             annotations: [
               {
                 name: 'link',
-                type: 'object',
+                type: 'object' as const,
                 title: 'Link',
                 fields: [
                   {
@@ -126,7 +126,7 @@ export default defineType({
           },
         },
         {
-          type: 'image',
+          type: 'image' as const,
           options: { hotspot: true },
           fields: [
             {
@@ -148,7 +148,7 @@ export default defineType({
     defineField({
       name: 'tags',
       title: 'Tags',
-      type: 'array',
+      type: 'array' as const,
       description: 'Keywords for filtering and SEO',
       of: [{ type: 'string' }],
       options: {
@@ -165,7 +165,7 @@ export default defineType({
     defineField({
       name: 'seo',
       title: 'SEO',
-      type: 'object',
+      type: 'object' as const,
       description: 'Search engine optimization (optional, defaults to title/excerpt)',
       options: {
         collapsible: true,
@@ -182,7 +182,7 @@ export default defineType({
         },
         {
           name: 'description',
-          type: 'text',
+          type: 'text' as const,
           title: 'Meta Description',
           description: 'Override excerpt for search engines',
           rows: 2,
@@ -190,7 +190,7 @@ export default defineType({
         },
         {
           name: 'ogImage',
-          type: 'image',
+          type: 'image' as const,
           title: 'Social Share Image',
           description: 'Custom image for social media shares (defaults to hero image)',
         },

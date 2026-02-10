@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import Image from 'next/image';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Share2, Download, Info } from 'lucide-react';
 import { GalleryItem } from '@/app/gallery/page';
 import { urlFor } from '@/sanity/lib/image';
 import useEmblaCarousel from 'embla-carousel-react';
@@ -121,6 +121,8 @@ function OptimizedLightboxImage({
 
 export default function Lightbox({ items, initialIndex, onClose }: LightboxProps) {
   const [showControls, setShowControls] = useState(true);
+  const [showInfo, setShowInfo] = useState(false);
+  const [shareFeedback, setShareFeedback] = useState(false);
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     startIndex: initialIndex,
@@ -189,18 +191,41 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose, emblaApi]);
 
-  // Lock body scroll
+  // Lock body scroll and apply state class
   useEffect(() => {
     document.body.style.overflow = 'hidden';
+    document.body.classList.add('lightbox-open');
     return () => {
       document.body.style.overflow = 'unset';
+      document.body.classList.remove('lightbox-open');
     };
   }, []);
 
   const currentItem = items[currentIndex];
 
+  const handleShare = useCallback(async () => {
+    const url = window.location.href;
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareFeedback(true);
+      setTimeout(() => setShareFeedback(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  }, []);
+
+  const handleDownload = useCallback(() => {
+    if (currentItem.mediaType === 'photo' && currentItem.image) {
+      const link = document.createElement('a');
+      link.href = urlFor(currentItem.image).width(2400).quality(95).auto('format').url();
+      link.download = `${currentItem.title || 'image'}.jpg`;
+      link.target = '_blank';
+      link.click();
+    }
+  }, [currentItem]);
+
   return (
-    <div className="fixed inset-0 z-[60] bg-black/95 backdrop-blur-md flex flex-col animate-in fade-in zoom-in-95 duration-300">
+    <div className="fixed inset-0 z-[60] bg-black/90 backdrop-blur-xl flex flex-col animate-in fade-in zoom-in-95 duration-300 motion-reduce:animate-none">
 
       {/* Main Carousel Area */}
       <div
@@ -261,13 +286,61 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
             </div>
           </div>
 
-          <button
-            onClick={onClose}
-            className="p-2 -mr-2 hover:bg-white/10 rounded-full transition-colors"
-            aria-label="Close lightbox"
-          >
-            <X className="w-8 h-8" />
-          </button>
+          <div className="flex items-center gap-2">
+            {/* Info Button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowInfo(!showInfo);
+              }}
+              className={cn(
+                "p-2 hover:bg-white/10 rounded-full transition-colors",
+                showInfo && "bg-white/10"
+              )}
+              aria-label="Toggle image info"
+            >
+              <Info className="w-6 h-6" />
+            </button>
+
+            {/* Share Button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleShare();
+              }}
+              className="p-2 hover:bg-white/10 rounded-full transition-colors relative"
+              aria-label="Share image"
+            >
+              <Share2 className="w-6 h-6" />
+              {shareFeedback && (
+                <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs bg-white text-black px-2 py-1 rounded whitespace-nowrap animate-in fade-in slide-in-from-top-2">
+                  Link copied!
+                </span>
+              )}
+            </button>
+
+            {/* Download Button (photos only) */}
+            {currentItem.mediaType === 'photo' && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDownload();
+                }}
+                className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                aria-label="Download image"
+              >
+                <Download className="w-6 h-6" />
+              </button>
+            )}
+
+            <button
+              onClick={onClose}
+              className="p-2 -mr-2 hover:bg-white/10 rounded-full transition-colors"
+              aria-label="Close lightbox"
+            >
+              <X className="w-8 h-8" />
+            </button>
+          </div>
         </div>
 
         {/* Nav Buttons (Desktop) */}
@@ -300,6 +373,95 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
           </div>
         </div>
       </div>
+
+      {/* Info Panel - Slides in from right */}
+      <div
+        className={cn(
+          "absolute top-0 right-0 h-full w-80 max-w-full bg-black/80 backdrop-blur-xl border-l border-white/10 p-6 pt-24 transform transition-transform duration-300 ease-out z-20 pointer-events-auto",
+          showInfo ? "translate-x-0" : "translate-x-full"
+        )}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="space-y-6">
+          <div>
+            <h3 className="text-lg font-bold text-white mb-1">{currentItem.title}</h3>
+            <p className="text-stone-400 text-sm">{currentItem.category}</p>
+          </div>
+
+          {currentItem.location && (
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+                <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-xs text-stone-500 uppercase tracking-wider">Location</p>
+                <p className="text-stone-200">{currentItem.location}</p>
+              </div>
+            </div>
+          )}
+
+          {currentItem.medium && (
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+                <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-xs text-stone-500 uppercase tracking-wider">Medium</p>
+                <p className="text-stone-200">{currentItem.medium}</p>
+              </div>
+            </div>
+          )}
+
+          {currentItem.vibe && (
+            <div className="flex items-start gap-3">
+              <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
+                <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                </svg>
+              </div>
+              <div>
+                <p className="text-xs text-stone-500 uppercase tracking-wider">Vibe</p>
+                <p className="text-stone-200">{currentItem.vibe}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Image dimensions if available */}
+          {currentItem.image?.asset?.metadata?.dimensions && (
+            <div className="pt-4 border-t border-white/10">
+              <p className="text-xs text-stone-500 uppercase tracking-wider mb-2">Image Details</p>
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <p className="text-stone-500 text-xs">Dimensions</p>
+                  <p className="text-stone-300">
+                    {currentItem.image.asset.metadata.dimensions.width} × {currentItem.image.asset.metadata.dimensions.height}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-stone-500 text-xs">Aspect Ratio</p>
+                  <p className="text-stone-300">
+                    {(currentItem.image.asset.metadata.dimensions.width / currentItem.image.asset.metadata.dimensions.height).toFixed(2)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Backdrop for info panel */}
+      {showInfo && (
+        <div
+          className="absolute inset-0 bg-black/20 z-10 pointer-events-auto"
+          onClick={() => setShowInfo(false)}
+        />
+      )}
 
     </div>
   );

@@ -3,7 +3,7 @@ import { defineField, defineType } from 'sanity'
 export default defineType({
     name: 'gallerySection',
     title: 'Gallery Section',
-    type: 'object',
+    type: 'object' as const,
     fields: [
         defineField({
             name: 'title',
@@ -13,14 +13,14 @@ export default defineType({
         defineField({
             name: 'description',
             title: 'Description',
-            type: 'text',
+            type: 'text' as const,
             rows: 2,
         }),
         defineField({
             name: 'images',
             title: 'Images',
-            type: 'array',
-            of: [{ type: 'image', options: { hotspot: true } }],
+            type: 'array' as const,
+            of: [{ type: 'image' as const, options: { hotspot: true } }],
         }),
         defineField({
             name: 'layout',
