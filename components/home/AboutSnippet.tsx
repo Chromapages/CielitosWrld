@@ -67,6 +67,7 @@ interface AboutSnippetProps {
     }>;
     ctaPrimary?: { label: string; link: string };
     ctaSecondary?: { label: string; link: string };
+    carouselImages?: any[];
   };
 }
 
@@ -252,7 +253,7 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
           It might distract from the new clean design, but the user didn't explicitly say remove it. 
           I'll keep it as a "Recent Sessions" strip at the very bottom, but add some breathing room. */}
       <div className="mt-24">
-        <AboutCarousel />
+        <AboutCarousel images={data?.carouselImages} />
       </div>
 
     </section>

@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { urlFor } from '@/sanity/lib/image';
 import {
   Share2, ExternalLink, Quote, Heart, Repeat, Clock,
-  Link2, Twitter, Facebook, Check, MessageCircle, MoreHorizontal
+  Link2, Twitter, Facebook, Check, MessageCircle, MoreHorizontal, ArrowRight
 } from 'lucide-react';
 import { PortableText } from '@portabletext/react';
 
@@ -393,13 +393,29 @@ export default function BlogPost({ post, avatar, username }: BlogPostProps) {
           </div>
         )}
 
-        {body && (
+        {(post.excerpt || body) && (
           <div className="text-body-sm text-brand-800 dark:text-brand-200 leading-relaxed max-w-none prose-sm dark:prose-invert pointer-events-auto">
             {/* For non-text posts, title acts as a bold lead-in */}
             {postType !== 'text' && title && (
               <span className="font-bold text-brand-900 dark:text-brand-100 mr-2">{title}</span>
             )}
-            <PortableText value={body} />
+
+            {post.excerpt ? (
+              <p className="mb-0">{post.excerpt}</p>
+            ) : body && (
+              <PortableText value={body.slice(0, 1)} />
+            )}
+
+            {/* Read More Link */}
+            <div className="mt-4">
+              <Link
+                href={`/blog/${slug.current}`}
+                className="inline-flex items-center gap-1.5 text-[11px] font-bold text-orange-600 dark:text-orange-500 hover:text-orange-500 dark:hover:text-orange-400 transition-colors group/readmore uppercase tracking-widest"
+              >
+                Read full story
+                <ArrowRight className="w-3 h-3 transition-transform group-hover/readmore:translate-x-0.5" />
+              </Link>
+            </div>
           </div>
         )}
       </div>

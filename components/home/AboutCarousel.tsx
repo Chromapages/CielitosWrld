@@ -20,21 +20,11 @@ interface CarouselImage {
     };
 }
 
-const CAROUSEL_QUERY = `*[_type == "aboutCarouselImage"] | order(sortOrder asc) {
-  _id,
-  title,
-  image {
-    asset->{
-      _id,
-      url,
-      metadata { lqip }
-    },
-    alt
-  }
-}`;
+interface AboutCarouselProps {
+    images?: CarouselImage[];
+}
 
-export default function AboutCarousel() {
-    const [images, setImages] = useState<CarouselImage[]>([]);
+export default function AboutCarousel({ images = [] }: AboutCarouselProps) {
     const [emblaRef] = useEmblaCarousel(
         {
             loop: true,
@@ -51,17 +41,7 @@ export default function AboutCarousel() {
         ]
     );
 
-    useEffect(() => {
-        async function fetchImages() {
-            try {
-                const result = await client.fetch(CAROUSEL_QUERY);
-                setImages(result || []);
-            } catch (error) {
-                console.error('Failed to load about carousel images:', error);
-            }
-        }
-        fetchImages();
-    }, []);
+    // No internal fetch anymore
 
     if (images.length === 0) return null;
 

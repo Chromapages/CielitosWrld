@@ -248,7 +248,19 @@ export const HOME_PAGE_QUERY = `
         icon
       },
       ctaPrimary,
-      ctaSecondary
+      ctaSecondary,
+      "carouselImages": *[_type == "aboutCarouselImage"] | order(sortOrder asc) {
+        _id,
+        title,
+        image {
+          asset->{
+            _id,
+            url,
+            metadata { lqip }
+          },
+          alt
+        }
+      }
     },
     "featuredWork": {
       "title": coalesce(*[_type == "homePage"][0].featuredWork.title, "Featured Work"),

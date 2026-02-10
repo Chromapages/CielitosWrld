@@ -42,8 +42,39 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
   return (
     <footer className="relative z-10 bg-stone-950 text-stone-400 border-t border-stone-900 font-sans">
       {/* Main Footer Content */}
-      <div className="max-w-[1600px] mx-auto px-6 md:px-12 pt-20 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-12 pt-12 md:pt-20 pb-12">
+
+        {/* Mobile: Editorial Signature Layout */}
+        <div className="md:hidden flex flex-col items-center text-center space-y-8 pb-8">
+          <Link
+            href="/"
+            className="text-5xl font-bold font-pattaya text-stone-100 hover:text-orange-500 transition-colors"
+          >
+            Cielito's Wrld
+          </Link>
+
+          <div className="flex gap-6">
+            {socialLinks.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-stone-400 hover:text-orange-500 transition-colors"
+                aria-label={item.name}
+              >
+                <item.icon className="w-5 h-5" />
+              </a>
+            ))}
+          </div>
+
+          <div className="text-[10px] text-stone-600 uppercase tracking-widest">
+            &copy; {currentYear} • Southern California
+          </div>
+        </div>
+
+        {/* Desktop: 4-Column Grid */}
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
 
           {/* Column 1: Brand & Identity */}
           <div className="space-y-6 stagger-1">
@@ -74,8 +105,8 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
             </div>
           </div>
 
-          {/* Column 2: Explore Navigation */}
-          <div className="stagger-2">
+          {/* Column 2: Explore Navigation - Hidden on mobile because it's in the bottom nav */}
+          <div className="stagger-2 hidden md:block">
             <h3 className="text-stone-100 font-bold uppercase tracking-widest text-xs mb-6">
               Explore
             </h3>
@@ -143,8 +174,8 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-stone-900 bg-stone-950/50">
+      {/* Bottom Bar (Desktop Only) */}
+      <div className="hidden md:block border-t border-stone-900 bg-stone-950/50">
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-stone-600">
             <p>&copy; {currentYear} Cielito's Wrld. All rights reserved.</p>
