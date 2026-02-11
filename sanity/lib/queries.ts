@@ -264,14 +264,19 @@ export const HOME_PAGE_QUERY = `
     },
     "featuredWork": {
       "title": coalesce(*[_type == "homePage"][0].featuredWork.title, "Featured Work"),
-      "items": *[_type == "galleryAsset" && featured == true && archived != true] | order(_createdAt desc) [0...5] {
+      "items": select(
+        count(*[_type == "work" && featured == true && archived != true]) > 0 => 
+          *[_type == "work" && featured == true && archived != true] | order(year desc, _createdAt desc) [0...5],
+        *[_type == "galleryAsset" && featured == true && archived != true] | order(_createdAt desc) [0...5]
+      ) {
         _id,
+        _type,
         title,
         "slug": slug.current,
-        category,
-        "excerpt": "",
-        "coverImage": image,
-        "year": string::split(_createdAt, "-")[0]
+        "category": coalesce(client, category, "Portfolio"),
+        excerpt,
+        "coverImage": coalesce(coverImage, image) { asset->{ _id, url, metadata { dimensions, lqip } } },
+        year
       }
     },
     "testimonials": *[_type == "homeTestimonials"][0] {

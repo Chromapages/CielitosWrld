@@ -17,12 +17,12 @@ const config: Config = {
       },
     },
     fontFamily: {
-      sans: ['Inter', 'sans-serif'],
-      body: ['var(--font-roboto)', 'Roboto', '-apple-system', 'sans-serif'],
-      heading: ['var(--font-newsreader)', 'Newsreader', 'Georgia', 'serif'],
-      display: ['var(--font-pattaya)', 'Pattaya', 'Georgia', 'serif'],
+      sans: ['var(--font-inter)', 'Inter', 'sans-serif'],
+      body: ['var(--font-inter)', 'Inter', 'sans-serif'], // Space Grotesk/Inter as primary
+      heading: ['var(--font-archivo)', 'Archivo', 'sans-serif'], // Newsreader -> Archivo
+      display: ['var(--font-pattaya)', 'Pattaya', 'serif'],
       pattaya: ['var(--font-pattaya)', 'cursive'],
-      inter: ['Inter', 'sans-serif'],
+      inter: ['var(--font-inter)', 'sans-serif'],
       archivo: ['var(--font-archivo)', 'sans-serif'],
     },
     extend: {

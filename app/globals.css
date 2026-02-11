@@ -1145,7 +1145,7 @@ html {
 
 /* Prose Custom Styles */
 .prose-custom {
-  font-family: var(--font-roboto), 'Roboto', -apple-system, sans-serif;
+  font-family: var(--font-inter), 'Inter', sans-serif;
   color: #09090B;
 }
 
@@ -1154,7 +1154,7 @@ html {
 }
 
 .prose-custom h2 {
-  font-family: var(--font-newsreader), 'Newsreader', Georgia, serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 28px;
   font-weight: 600;
   color: #18181B;
@@ -1175,7 +1175,7 @@ html {
 }
 
 .prose-custom h3 {
-  font-family: var(--font-newsreader), 'Newsreader', Georgia, serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 22px;
   font-weight: 600;
   color: #18181B;
@@ -1216,7 +1216,7 @@ html {
 }
 
 .prose-custom blockquote p {
-  font-family: var(--font-newsreader), 'Newsreader', Georgia, serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
   font-size: 1.5rem;
   line-height: 1.4;
   color: #3F3F46;
@@ -1280,11 +1280,11 @@ html {
 
 /* Font Family Utilities */
 .font-heading {
-  font-family: var(--font-newsreader), 'Newsreader', Georgia, serif;
+  font-family: var(--font-archivo), 'Archivo', sans-serif;
 }
 
 .font-body {
-  font-family: var(--font-roboto), 'Roboto', -apple-system, sans-serif;
+  font-family: var(--font-inter), 'Inter', sans-serif;
 }
 
 /* Smooth scroll */
@@ -1457,4 +1457,62 @@ html {
 
 .dark .prose-reading hr {
   background: linear-gradient(to right, transparent, #3f3f46, transparent);
+}
+
+/* ========================================
+   Smoothness & Premium Polish Additions
+   ======================================== */
+
+/* Shimmer effect for SmoothImage */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Elastic Micro-interactions */
+.btn-premium {
+  position: relative;
+  overflow: hidden;
+  transition: all 500ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.btn-premium:hover {
+  @apply scale-[1.02] shadow-elevation-3;
+}
+
+.btn-premium:active {
+  @apply scale-[0.98];
+}
+
+/* Fluid Navigation Underline */
+.nav-link-premium {
+  @apply relative py-1;
+}
+
+.nav-link-premium::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: #822c01;
+  /* orange-900 equivalent or theme variable */
+  transform-origin: right;
+  transition: transform 500ms cubic-bezier(0.19, 1, 0.22, 1);
+  transform: scaleX(0);
+}
+
+.nav-link-premium:hover::after {
+  @apply origin-left scale-x-100;
+}
+
+/* Soft transition for glass elements */
+.glass-card-smooth {
+  @apply transition-all duration-500 ease-out;
+}
+
+.glass-card-smooth:hover {
+  @apply bg-white/80 dark:bg-black/50 backdrop-blur-xl border-white/40;
 }

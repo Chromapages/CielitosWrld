@@ -10,38 +10,14 @@ import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { client } from '@/sanity/lib/client';
 import { SITE_SETTINGS_QUERY } from '@/sanity/lib/queries';
 
-// Import TikTok Sans from Google Fonts
-// Define local font
-// const fitzgeraldBold = localFont({
-//   src: '../public/fonts/Fitzgerald-Bold.otf',
-//   variable: '--font-fitzgerald-bold',
-//   display: 'swap',
-// });
-
 // Import Google Fonts
-import { Inter, Pattaya, Roboto, Newsreader, Archivo, Space_Grotesk } from 'next/font/google';
-
-// Configure TikTok Sans (using Inter as base)
-const tiktokSans = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-tiktok-sans',
-  display: 'swap',
-});
+import { Inter, Pattaya, Archivo } from 'next/font/google';
 
 // Configure Inter font
 const inter = Inter({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-inter',
-  display: 'swap',
-});
-
-// Configure Roboto font
-const roboto = Roboto({
-  subsets: ['latin'],
-  weight: ['400'],
-  variable: '--font-roboto',
   display: 'swap',
 });
 
@@ -53,15 +29,7 @@ const pattaya = Pattaya({
   display: 'swap',
 });
 
-// Configure Newsreader font (for blog editorial)
-const newsreader = Newsreader({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-newsreader',
-  display: 'swap',
-});
-
-// Configure Archivo font (display headings)
+// Configure Archivo font (headings and UI)
 const archivo = Archivo({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800', '900'],
@@ -69,22 +37,15 @@ const archivo = Archivo({
   display: 'swap',
 });
 
-// Configure Space Grotesk font (body text)
-const spaceGrotesk = Space_Grotesk({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-space-grotesk',
-  display: 'swap',
-});
-
 // Font variables for CSS-in-JS
 const fontVariables = {
   '--font-sans': inter.style.fontFamily,
+  '--font-inter': inter.style.fontFamily,
   '--font-display': pattaya.style.fontFamily,
+  '--font-pattaya': pattaya.style.fontFamily,
   '--font-heading': archivo.style.fontFamily,
-  '--font-body': spaceGrotesk.style.fontFamily,
   '--font-archivo': archivo.style.fontFamily,
-  '--font-space-grotesk': spaceGrotesk.style.fontFamily,
+  '--font-body': inter.style.fontFamily, // Space Grotesk -> Inter
 } as const;
 
 async function getSiteSettings() {
@@ -181,13 +142,13 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${tiktokSans.variable} ${pattaya.variable} ${roboto.variable} ${newsreader.variable} ${archivo.variable} ${spaceGrotesk.variable} font-sans`}
+      className={`${inter.variable} ${pattaya.variable} ${archivo.variable} font-sans`}
       suppressHydrationWarning
     >
       <body
         className="min-h-screen flex flex-col bg-brand-50 dark:bg-brand-950 dark:text-brand-50"
         style={fontVariables as React.CSSProperties}
-        suppressHydrationWarning={true}
+        suppressHydrationWarning
       >
         <ThemeProvider
           attribute="class"

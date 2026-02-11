@@ -27,8 +27,9 @@ interface FeaturedWorkProps {
 
 export default function FeaturedWork({ data }: FeaturedWorkProps) {
     // Process items safely
-    const projects: Project[] = (data?.items || []).map((item: any) => ({
+    const projects = (data?.items || []).map((item: any) => ({
         id: item._id,
+        type: item._type, // Keep track of document type
         title: item.title || 'Untitled Project',
         // 'category' here comes from the query mapping 'client' -> 'category'
         category: item.category || 'Portfolio',
@@ -39,6 +40,12 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
         year: item.year || new Date().getFullYear(),
         excerpt: item.excerpt
     }));
+
+    // Helper to generate the correct link
+    const getProjectLink = (project: any) => {
+        if (project.type === 'galleryAsset') return '/gallery';
+        return `/work/${project.slug}`;
+    };
 
     const hasProjects = projects.length > 0;
 
@@ -101,7 +108,7 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                             {/* HERO PROJECT (50% width on XL) */}
                             {heroProject && (
                                 <Link
-                                    href={`/work/${heroProject.slug}`}
+                                    href={getProjectLink(heroProject)}
                                     className="group relative w-full xl:w-1/2 rounded-[2rem] overflow-hidden shadow-xl aspect-[4/5] xl:aspect-[3/4]"
                                 >
                                     <Image
@@ -144,7 +151,7 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                             <div className="w-full xl:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                                 {gridProjects.map((project, idx) => (
                                     <Link
-                                        href={`/work/${project.slug}`}
+                                        href={getProjectLink(project)}
                                         key={project.id}
                                         className={`group relative w-full aspect-[4/5] rounded-[1.5rem] overflow-hidden shadow-lg bg-stone-200 dark:bg-stone-800 ${idx < 4 ? `stagger-${idx + 1}` : ''}`}
                                     >
@@ -181,7 +188,7 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                                 {projects.map((project) => (
                                     <Link
                                         key={project.id}
-                                        href={`/work/${project.slug}`}
+                                        href={getProjectLink(project)}
                                         className="flex-[0_0_92%] min-w-0 pr-4 relative"
                                     >
                                         <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden shadow-lg bg-stone-200 dark:bg-stone-800">
