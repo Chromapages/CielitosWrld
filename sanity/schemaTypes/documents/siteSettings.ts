@@ -55,6 +55,17 @@ export default defineType({
         },
       ],
     }),
+    defineField({
+      name: 'social',
+      title: 'Social Links',
+      type: 'object',
+      fields: [
+        { name: 'instagram', type: 'url', title: 'Instagram' },
+        { name: 'youtube', type: 'url', title: 'YouTube' },
+        { name: 'tiktok', type: 'url', title: 'TikTok' },
+        { name: 'threads', type: 'url', title: 'Threads' },
+      ],
+    }),
   ],
   preview: {
     prepare() {

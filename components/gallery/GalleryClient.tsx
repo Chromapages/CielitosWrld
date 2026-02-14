@@ -118,7 +118,10 @@ export default function GalleryClient({ initialItems, pageData }: GalleryClientP
     const activeFilters = getActiveFilters();
 
     return (
-        <div className="min-h-screen bg-white dark:bg-stone-950 pt-24 pb-20 md:pt-32 -mt-16 md:-mt-24 relative">
+        <div className={cn(
+            "min-h-screen pt-24 pb-20 md:pt-32 -mt-16 md:-mt-24 relative transition-colors duration-700 ease-in-out",
+            mediaType === 'video' ? "bg-stone-950 text-white" : "bg-white dark:bg-stone-950"
+        )}>
             {/* Background Image */}
             {pageData?.pageBackground && (
                 <PageBackground image={pageData.pageBackground} />
@@ -135,8 +138,23 @@ export default function GalleryClient({ initialItems, pageData }: GalleryClientP
                         <p className="text-stone-600 dark:text-stone-400 text-lg max-w-2xl">
                             {pageData?.subtitle || 'A curated collection of moments, captured in time.'}
                         </p>
-                        <div className="text-sm font-medium text-stone-500 dark:text-stone-500">
-                            Showing {filteredItems.length} of {items.length} results
+                        <div className="flex items-center gap-4">
+                            {mediaType === 'video' && pageData?.youtubeChannelUrl && (
+                                <a
+                                    href={pageData.youtubeChannelUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-full transition-colors shadow-lg shadow-red-900/20 group"
+                                >
+                                    <svg className="w-4 h-4 fill-current group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
+                                        <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+                                    </svg>
+                                    SUBSCRIBE
+                                </a>
+                            )}
+                            <div className="text-sm font-medium text-stone-500 dark:text-stone-500">
+                                Showing {filteredItems.length} of {items.length} results
+                            </div>
                         </div>
                     </div>
 
@@ -272,6 +290,8 @@ export default function GalleryClient({ initialItems, pageData }: GalleryClientP
                             onFilterChange={handleFilterChange}
                             onClear={clearFilters}
                             activeCount={activeFilterCount}
+                            mediaType={mediaType}
+                            onMediaTypeChange={setMediaType}
                         />
                     </div>
 
@@ -307,7 +327,7 @@ export default function GalleryClient({ initialItems, pageData }: GalleryClientP
                 {/* Lightbox */}
                 {selectedImageIndex !== null && (
                     <Lightbox
-                        items={isFiltered ? filteredItems : items}
+                        items={filteredItems}
                         initialIndex={selectedImageIndex}
                         onClose={() => setSelectedImageIndex(null)}
                     />

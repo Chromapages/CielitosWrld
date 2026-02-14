@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Instagram, Mail, MapPin, Phone, Camera, AtSign, ArrowRight } from 'lucide-react';
+import { Instagram, Mail, MapPin, Phone, Camera, AtSign, ArrowRight, Youtube } from 'lucide-react';
 
 const navigation = {
   explore: [
@@ -25,6 +25,7 @@ interface ContactInfo {
   location?: string;
   socialLinks?: {
     instagram?: string;
+    youtube?: string;
     tiktok?: string;
     threads?: string;
   };
@@ -35,6 +36,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
 
   const socialLinks = [
     { name: 'Instagram', href: contactInfo?.socialLinks?.instagram || 'https://instagram.com/cielitosworld', icon: Instagram },
+    { name: 'Youtube', href: contactInfo?.socialLinks?.youtube || 'https://youtube.com/@abajodelcielo?si=kB_wq_usUrtd_w11', icon: Youtube },
     { name: 'Threads', href: contactInfo?.socialLinks?.threads || 'https://www.threads.net/@cielitosworld', icon: AtSign },
     { name: 'Email', href: `mailto:${contactInfo?.email || 'Abajo.Del.Cieloo@gmail.com'}`, icon: Mail },
   ];

@@ -13,6 +13,12 @@ export interface GalleryItem {
   location?: string;
   mediaType: 'photo' | 'video';
   videoEmbedUrl?: string;
+  videoStats?: {
+    duration?: string;
+    views?: string;
+  };
+  hoverVideo?: string;
+  isShort?: boolean;
   videoThumbnail?: {
     asset: {
       _id: string;

@@ -18,7 +18,11 @@ export default async function Contact() {
 
   return (
     <div className="-mt-16 md:-mt-24">
-      <ContactStage socialLinks={data?.socialLinks} email={data?.email} />
+      <ContactStage
+        socialLinks={data?.socialLinks}
+        email={data?.email}
+        pageBackground={data?.pageBackground}
+      />
     </div>
   );
 }

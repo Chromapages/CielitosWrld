@@ -18,6 +18,11 @@ interface SocialLinks {
 interface ContactStageProps {
     socialLinks?: SocialLinks;
     email?: string;
+    pageBackground?: {
+        asset: {
+            url: string;
+        };
+    };
 }
 
 const TikTokIcon = ({ className }: { className?: string }) => (
@@ -48,7 +53,7 @@ const ThreadsIcon = ({ className }: { className?: string }) => (
     </svg>
 );
 
-export default function ContactStage({ socialLinks, email }: ContactStageProps) {
+export default function ContactStage({ socialLinks, email, pageBackground }: ContactStageProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // Map Sanity object to an array for rendering
@@ -67,11 +72,11 @@ export default function ContactStage({ socialLinks, email }: ContactStageProps) 
 
     return (
         <div className="relative h-screen w-full overflow-hidden bg-stone-900">
-            {/* Background Media - Placeholder for now, can be replaced with Video or Sanity Image */}
+            {/* Background Media */}
             <div className="absolute inset-0 z-0">
                 <Image
-                    src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=2560"
-                    alt="Photographer in action"
+                    src={pageBackground?.asset?.url || "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=2560"}
+                    alt="Contact background"
                     fill
                     className="object-cover opacity-60"
                     priority

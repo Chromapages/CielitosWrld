@@ -38,6 +38,12 @@ export default defineType({
             type: 'string',
             initialValue: 'Clear all filters',
         }),
+        defineField({
+            name: 'youtubeChannelUrl',
+            title: 'YouTube Channel URL',
+            type: 'url',
+            description: 'Link for the "Subscribe" button in the video gallery',
+        }),
     ],
     preview: {
         prepare() {

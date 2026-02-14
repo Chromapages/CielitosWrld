@@ -51,6 +51,12 @@ export const GALLERY_QUERY = `
     location,
     mediaType,
     videoEmbedUrl,
+    "videoStats": videoStats {
+      duration,
+      views
+    },
+    "hoverVideo": hoverVideo.asset->url,
+    isShort,
     featured,
     image {
       asset-> {
@@ -226,8 +232,7 @@ export const HOME_PAGE_QUERY = `
       secondaryCtaLink
     },
     "contact": *[_type == "homePage"][0].contact {
-      email,
-      phone
+      email
     },
     "about": *[_type == "homeAbout"][0] {
       eyebrow,
@@ -264,19 +269,26 @@ export const HOME_PAGE_QUERY = `
     },
     "featuredWork": {
       "title": coalesce(*[_type == "homePage"][0].featuredWork.title, "Featured Work"),
-      "items": select(
-        count(*[_type == "work" && featured == true && archived != true]) > 0 => 
-          *[_type == "work" && featured == true && archived != true] | order(year desc, _createdAt desc) [0...5],
-        *[_type == "galleryAsset" && featured == true && archived != true] | order(_createdAt desc) [0...5]
-      ) {
+      "items": *[
+        (_type == "work" || _type == "galleryAsset") && 
+        featured == true && 
+        archived != true
+      ] | order(_createdAt desc) [0...5] {
         _id,
         _type,
         title,
         "slug": slug.current,
         "category": coalesce(client, category, "Portfolio"),
         excerpt,
-        "coverImage": coalesce(coverImage, image) { asset->{ _id, url, metadata { dimensions, lqip } } },
-        year
+        "coverImage": coalesce(coverImage, image, videoThumbnail) { 
+          asset->{ 
+            _id, 
+            url, 
+            metadata { dimensions, lqip } 
+          } 
+        },
+        year,
+        _createdAt
       }
     },
     "testimonials": *[_type == "homeTestimonials"][0] {
@@ -373,6 +385,7 @@ export const GALLERY_PAGE_QUERY = `
     subtitle,
     noImagesMessage,
     clearFiltersLabel,
+    youtubeChannelUrl,
     pageBackground { asset->{ _id, url, metadata { dimensions, lqip } } }
   }
 `
@@ -385,18 +398,16 @@ export const WORK_PAGE_QUERY = `
 `
 
 export const CONTACT_PAGE_QUERY = `
-  *[_type == "contactPage"][0] {
+  *[_type == "contactPage" && _id == "contactPage"][0] {
     title,
     introText,
     pageBackground { asset->{ _id, url, metadata { dimensions, lqip } } },
     email,
-    phone,
     location,
     socialLinks,
     faqs,
     studioLabel,
     emailLabel,
-    phoneLabel,
     followMeLabel
   }
 `

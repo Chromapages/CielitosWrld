@@ -14,14 +14,24 @@ interface GalleryMobileFiltersProps {
     onFilterChange: (type: keyof GalleryMobileFiltersProps['filters'], value: string) => void;
     onClear: () => void;
     activeCount: number;
+    mediaType: 'photo' | 'video';
+    onMediaTypeChange: (type: 'photo' | 'video') => void;
 }
 
-export default function GalleryMobileFilters({ filters, onFilterChange, onClear, activeCount }: GalleryMobileFiltersProps) {
+export default function GalleryMobileFilters({
+    filters,
+    onFilterChange,
+    onClear,
+    activeCount,
+    mediaType,
+    onMediaTypeChange
+}: GalleryMobileFiltersProps) {
     const [isOpen, setIsOpen] = useState(false);
 
     // Predefined quick filters
     const quickFilters = [
         { label: 'All', type: 'all', value: 'all' },
+        { label: 'Videos', type: 'mediaType', value: 'video' },
         { label: 'Portraits', type: 'category', value: 'Portraits' },
         { label: 'Events', type: 'category', value: 'Events' },
         { label: 'Brands', type: 'category', value: 'Brands' },
@@ -31,7 +41,8 @@ export default function GalleryMobileFilters({ filters, onFilterChange, onClear,
 
     // Helper to check if a filter is active
     const isActive = (type: string, value: string) => {
-        if (type === 'all') return activeCount === 0;
+        if (type === 'all') return activeCount === 0 && mediaType === 'photo';
+        if (type === 'mediaType') return mediaType === value;
         return filters[type as keyof typeof filters]?.includes(value);
     };
 
@@ -39,6 +50,9 @@ export default function GalleryMobileFilters({ filters, onFilterChange, onClear,
     const handleQuickFilter = (type: string, value: string) => {
         if (type === 'all') {
             onClear();
+            onMediaTypeChange('photo');
+        } else if (type === 'mediaType') {
+            onMediaTypeChange(value as any);
         } else {
             onFilterChange(type as any, value);
         }
@@ -138,6 +152,35 @@ export default function GalleryMobileFilters({ filters, onFilterChange, onClear,
 
                         {/* Content */}
                         <div className="flex-1 overflow-y-auto p-6 space-y-8">
+                            {/* Media Type Toggle */}
+                            <div>
+                                <h3 className="font-bold text-stone-900 dark:text-stone-100 mb-3 text-lg uppercase tracking-wider">Show Me</h3>
+                                <div className="flex p-1 bg-stone-100 dark:bg-stone-900 rounded-xl">
+                                    <button
+                                        onClick={() => onMediaTypeChange('photo')}
+                                        className={cn(
+                                            "flex-1 py-3 text-sm font-bold rounded-lg transition-all",
+                                            mediaType === 'photo'
+                                                ? "bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
+                                                : "text-stone-500 hover:text-stone-900 dark:hover:text-stone-300"
+                                        )}
+                                    >
+                                        Photos
+                                    </button>
+                                    <button
+                                        onClick={() => onMediaTypeChange('video')}
+                                        className={cn(
+                                            "flex-1 py-3 text-sm font-bold rounded-lg transition-all",
+                                            mediaType === 'video'
+                                                ? "bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
+                                                : "text-stone-500 hover:text-stone-900 dark:hover:text-stone-300"
+                                        )}
+                                    >
+                                        Videos
+                                    </button>
+                                </div>
+                            </div>
+
                             <MobileFilterGroup
                                 title="Type"
                                 options={['Portraits', 'Couples', 'Events', 'Music & Artists', 'Brands', 'Personal']}

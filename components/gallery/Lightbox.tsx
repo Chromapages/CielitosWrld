@@ -2,11 +2,12 @@
 
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import Image from 'next/image';
-import { X, ChevronLeft, ChevronRight, Share2, Download, Info } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Share2, Download, Info, Eye } from 'lucide-react';
 import { GalleryItem } from '@/app/gallery/page';
 import { urlFor } from '@/sanity/lib/image';
 import useEmblaCarousel from 'embla-carousel-react';
 import { cn } from '@/lib/utils';
+import { getYouTubeThumbnail } from '@/lib/videoUtils';
 
 interface LightboxProps {
   items: GalleryItem[];
@@ -53,22 +54,28 @@ function OptimizedLightboxImage({
   // Check if already loaded (cached)
   const isCached = loadedImageCache.has(imageId);
 
+  // Handle video vs image assets
+  const mainImage = item.mediaType === 'video' ? item.videoThumbnail : item.image;
+
+  // If no image is available at all, we can't render much (shouldn't happen with our fallbacks)
+  if (!mainImage && item.mediaType !== 'video') return null;
+
   // Get the thumbnail URL (same as used in gallery grid)
-  const thumbnailUrl = urlFor(item.image).width(800).url();
+  const thumbnailUrl = mainImage ? urlFor(mainImage).width(800).url() : null;
+
   // Get the LQIP (Low Quality Image Placeholder) if available
-  const lqipUrl = item.image?.asset?.metadata?.lqip;
+  const lqipUrl = mainImage?.asset?.metadata?.lqip;
 
   // Get the full-size URL for lightbox
-  const fullSizeUrl = urlFor(item.image).width(1600).quality(90).auto('format').url();
+  const fullSizeUrl = mainImage
+    ? urlFor(mainImage).width(1600).quality(90).auto('format').url()
+    : (item.mediaType === 'video' && item.videoEmbedUrl ? getYouTubeThumbnail(item.videoEmbedUrl, 'maxres') || null : null);
 
   const handleLoad = useCallback(() => {
     setIsLoaded(true);
     loadedImageCache.add(imageId);
     onLoad?.();
   }, [imageId, onLoad]);
-
-  // Use LQIP or thumbnail as placeholder
-  const placeholderUrl = lqipUrl || thumbnailUrl;
 
   return (
     <div className="relative w-full h-full">
@@ -80,7 +87,7 @@ function OptimizedLightboxImage({
       )}
 
       {/* Blur-up placeholder layer */}
-      {!isCached && (
+      {!isCached && thumbnailUrl && (
         <div
           className={cn(
             "absolute inset-0 z-0 transition-opacity duration-500",
@@ -100,21 +107,24 @@ function OptimizedLightboxImage({
       )}
 
       {/* Full-size image */}
-      <Image
-        src={fullSizeUrl}
-        alt={item.image.alt || item.title}
-        fill
-        className={cn(
-          "object-contain z-1 transition-opacity duration-300",
-          (isCached || isLoaded) ? "opacity-100" : "opacity-0"
-        )}
-        priority={isActive}
-        quality={90}
-        sizes="100vw"
-        onLoad={handleLoad}
-        placeholder={lqipUrl ? 'blur' : 'empty'}
-        blurDataURL={lqipUrl}
-      />
+      {fullSizeUrl && (
+        <Image
+          src={fullSizeUrl}
+          alt={(mainImage as any)?.alt || item.title}
+          fill
+          className={cn(
+            "object-contain z-1 transition-opacity duration-300",
+            (isCached || isLoaded) ? "opacity-100" : "opacity-0"
+          )}
+          priority={isActive}
+          quality={90}
+          sizes="100vw"
+          onLoad={handleLoad}
+          placeholder={lqipUrl ? 'blur' : 'empty'}
+          blurDataURL={lqipUrl || undefined}
+          unoptimized={!mainImage} // Required for external YouTube URLs
+        />
+      )}
     </div>
   );
 }
@@ -238,13 +248,22 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
               <div key={item._id} className="flex-[0_0_100%] min-w-0 relative h-full flex items-center justify-center p-0 md:p-12">
                 <div className="relative w-full h-full max-w-6xl max-h-[100dvh] md:max-h-[85vh] flex items-center justify-center">
                   {item.mediaType === 'video' && item.videoEmbedUrl ? (
-                    <div className="w-full aspect-video bg-black rounded-lg overflow-hidden shadow-2xl">
-                      <iframe
-                        src={getEmbedUrl(item.videoEmbedUrl)}
-                        className="w-full h-full"
-                        allow="autoplay; fullscreen; picture-in-picture"
-                        allowFullScreen
-                      />
+                    <div className="w-full aspect-video bg-black rounded-lg overflow-hidden shadow-2xl relative">
+                      {/* Only render the actual iframe when this slide is centered (active) */}
+                      {index === currentIndex ? (
+                        <iframe
+                          src={getEmbedUrl(item.videoEmbedUrl)}
+                          className="w-full h-full"
+                          allow="autoplay; fullscreen; picture-in-picture"
+                          allowFullScreen
+                        />
+                      ) : (
+                        /* Show the thumbnail as a static placeholder for inactive slides */
+                        <OptimizedLightboxImage
+                          item={item}
+                          isActive={false}
+                        />
+                      )}
                     </div>
                   ) : (
                     <OptimizedLightboxImage

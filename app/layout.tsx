@@ -72,7 +72,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const ogImageAlt = settings?.seo?.ogImage?.alt || siteTitle;
 
   return {
-    metadataBase: new URL('https://cielitos-wrld.com'),
+    metadataBase: new URL('https://cielitosworld.com'),
     title: {
       default: metaTitle,
       template: `%s | ${siteTitle}`,

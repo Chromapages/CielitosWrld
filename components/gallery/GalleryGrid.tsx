@@ -51,8 +51,8 @@ export default function GalleryGrid({ items, onImageClick, viewMode = 'masonry' 
       <motion.div
         ref={containerRef}
         className="columns-2 md:columns-2 lg:columns-3 gap-3 md:gap-6 space-y-3 md:space-y-6"
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
+        initial="visible"
+        animate="visible"
         variants={activeContainerVariants}
       >
         {items.map((item, idx) => (
@@ -76,8 +76,8 @@ export default function GalleryGrid({ items, onImageClick, viewMode = 'masonry' 
       <motion.div
         ref={containerRef}
         className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6"
-        initial="hidden"
-        animate={isInView ? "visible" : "hidden"}
+        initial="visible"
+        animate="visible"
         variants={activeContainerVariants}
       >
         {items.map((item, idx) => (

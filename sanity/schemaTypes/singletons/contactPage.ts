@@ -34,11 +34,13 @@ export default defineType({
             type: 'string',
             description: 'Override the global site email for this page (optional)',
         }),
-        defineField({
-            name: 'phone',
-            title: 'Phone Number',
-            type: 'string',
-        }),
+        /*
+                defineField({
+                    name: 'phone',
+                    title: 'Phone Number',
+                    type: 'string',
+                }),
+        */
         defineField({
             name: 'location',
             title: 'Location',
@@ -57,12 +59,14 @@ export default defineType({
             type: 'string',
             initialValue: 'Email',
         }),
-        defineField({
-            name: 'phoneLabel',
-            title: 'Phone Label',
-            type: 'string',
-            initialValue: 'Phone',
-        }),
+        /*
+                defineField({
+                    name: 'phoneLabel',
+                    title: 'Phone Label',
+                    type: 'string',
+                    initialValue: 'Phone',
+                }),
+        */
         defineField({
             name: 'followMeLabel',
             title: 'Follow Me Label',
@@ -75,6 +79,7 @@ export default defineType({
             type: 'object' as const,
             fields: [
                 { name: 'instagram', type: 'url', title: 'Instagram URL' },
+                { name: 'youtube', type: 'url', title: 'YouTube URL' },
                 { name: 'tiktok', type: 'url', title: 'TikTok URL' },
                 { name: 'threads', type: 'url', title: 'Threads URL' },
                 { name: 'linkedin', type: 'url', title: 'LinkedIn URL' },

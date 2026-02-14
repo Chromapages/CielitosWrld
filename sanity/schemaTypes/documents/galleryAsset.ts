@@ -51,6 +51,44 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'videoStats',
+      title: 'Video Statistics',
+      type: 'object',
+      hidden: ({ document }) => document?.mediaType !== 'video',
+      fields: [
+        defineField({
+          name: 'duration',
+          title: 'Duration',
+          type: 'string',
+          description: 'e.g. 3:45',
+        }),
+        defineField({
+          name: 'views',
+          title: 'View Count',
+          type: 'string',
+          description: 'e.g. 1.2K',
+        }),
+      ],
+    }),
+    defineField({
+      name: 'hoverVideo',
+      title: 'Hover Preview Video',
+      type: 'file',
+      options: {
+        accept: 'video/mp4,video/webm',
+      },
+      description: 'Short, silent video for hover preview (MP4 or WebM)',
+      hidden: ({ document }) => document?.mediaType !== 'video',
+    }),
+    defineField({
+      name: 'isShort',
+      title: 'Is YouTube Short?',
+      type: 'boolean',
+      description: 'Mark true for 9:16 vertical videos',
+      hidden: ({ document }) => document?.mediaType !== 'video',
+      initialValue: false,
+    }),
+    defineField({
       name: 'image',
       title: 'Image',
       type: 'image' as const,
@@ -101,6 +139,7 @@ export default defineType({
       type: 'image' as const,
       group: 'media',
       options: { hotspot: true },
+      description: 'Optional. If left empty, the YouTube thumbnail will be used automatically.',
       hidden: ({ document }) => document?.mediaType !== 'video',
       fields: [
         defineField({
@@ -108,9 +147,11 @@ export default defineType({
           title: 'Alt Text',
           type: 'string',
           description: 'Describe the thumbnail image',
+          // Only require alt text if a thumbnail image is actually uploaded
           validation: (Rule) =>
             Rule.custom((value, context) => {
-              if (context.document?.mediaType === 'video' && !value) {
+              // @ts-ignore - parent type check
+              if (context.document?.mediaType === 'video' && context.parent?.asset && !value) {
                 return 'Alt text is required for video thumbnails'
               }
               return true

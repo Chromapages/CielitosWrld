@@ -11,14 +11,13 @@ interface ContactCTAProps {
     buttonText?: string;
     buttonLink?: string;
     email?: string;
-    phone?: string;
   };
 }
 
 export default function ContactCTA({ data }: ContactCTAProps) {
   const [copied, setCopied] = useState<string | null>(null);
 
-  const copyToClipboard = async (text: string, type: 'email' | 'phone') => {
+  const copyToClipboard = async (text: string, type: 'email') => {
     try {
       await navigator.clipboard.writeText(text);
       setCopied(type);
@@ -103,22 +102,6 @@ export default function ContactCTA({ data }: ContactCTAProps) {
               </span>
             </div>
 
-            <div
-              className="flex items-center p-3 rounded-md bg-[#2c3325] border border-white/10 hover:bg-[#3a4230] cursor-pointer transition-colors group relative"
-              onClick={() => copyToClipboard(data?.phone || '(951) 563-2759', 'phone')}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && copyToClipboard(data?.phone || '(951) 563-2759', 'phone')}
-              aria-label="Click to copy phone number"
-            >
-              <svg className="w-5 h-5 mr-3 text-[#822c01]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
-              </svg>
-              <span className="text-sm text-white">{data?.phone || '(951) 563-2759'}</span>
-              <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-xs text-[#f8f3e9]/70 group-hover:opacity-100 opacity-0 transition-opacity">
-                {copied === 'phone' ? 'Copied!' : 'Click to copy'}
-              </span>
-            </div>
           </div>
 
           <div className="mt-6">

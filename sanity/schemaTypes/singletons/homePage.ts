@@ -83,12 +83,14 @@ export default defineType({
                     type: 'string',
                     description: 'Contact email address'
                 }),
-                defineField({
-                    name: 'phone',
-                    title: 'Phone Number',
-                    type: 'string',
-                    description: 'Contact phone number'
-                })
+                /*
+                                defineField({
+                                    name: 'phone',
+                                    title: 'Phone Number',
+                                    type: 'string',
+                                    description: 'Contact phone number'
+                                })
+                */
             ]
         }),
     ],

@@ -37,7 +37,7 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
             ? urlFor(item.coverImage).width(1200).url()
             : 'https://placehold.co/800x1000/png?text=No+Image',
         slug: item.slug,
-        year: item.year || new Date().getFullYear(),
+        year: item.year || (item._createdAt ? new Date(item._createdAt).getFullYear() : new Date().getFullYear()),
         excerpt: item.excerpt
     }));
 
