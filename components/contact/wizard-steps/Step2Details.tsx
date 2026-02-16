@@ -17,7 +17,7 @@ export default function Step2Details({ formData, updateFormData }: Step2Props) {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.1 }}
             >
-                <label className="block text-sm font-bold text-stone-500 dark:text-stone-400 mb-3 uppercase tracking-wider">
+                <label htmlFor="date" className="block text-sm font-bold text-stone-500 dark:text-stone-400 mb-3 uppercase tracking-wider">
                     Preferred Date (Optional)
                 </label>
                 <div className="relative">
@@ -25,6 +25,7 @@ export default function Step2Details({ formData, updateFormData }: Step2Props) {
                         <CalendarIcon className="w-5 h-5" />
                     </div>
                     <input
+                        id="date"
                         type="date"
                         className="w-full pl-12 pr-4 py-4 bg-white dark:bg-stone-800 border-2 border-stone-200 dark:border-stone-700 rounded-xl focus:border-orange-500 focus:ring-0 outline-none transition-all font-medium text-stone-800 dark:text-stone-100"
                         onChange={(e) => updateFormData({ date: e.target.valueAsDate || undefined })}
@@ -37,7 +38,7 @@ export default function Step2Details({ formData, updateFormData }: Step2Props) {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2 }}
             >
-                <label className="block text-sm font-bold text-stone-500 dark:text-stone-400 mb-3 uppercase tracking-wider">
+                <label htmlFor="location" className="block text-sm font-bold text-stone-500 dark:text-stone-400 mb-3 uppercase tracking-wider">
                     Location / Venue
                 </label>
                 <div className="relative">
@@ -45,6 +46,7 @@ export default function Step2Details({ formData, updateFormData }: Step2Props) {
                         <MapPin className="w-5 h-5" />
                     </div>
                     <input
+                        id="location"
                         type="text"
                         placeholder="e.g. Joshua Tree, Downtown LA..."
                         value={formData.location || ''}

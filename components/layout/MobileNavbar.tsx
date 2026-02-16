@@ -50,7 +50,7 @@ export default function MobileNavbar() {
               </div>
               <span
                 className={cn(
-                  "text-[10px] font-medium tracking-wide transition-colors duration-300",
+                  "text-[11px] font-medium tracking-wide transition-colors duration-300",
                   isActive
                     ? "text-stone-900 dark:text-stone-100 font-bold"
                     : "text-stone-500 dark:text-stone-400 group-hover:text-stone-700 dark:group-hover:text-stone-300"

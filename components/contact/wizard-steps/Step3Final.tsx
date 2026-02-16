@@ -17,10 +17,11 @@ export default function Step3Final({ formData, updateFormData }: Step3Props) {
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.1 }}
                 >
-                    <label className="block text-sm font-bold text-stone-500 dark:text-stone-400 mb-2 uppercase tracking-wider">
+                    <label htmlFor="name" className="block text-sm font-bold text-stone-500 dark:text-stone-400 mb-2 uppercase tracking-wider">
                         Your Name
                     </label>
                     <input
+                        id="name"
                         type="text"
                         required
                         placeholder="Jane Doe"
@@ -35,10 +36,11 @@ export default function Step3Final({ formData, updateFormData }: Step3Props) {
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2 }}
                 >
-                    <label className="block text-sm font-bold text-stone-500 dark:text-stone-400 mb-2 uppercase tracking-wider">
+                    <label htmlFor="email" className="block text-sm font-bold text-stone-500 dark:text-stone-400 mb-2 uppercase tracking-wider">
                         Email Address
                     </label>
                     <input
+                        id="email"
                         type="email"
                         required
                         placeholder="jane@example.com"
@@ -54,10 +56,11 @@ export default function Step3Final({ formData, updateFormData }: Step3Props) {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.3 }}
             >
-                <label className="block text-sm font-bold text-stone-500 dark:text-stone-400 mb-2 uppercase tracking-wider">
+                <label htmlFor="message" className="block text-sm font-bold text-stone-500 dark:text-stone-400 mb-2 uppercase tracking-wider">
                     Your Message
                 </label>
                 <textarea
+                    id="message"
                     rows={5}
                     placeholder="Tell me a bit more about your vision..."
                     value={formData.message}
