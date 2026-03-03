@@ -50,16 +50,12 @@ function OptimizedLightboxImage({
   isActive: boolean;
   onLoad?: () => void;
 }) {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const imageId = item._id;
-
-  // Check if already loaded (cached)
-  const isCached = loadedImageCache.has(imageId);
+  const [status, setStatus] = useState<'loading' | 'loaded' | 'error'>('loading');
 
   // Handle video vs image assets
   const mainImage = item.mediaType === 'video' ? item.videoThumbnail : item.image;
 
-  // If no image is available at all, we can't render much (shouldn't happen with our fallbacks)
+  // If no image is available at all, we can't render much
   if (!mainImage && item.mediaType !== 'video') return null;
 
   // Get the thumbnail URL (same as used in gallery grid)
@@ -74,28 +70,35 @@ function OptimizedLightboxImage({
     : (item.mediaType === 'video' && item.videoEmbedUrl ? getYouTubeThumbnail(item.videoEmbedUrl, 'maxres') || null : null);
 
   const handleLoad = useCallback(() => {
-    setIsLoaded(true);
-    loadedImageCache.add(imageId);
+    setStatus('loaded');
     onLoad?.();
-  }, [imageId, onLoad]);
+  }, [onLoad]);
+
+  const handleError = useCallback(() => {
+    console.error('Failed to load image:', fullSizeUrl);
+    setStatus('error');
+  }, [fullSizeUrl]);
 
   return (
     <div className="relative w-full h-full">
-      {/* Loading spinner - shows when not cached and not loaded */}
-      {!isCached && !isLoaded && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center">
+      {/* Loading spinner - shows when loading */}
+      {status === 'loading' && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
           <div className="w-10 h-10 border-2 border-white/20 border-t-white/80 rounded-full animate-spin" />
         </div>
       )}
 
+      {/* Error state */}
+      {status === 'error' && (
+        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-white/50 pointer-events-none">
+          <Info size={32} className="mb-2 opacity-50" />
+          <p className="text-sm">Image failed to load</p>
+        </div>
+      )}
+
       {/* Blur-up placeholder layer */}
-      {!isCached && thumbnailUrl && (
-        <div
-          className={cn(
-            "absolute inset-0 z-0 transition-opacity duration-500",
-            isLoaded ? "opacity-0" : "opacity-100"
-          )}
-        >
+      {thumbnailUrl && status === 'loading' && (
+        <div className="absolute inset-0 z-0 transition-opacity duration-500 opacity-100 pointer-events-none">
           <Image
             src={thumbnailUrl}
             alt=""
@@ -112,16 +115,17 @@ function OptimizedLightboxImage({
       {fullSizeUrl && (
         <Image
           src={fullSizeUrl}
-          alt={(mainImage as any)?.alt || item.title}
+          alt={(mainImage as any)?.alt || item.title || 'Gallery item'}
           fill
           className={cn(
             "object-contain z-1 transition-opacity duration-300",
-            (isCached || isLoaded) ? "opacity-100" : "opacity-0"
+            status === 'loaded' ? "opacity-100" : "opacity-0"
           )}
           priority={isActive}
           quality={90}
           sizes="100vw"
           onLoad={handleLoad}
+          onError={handleError}
           placeholder={lqipUrl ? 'blur' : 'empty'}
           blurDataURL={lqipUrl || undefined}
           unoptimized={!mainImage} // Required for external YouTube URLs
