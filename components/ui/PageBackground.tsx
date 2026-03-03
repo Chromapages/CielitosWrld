@@ -15,14 +15,18 @@ interface PageBackgroundProps {
 export default function PageBackground({ image, alt = 'Page Background', className, overlayClassName }: PageBackgroundProps) {
     if (!image) return null;
 
+    const lqip = image?.asset?.metadata?.lqip;
+
     return (
         <div className={`fixed inset-0 z-0 ${className || ''}`}>
             <Image
-                src={urlFor(image).width(1920).url()}
+                src={image?.asset?.url || urlFor(image).width(1920).url()}
                 alt={alt}
                 fill
                 className="object-cover"
                 priority
+                placeholder={lqip ? 'blur' : 'empty'}
+                blurDataURL={lqip}
             />
             {/* Glassmorphism Overlay */}
             <div className={cn("absolute inset-0 backdrop-blur-[3px] bg-white/5 dark:bg-black/5", overlayClassName)} />

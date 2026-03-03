@@ -35,6 +35,9 @@ export default function WorkCard({ work }: WorkCardProps) {
                             src={urlFor(work.coverImage).width(800).url()}
                             alt={work.title}
                             fill
+                            loading="lazy"
+                            placeholder="blur"
+                            blurDataURL={work.coverImage.asset?.metadata?.lqip || ''}
                             className="object-cover transition-transform duration-700 group-hover:scale-105"
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />

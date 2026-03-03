@@ -6,6 +6,7 @@ import { X, ChevronLeft, ChevronRight, Share2, Download, Info, Eye } from 'lucid
 import { GalleryItem } from '@/app/gallery/page';
 import { urlFor } from '@/sanity/lib/image';
 import useEmblaCarousel from 'embla-carousel-react';
+import { useDrag } from '@use-gesture/react';
 import { cn } from '@/lib/utils';
 import { getYouTubeThumbnail } from '@/lib/videoUtils';
 
@@ -61,14 +62,14 @@ function OptimizedLightboxImage({
   if (!mainImage && item.mediaType !== 'video') return null;
 
   // Get the thumbnail URL (same as used in gallery grid)
-  const thumbnailUrl = mainImage ? urlFor(mainImage).width(800).url() : null;
+  const thumbnailUrl = mainImage ? (mainImage?.asset?.url || urlFor(mainImage).width(800).url()) : null;
 
   // Get the LQIP (Low Quality Image Placeholder) if available
   const lqipUrl = mainImage?.asset?.metadata?.lqip;
 
   // Get the full-size URL for lightbox
   const fullSizeUrl = mainImage
-    ? urlFor(mainImage).width(1600).quality(90).auto('format').url()
+    ? (mainImage?.asset?.url || urlFor(mainImage).width(1600).quality(90).auto('format').url())
     : (item.mediaType === 'video' && item.videoEmbedUrl ? getYouTubeThumbnail(item.videoEmbedUrl, 'maxres') || null : null);
 
   const handleLoad = useCallback(() => {
@@ -234,6 +235,25 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
     }
   }, [currentItem]);
 
+  const bindSwipe = useDrag(
+    ({ last, movement: [mx], velocity: [vx], direction: [dx] }) => {
+      if (!last) return;
+      const hasSwipeIntent = Math.abs(mx) > 80 || vx > 0.35;
+      if (!hasSwipeIntent) return;
+
+      if (dx > 0) {
+        handlePrev();
+      } else {
+        handleNext();
+      }
+    },
+    {
+      axis: 'x',
+      pointer: { touch: true },
+      filterTaps: true,
+    }
+  );
+
   return (
     <div className="fixed inset-0 z-[60] bg-black/90 backdrop-blur-xl flex flex-col animate-in fade-in zoom-in-95 duration-300 motion-reduce:animate-none">
 
@@ -241,6 +261,7 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
       <div
         className="flex-1 relative overflow-hidden"
         onClick={() => setShowControls(!showControls)}
+        {...bindSwipe()}
       >
         <div className="h-full" ref={emblaRef}>
           <div className="flex h-full touch-pan-y">

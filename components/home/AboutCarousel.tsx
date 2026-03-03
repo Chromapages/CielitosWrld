@@ -5,7 +5,7 @@ import Image from 'next/image';
 import useEmblaCarousel from 'embla-carousel-react';
 import AutoScroll from 'embla-carousel-auto-scroll';
 import { client } from '@/sanity/lib/client';
-import { urlFor } from '@/sanity/lib/image';
+import { urlFor, sanityLoader } from '@/sanity/lib/image';
 
 interface CarouselImage {
     _id: string;
@@ -54,7 +54,8 @@ export default function AboutCarousel({ images = [] }: AboutCarouselProps) {
                         className="flex-[0_0_80%] sm:flex-[0_0_45%] md:flex-[0_0_30%] lg:flex-[0_0_22%] min-w-0 relative aspect-[3/4] rounded-xl overflow-hidden shadow-md select-none"
                     >
                         <Image
-                            src={urlFor(item.image).width(600).height(800).fit('crop').url()}
+                            loader={sanityLoader}
+                            src={item.image.asset.url || urlFor(item.image).width(600).height(800).fit('crop').url()}
                             alt={item.image.alt || item.title}
                             fill
                             className="object-cover hover:scale-105 transition-transform duration-500"

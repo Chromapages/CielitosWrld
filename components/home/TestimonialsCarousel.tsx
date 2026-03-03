@@ -4,8 +4,9 @@ import { useState, useCallback, useEffect } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { Quote, MessageSquareHeart, Star, Plus, ArrowLeft, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { urlFor } from '@/sanity/lib/image';
+import { urlFor, sanityLoader } from '@/sanity/lib/image';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import {
   Dialog,
   DialogContent,
@@ -80,6 +81,8 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
     description: data?.description || "Hear from the artists, brands, and individuals I've had the pleasure of capturing.",
   };
 
+
+
   return (
     <section className="relative py-20 md:py-32 bg-stone-50 dark:bg-stone-950 overflow-hidden border-t border-stone-200 dark:border-stone-900">
 
@@ -87,12 +90,13 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
       {data?.backgroundImage && (
         <div className="absolute inset-0 z-0">
           <Image
-            src={urlFor(data.backgroundImage).url()}
+            loader={sanityLoader}
+            src={data.backgroundImage?.asset?.url || urlFor(data.backgroundImage).url()}
             alt="Abstract texture background"
             fill
             className="object-cover opacity-[0.03]"
-            placeholder={data.backgroundImage.metadata?.lqip ? 'blur' : 'empty'}
-            blurDataURL={data.backgroundImage.metadata?.lqip}
+            placeholder={data.backgroundImage?.asset?.metadata?.lqip ? 'blur' : 'empty'}
+            blurDataURL={data.backgroundImage?.asset?.metadata?.lqip}
           />
         </div>
       )}
@@ -113,20 +117,22 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
               {displayData.description}
             </p>
 
-            <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-              <DialogTrigger asChild>
-                <button className="btn-press mt-8 inline-flex items-center gap-2 px-6 py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full text-sm font-medium hover:scale-105 transition-transform shadow-lg">
-                  <Plus className="w-4 h-4" />
-                  Leave a Review
-                </button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-lg bg-white dark:bg-stone-950 border-stone-200 dark:border-stone-800">
-                <ReviewForm
-                  onCancel={() => setIsModalOpen(false)}
-                  onSuccess={() => setIsModalOpen(false)}
-                />
-              </DialogContent>
-            </Dialog>
+            <div>
+              <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                <DialogTrigger asChild>
+                  <button className="btn-press mt-8 inline-flex items-center gap-2 px-6 py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full text-sm font-medium hover:scale-105 transition-transform shadow-lg">
+                    <Plus className="w-4 h-4" />
+                    Leave a Review
+                  </button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-lg bg-white dark:bg-stone-950 border-stone-200 dark:border-stone-800">
+                  <ReviewForm
+                    onCancel={() => setIsModalOpen(false)}
+                    onSuccess={() => setIsModalOpen(false)}
+                  />
+                </DialogContent>
+              </Dialog>
+            </div>
           </div>
 
           {/* Desktop Navigation */}
@@ -152,7 +158,10 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
         <div className="relative" ref={emblaRef}>
           <div className="flex -ml-6">
             {testimonials.map((t, i) => (
-              <div key={i} className="flex-[0_0_100%] md:flex-[0_0_50%] xl:flex-[0_0_33.333%] pl-6 min-w-0">
+              <div
+                key={i}
+                className="flex-[0_0_100%] md:flex-[0_0_50%] xl:flex-[0_0_33.333%] pl-6 min-w-0"
+              >
                 <div className="bg-white dark:bg-stone-900 p-8 rounded-[2rem] border border-stone-100 dark:border-stone-800 hover:border-orange-200 dark:hover:border-orange-900/50 transition-colors shadow-sm flex flex-col h-full group relative">
 
                   {/* Quote Icon Background */}
@@ -176,10 +185,13 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
                       <div className="w-12 h-12 rounded-full overflow-hidden bg-stone-200 relative shrink-0 border border-white dark:border-stone-800 shadow-sm">
                         {t.avatar ? (
                           <Image
-                            src={urlFor(t.avatar).width(100).url()}
+                            loader={sanityLoader}
+                            src={t.avatar?.url || urlFor(t.avatar).width(100).url()}
                             alt={t.name}
                             fill
                             className="object-cover"
+                            placeholder={t.avatar?.metadata?.lqip ? 'blur' : 'empty'}
+                            blurDataURL={t.avatar?.metadata?.lqip}
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center bg-orange-100 text-orange-600 font-bold text-sm">

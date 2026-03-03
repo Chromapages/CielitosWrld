@@ -40,6 +40,8 @@ export default async function WorkPage({ params }: { params: { slug: string } })
           width={1600}
           height={1000}
           className="mt-6 rounded-2xl object-cover"
+          placeholder={work.coverImage?.asset?.metadata?.lqip ? 'blur' : 'empty'}
+          blurDataURL={work.coverImage?.asset?.metadata?.lqip}
         />
       )}
 
@@ -59,6 +61,8 @@ export default async function WorkPage({ params }: { params: { slug: string } })
               width={1200}
               height={800}
               className="rounded-xl object-cover"
+              placeholder={img?.asset?.metadata?.lqip ? 'blur' : 'empty'}
+              blurDataURL={img?.asset?.metadata?.lqip}
             />
           ))}
         </div>

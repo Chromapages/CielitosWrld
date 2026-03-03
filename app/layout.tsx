@@ -1,12 +1,16 @@
 import './globals.css';
 import type { Metadata } from 'next';
 
+import { Analytics } from '@vercel/analytics/react';
+import { OrganizationSchema, WebsiteSchema } from '@/components/seo/JsonLd';
 import Navbar from '@/components/layout/Navbar';
 import MobileNavbar from '@/components/layout/MobileNavbar';
 import Footer from '@/components/layout/Footer';
 import { ScrollToTop } from '@/components/layout/ScrollToTop';
 import AnimationProvider from '@/components/providers/AnimationProvider';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
+import LoadingScreen from '@/components/LoadingScreen';
+import PageTransition from '@/components/PageTransition';
 import { client } from '@/sanity/lib/client';
 import { SITE_SETTINGS_QUERY } from '@/sanity/lib/queries';
 
@@ -50,7 +54,7 @@ const fontVariables = {
 
 async function getSiteSettings() {
   try {
-    const settings = await client.fetch(SITE_SETTINGS_QUERY);
+    const settings = await client.fetch(SITE_SETTINGS_QUERY, {}, { next: { revalidate: 60 } });
     return settings;
   } catch (error) {
     console.error('Failed to load site settings for metadata:', error);
@@ -124,7 +128,7 @@ async function getContactInfo() {
       phone,
       location,
       socialLinks
-    }`);
+    }`, {}, { next: { revalidate: 60 } });
     return contact;
   } catch (error) {
     console.error('Failed to load contact info:', error);
@@ -145,6 +149,15 @@ export default async function RootLayout({
       className={`${inter.variable} ${pattaya.variable} ${archivo.variable} font-sans`}
       suppressHydrationWarning
     >
+      <head>
+        <link
+          rel="preload"
+          href="/fonts/fitzgerald-bold.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body
         className="min-h-screen flex flex-col bg-brand-50 dark:bg-brand-950 dark:text-brand-50"
         style={fontVariables as React.CSSProperties}
@@ -156,13 +169,19 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <OrganizationSchema />
+          <WebsiteSchema />
+          <Analytics />
           <AnimationProvider>
+            <LoadingScreen />
             <div className="flex flex-col min-h-screen">
               <ScrollToTop />
               <Navbar />
               <MobileNavbar />
               <main className="flex-1 pt-16 md:pt-24 pb-0">
-                {children}
+                <PageTransition>
+                  {children}
+                </PageTransition>
               </main>
               <Footer contactInfo={contactInfo} />
             </div>

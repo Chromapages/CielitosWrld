@@ -1,7 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { urlFor } from '@/sanity/lib/image';
+import { motion } from 'framer-motion';
+import { urlFor, sanityLoader } from '@/sanity/lib/image';
 
 interface CollaborationItem {
   name: string;
@@ -20,6 +21,8 @@ interface SocialProofProps {
   };
 }
 
+
+
 export default function SocialProof({ data }: SocialProofProps) {
 
   // Display data
@@ -32,17 +35,18 @@ export default function SocialProof({ data }: SocialProofProps) {
   if (displayData.items.length === 0) return null;
 
   return (
-    <section aria-labelledby="collaborations-title" className="relative py-6 md:py-8 px-4 bg-neutral-200 dark:bg-stone-900 border-t border-neutral-300 dark:border-stone-800">
+    <section aria-labelledby="collaborations-title" className="relative py-12 md:py-16 px-4 bg-neutral-200 dark:bg-stone-900 border-t border-neutral-300 dark:border-stone-800">
       {/* Optional Background Image */}
       {data?.backgroundImage && (
         <div className="absolute inset-0 z-0">
           <Image
-            src={urlFor(data.backgroundImage).url()}
+            loader={sanityLoader}
+            src={data.backgroundImage?.asset?.url || urlFor(data.backgroundImage).url()}
             alt="Abstract texture background"
             fill
             className="object-cover opacity-50"
-            placeholder={data.backgroundImage.metadata?.lqip ? 'blur' : 'empty'}
-            blurDataURL={data.backgroundImage.metadata?.lqip}
+            placeholder={data.backgroundImage?.asset?.metadata?.lqip ? 'blur' : 'empty'}
+            blurDataURL={data.backgroundImage?.asset?.metadata?.lqip}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-neutral-200/80 via-neutral-200/50 to-neutral-200/80 dark:from-stone-900/80 dark:via-stone-900/50 dark:to-stone-900/80" />
         </div>
@@ -51,7 +55,7 @@ export default function SocialProof({ data }: SocialProofProps) {
       <div className="max-w-5xl mx-auto relative z-10">
         <h2
           id="collaborations-title"
-          className="text-center text-xl md:text-2xl font-pattaya tracking-tight text-neutral-800 dark:text-stone-200 mb-6"
+          className="text-center text-xl md:text-2xl font-pattaya tracking-tight text-neutral-800 dark:text-stone-200 mb-10"
         >
           {displayData.heading}
         </h2>
@@ -59,12 +63,13 @@ export default function SocialProof({ data }: SocialProofProps) {
           {displayData.items.map((item, index) => (
             <div
               key={index}
-              className="flex items-center justify-center p-2 opacity-80 grayscale dark:brightness-0 dark:invert"
+              className="flex items-center justify-center p-2 opacity-80 hover:opacity-100 grayscale hover:grayscale-0 dark:brightness-0 dark:invert dark:hover:invert-0 dark:hover:brightness-100 transition-all duration-300"
             >
               {item.asset?.url ? (
                 <div className="relative h-12 w-32 md:h-16 md:w-40">
                   <Image
-                    src={item.asset.url.startsWith('/') ? item.asset.url : urlFor(item.asset).url()}
+                    loader={sanityLoader}
+                    src={item.asset.url || urlFor(item.asset).url()}
                     alt={item.alt || item.name || 'Partner Logo'}
                     fill
                     className="object-contain"

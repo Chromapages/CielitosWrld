@@ -325,6 +325,30 @@ html {
   display: none !important;
 }
 
+@keyframes drawC {
+  0% {
+    stroke-dashoffset: 220;
+    opacity: 0.5;
+  }
+  45% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -220;
+    opacity: 0.7;
+  }
+}
+
+@keyframes loadingBar {
+  0% {
+    transform: translateX(-130%);
+  }
+  100% {
+    transform: translateX(320%);
+  }
+}
+
 /* ========================================
    2025 Animation Utilities
    ======================================== */

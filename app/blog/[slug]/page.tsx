@@ -11,10 +11,11 @@ import RelatedPosts from '@/components/blog/RelatedPosts';
 import Comments from '@/components/blog/Comments';
 import { ShareButtons } from '@/components/blog/ShareButtons';
 import { HeroSection } from '@/components/blog/HeroSection';
+import { ArticleSchema } from '@/components/seo/JsonLd';
 import { ArrowLeft, Share2 } from 'lucide-react';
 import Link from 'next/link';
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -34,7 +35,7 @@ function formatDate(dateString: string): string {
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = await client.fetch<SanityPostDetail | null>(POST_BY_SLUG_QUERY, { slug: slug });
+  const post = await client.fetch<SanityPostDetail | null>(POST_BY_SLUG_QUERY, { slug: slug }, { next: { revalidate: 60 } });
 
   if (!post) {
     return {
@@ -71,7 +72,7 @@ export async function generateStaticParams() {
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = await client.fetch<SanityPostDetail | null>(POST_BY_SLUG_QUERY, { slug: slug });
+  const post = await client.fetch<SanityPostDetail | null>(POST_BY_SLUG_QUERY, { slug: slug }, { next: { revalidate: 60 } });
 
   if (!post) {
     notFound();
@@ -91,11 +92,22 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       category,
       estimatedReadingTime
     }`,
-    { category: (post as any).category || 'general', slug }
+    { category: (post as any).category || 'general', slug },
+    { next: { revalidate: 60 } }
   );
+
+  const coverUrl = post.coverImage ? urlFor(post.coverImage).width(1200).height(630).fit('max').url() : undefined;
+  const canonicalUrl = `https://cielitosworld.com/blog/${slug}`;
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-stone-950 pb-20">
+      <ArticleSchema
+        title={post.title}
+        description={post.excerpt || `Read ${post.title} on Cielitos Wrld.`}
+        datePublished={post.publishedAt || new Date().toISOString()}
+        image={coverUrl}
+        url={canonicalUrl}
+      />
 
       {/* Hero Section - Pure Imagery focus */}
       <HeroSection

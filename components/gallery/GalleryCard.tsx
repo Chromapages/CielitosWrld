@@ -52,7 +52,7 @@ export default function GalleryCard({ item, onClick, aspectRatio }: GalleryCardP
         >
             {(imageAsset || youtubeThumbnail) ? (
                 <Image
-                    src={imageAsset ? urlFor(imageAsset).width(800).url() : youtubeThumbnail!}
+                    src={imageAsset?.asset?.url || (imageAsset ? urlFor(imageAsset).width(800).url() : youtubeThumbnail!)}
                     alt={imageAsset?.alt || item.title}
                     fill
                     className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"

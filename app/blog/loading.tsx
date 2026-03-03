@@ -1,5 +1,4 @@
 import { Skeleton } from "@/components/ui/skeleton"
-import PageBackground from "@/components/ui/PageBackground"
 
 export default function Loading() {
   return (

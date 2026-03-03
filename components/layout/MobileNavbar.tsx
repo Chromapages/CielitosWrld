@@ -2,13 +2,12 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Camera, Briefcase, FileText, Mail } from 'lucide-react';
+import { Home, Camera, FileText, Mail } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const NAV_ITEMS = [
   { id: 'home', label: 'Home', href: '/', icon: Home },
   { id: 'gallery', label: 'Gallery', href: '/gallery', icon: Camera },
-  { id: 'services', label: 'Services', href: '/services', icon: Briefcase },
   { id: 'blog', label: 'Blog', href: '/blog', icon: FileText },
   { id: 'contact', label: 'Contact', href: '/contact', icon: Mail },
 ];
@@ -18,10 +17,10 @@ export default function MobileNavbar() {
 
   return (
     <nav
-      className="sm:hidden fixed bottom-0 left-0 right-0 z-50 w-full border-t border-stone-200 bg-white dark:border-stone-800 dark:bg-stone-950 shadow-[0_-5px_15px_-5px_rgba(0,0,0,0.05)]"
+      className="sm:hidden fixed bottom-3 left-1/2 z-50 w-[calc(100%-1rem)] max-w-sm -translate-x-1/2 rounded-full border border-white/20 bg-stone-950/80 shadow-navbar-float backdrop-blur-xl"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
     >
-      <div className="grid grid-cols-5 h-20 w-full items-center px-2">
+      <div className="grid h-16 w-full grid-cols-4 items-center px-2">
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
@@ -30,17 +29,17 @@ export default function MobileNavbar() {
             <Link
               key={item.href}
               href={item.href}
-              className="btn-press group flex flex-col items-center justify-center gap-1 h-full w-full transition-transform"
+                className="btn-press group flex h-full w-full flex-col items-center justify-center gap-1 transition-transform"
               aria-label={item.label}
               data-active={isActive}
             >
               <div
                 className={cn(
-                  "flex items-center justify-center w-16 h-8 rounded-full transition-all duration-300 ease-out-quad",
-                  isActive
-                    ? "bg-orange-100 text-orange-900 dark:bg-orange-900/40 dark:text-orange-100"
-                    : "bg-transparent text-stone-500 group-hover:bg-stone-100 dark:text-stone-400 dark:group-hover:bg-stone-900"
-                )}
+                   "flex h-8 w-14 items-center justify-center rounded-full transition-all duration-300 ease-out-quad",
+                   isActive
+                     ? "bg-orange-500/30 text-orange-100"
+                     : "bg-transparent text-stone-300 group-hover:bg-white/10"
+                 )}
               >
                 <Icon
                   size={20}
@@ -51,10 +50,10 @@ export default function MobileNavbar() {
               <span
                 className={cn(
                   "text-[11px] font-medium tracking-wide transition-colors duration-300",
-                  isActive
-                    ? "text-stone-900 dark:text-stone-100 font-bold"
-                    : "text-stone-500 dark:text-stone-400 group-hover:text-stone-700 dark:group-hover:text-stone-300"
-                )}
+                   isActive
+                     ? "font-bold text-white"
+                     : "text-stone-300 group-hover:text-stone-100"
+                 )}
               >
                 {item.label}
               </span>

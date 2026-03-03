@@ -6,20 +6,22 @@ import AboutSnippet from '@/components/home/AboutSnippet'
 import FeaturedWork from '@/components/home/FeaturedWork'
 import TestimonialsCarousel from '@/components/home/TestimonialsCarousel'
 import ContactCTA from '@/components/home/ContactCTA'
+import { PersonSchema } from '@/components/seo/JsonLd'
 
 export const revalidate = 60
 
 export default async function Home() {
-  const homeData = await client.fetch(HOME_PAGE_QUERY)
+  const homeData = await client.fetch(HOME_PAGE_QUERY, {}, { next: { revalidate: 60 } })
 
   return (
-    <div className="-mt-24">
-      <HeroSection data={homeData?.hero} />
+    <>
+      <PersonSchema />
+      <HeroSection data={homeData?.hero} className="-mt-24" />
       <AboutSnippet data={homeData?.about} />
       <FeaturedWork data={homeData?.featuredWork} />
       <TestimonialsCarousel data={homeData?.testimonials} />
       <SocialProof data={homeData?.socialProof} />
       <ContactCTA />
-    </div>
+    </>
   )
 }

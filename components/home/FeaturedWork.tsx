@@ -1,22 +1,10 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { Sparkles, ArrowUpRight, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ArrowRight, ArrowUpRight, Sparkles } from 'lucide-react';
 import useEmblaCarousel from 'embla-carousel-react';
-import { cn } from '@/lib/utils';
-import { urlFor } from '@/sanity/lib/image';
-
-interface Project {
-    id: string;
-    title: string;
-    category?: string; // e.g. "Nike" or "Weddings" (mapped from client)
-    image: string;
-    slug: string;
-    year: number;
-    excerpt?: string;
-}
+import { urlFor, sanityLoader } from '@/sanity/lib/image';
 
 interface FeaturedWorkProps {
     data?: {
@@ -34,8 +22,9 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
         // 'category' here comes from the query mapping 'client' -> 'category'
         category: item.category || 'Portfolio',
         image: item.coverImage
-            ? urlFor(item.coverImage).width(1200).url()
+            ? (item.coverImage?.asset?.url || urlFor(item.coverImage).width(1200).url())
             : 'https://placehold.co/800x1000/png?text=No+Image',
+        lqip: item.coverImage?.asset?.metadata?.lqip,
         slug: item.slug,
         year: item.year || (item._createdAt ? new Date(item._createdAt).getFullYear() : new Date().getFullYear()),
         excerpt: item.excerpt
@@ -101,83 +90,91 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                         </div>
                     </div>
                 ) : (
-                    <>
+                    <div>
                         {/* LAYOUT: Hero Left, Grid Right (Desktop Only) */}
                         <div className="hidden md:flex flex-col xl:flex-row gap-6 md:gap-8">
 
                             {/* HERO PROJECT (50% width on XL) */}
                             {heroProject && (
-                                <Link
-                                    href={getProjectLink(heroProject)}
-                                    className="group relative w-full xl:w-1/2 rounded-[2rem] overflow-hidden shadow-xl aspect-[4/5] xl:aspect-[3/4]"
-                                >
-                                    <Image
-                                        src={heroProject.image}
-                                        alt={heroProject.title}
-                                        fill
-                                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                                        priority
-                                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 100vw, 50vw"
-                                    />
+                                <div className="w-full xl:w-1/2">
+                                    <Link
+                                        href={getProjectLink(heroProject)}
+                                        className="group relative block w-full rounded-[2rem] overflow-hidden shadow-xl aspect-[4/5] xl:aspect-[3/4]"
+                                    >
+                                        <Image
+                                            loader={sanityLoader}
+                                            src={heroProject.image}
+                                            alt={heroProject.title}
+                                            fill
+                                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                                            priority
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 100vw, 50vw"
+                                            placeholder={heroProject.lqip ? 'blur' : 'empty'}
+                                            blurDataURL={heroProject.lqip}
+                                        />
 
-                                    {/* Persistent Overlay (Gradient) */}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+                                        {/* Persistent Overlay (Gradient) */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
 
-                                    {/* Content Bottom */}
-                                    <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
-                                        <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                                            <div className="flex items-center gap-3 text-white/80 text-sm font-medium mb-3">
-                                                <span>{heroProject.category}</span>
-                                                <span>•</span>
-                                                <span>{heroProject.year}</span>
-                                            </div>
-                                            <h3 className="text-3xl md:text-5xl font-bold font-archivo text-white mb-3 leading-tight">
-                                                {heroProject.title}
-                                            </h3>
-                                            {heroProject.excerpt && (
-                                                <p className="text-white/80 text-base md:text-lg line-clamp-2 max-w-lg mb-6 font-light">
-                                                    {heroProject.excerpt}
-                                                </p>
-                                            )}
-                                            <div className="btn-press inline-flex items-center px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white font-medium text-sm transition-colors group-hover:bg-white group-hover:text-stone-900">
-                                                View Case Study <ArrowUpRight className="ml-2 w-4 h-4" />
+                                        {/* Content Bottom */}
+                                        <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full text-left">
+                                            <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                                                <div className="flex items-center gap-3 text-white/80 text-sm font-medium mb-3">
+                                                    <span>{heroProject.category}</span>
+                                                    <span>•</span>
+                                                    <span>{heroProject.year}</span>
+                                                </div>
+                                                <h3 className="text-3xl md:text-5xl font-bold font-archivo text-white mb-3 leading-tight">
+                                                    {heroProject.title}
+                                                </h3>
+                                                {heroProject.excerpt && (
+                                                    <p className="text-white/80 text-base md:text-lg line-clamp-2 max-w-lg mb-6 font-light">
+                                                        {heroProject.excerpt}
+                                                    </p>
+                                                )}
+                                                <div className="btn-press inline-flex items-center px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-white font-medium text-sm transition-colors group-hover:bg-white group-hover:text-stone-900">
+                                                    View Case Study <ArrowUpRight className="ml-2 w-4 h-4" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </Link>
+                                    </Link>
+                                </div>
                             )}
 
                             {/* GRID PROJECTS (50% width on XL) */}
                             <div className="w-full xl:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                                 {gridProjects.map((project, idx) => (
-                                    <Link
-                                        href={getProjectLink(project)}
-                                        key={project.id}
-                                        className={`group relative w-full aspect-[4/5] rounded-[1.5rem] overflow-hidden shadow-lg bg-stone-200 dark:bg-stone-800 ${idx < 4 ? `stagger-${idx + 1}` : ''}`}
-                                    >
-                                        <Image
-                                            src={project.image}
-                                            alt={project.title}
-                                            fill
-                                            className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                                            sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
-                                        />
+                                    <div key={project.id}>
+                                        <Link
+                                            href={getProjectLink(project)}
+                                            className="group relative block w-full aspect-[4/5] rounded-[1.5rem] overflow-hidden shadow-lg bg-stone-200 dark:bg-stone-800"
+                                        >
+                                            <Image
+                                                src={project.image}
+                                                alt={project.title}
+                                                fill
+                                                className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                                                sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 25vw"
+                                                placeholder={project.lqip ? 'blur' : 'empty'}
+                                                blurDataURL={project.lqip}
+                                            />
 
-                                        {/* Hover Overlay */}
-                                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                                            <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                                                <p className="text-orange-400 text-xs font-bold tracking-widest uppercase mb-1">
-                                                    {project.category}
-                                                </p>
-                                                <h4 className="text-xl font-bold font-archivo text-white mb-2 leading-tight">
-                                                    {project.title}
-                                                </h4>
-                                                <div className="flex items-center text-white text-xs font-medium mt-3">
-                                                    View Project <ArrowUpRight className="ml-1 w-3 h-3" />
+                                            {/* Hover Overlay */}
+                                            <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 text-left">
+                                                <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                                                    <p className="text-orange-400 text-xs font-bold tracking-widest uppercase mb-1">
+                                                        {project.category}
+                                                    </p>
+                                                    <h4 className="text-xl font-bold font-archivo text-white mb-2 leading-tight">
+                                                        {project.title}
+                                                    </h4>
+                                                    <div className="flex items-center text-white text-xs font-medium mt-3">
+                                                        View Project <ArrowUpRight className="ml-1 w-3 h-3" />
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </Link>
+                                        </Link>
+                                    </div>
                                 ))}
                             </div>
                         </div>
@@ -186,21 +183,26 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                         <div className="md:hidden -mx-4 overflow-hidden" ref={emblaRef}>
                             <div className="flex touch-pan-y pl-4">
                                 {projects.map((project) => (
-                                    <Link
+                                    <div
                                         key={project.id}
-                                        href={getProjectLink(project)}
                                         className="flex-[0_0_92%] min-w-0 pr-4 relative"
                                     >
-                                        <div className="relative aspect-[4/5] rounded-[2rem] overflow-hidden shadow-lg bg-stone-200 dark:bg-stone-800">
+                                        <Link
+                                            href={getProjectLink(project)}
+                                            className="block relative aspect-[4/5] rounded-[2rem] overflow-hidden shadow-lg bg-stone-200 dark:bg-stone-800"
+                                        >
                                             <Image
+                                                loader={sanityLoader}
                                                 src={project.image}
                                                 alt={project.title}
                                                 fill
                                                 className="object-cover"
                                                 sizes="(max-width: 768px) 85vw"
+                                                placeholder={project.lqip ? 'blur' : 'empty'}
+                                                blurDataURL={project.lqip}
                                             />
                                             {/* Overlay */}
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90 flex flex-col justify-end p-6">
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90 flex flex-col justify-end p-6 text-left">
                                                 <p className="text-orange-400 text-xs font-bold tracking-widest uppercase mb-1">
                                                     {project.category}
                                                 </p>
@@ -208,8 +210,8 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                                                     {project.title}
                                                 </h3>
                                             </div>
-                                        </div>
-                                    </Link>
+                                        </Link>
+                                    </div>
                                 ))}
                             </div>
                         </div>
@@ -223,7 +225,7 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                                 View Full Portfolio
                             </Link>
                         </div>
-                    </>
+                    </div>
                 )}
 
             </div>

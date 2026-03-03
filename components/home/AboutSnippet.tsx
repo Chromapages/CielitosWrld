@@ -14,8 +14,9 @@ import {
   Quote,
   LucideIcon
 } from 'lucide-react';
-import { urlFor } from '@/sanity/lib/image';
+import { urlFor, sanityLoader } from '@/sanity/lib/image';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
 import AboutCarousel from './AboutCarousel';
 
 // Define icon mapping
@@ -77,7 +78,7 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
     heading: data?.heading || data?.title || 'I Capture Your Story—Raw, Real, Unforgettable.',
     bio: data?.bio || data?.content || "I'm a Southern California–based photographer specializing in capturing the raw, honest energy of artists, brands, and everyday stories. Whether on analog film or digital, my goal is to make you feel seen.",
     profileImage: data?.image ? {
-      src: urlFor(data.image).width(800).height(1000).fit('crop').url(),
+      src: data.image?.asset?.url || urlFor(data.image).width(800).height(1000).fit('crop').url(),
       alt: data.image.alt || 'Cielo - Southern California Photographer',
       blurDataURL: data.image.metadata?.lqip,
     } : {
@@ -108,6 +109,8 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
     }
   };
 
+
+
   return (
     <section className="relative py-20 md:py-32 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 overflow-hidden">
 
@@ -127,6 +130,7 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
             {/* Main Image Container */}
             <div className="relative aspect-[4/5] w-full max-w-lg mx-auto lg:max-w-none rounded-[2rem] overflow-hidden shadow-2xl ring-1 ring-stone-900/5 dark:ring-white/5 bg-stone-200 dark:bg-stone-800">
               <Image
+                loader={sanityLoader}
                 src={displayData.profileImage.src}
                 alt={displayData.profileImage.alt}
                 fill
@@ -166,9 +170,11 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
               {displayData.features.map((feature, idx) => {
                 const Icon = ICON_MAP[feature.icon] || Sparkles;
-                const staggerClass = idx < 4 ? `stagger-${idx + 1}` : '';
                 return (
-                  <div key={idx} className={`flex items-center space-x-3 p-3 rounded-lg hover:bg-stone-50 dark:hover:bg-stone-900 transition-colors ${staggerClass}`}>
+                  <div
+                    key={idx}
+                    className="flex items-center space-x-3 p-3 rounded-lg hover:bg-stone-50 dark:hover:bg-stone-900 transition-colors"
+                  >
                     <div className="flex-shrink-0 w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/20 flex items-center justify-center text-orange-600 dark:text-orange-400">
                       <Icon className="w-5 h-5" />
                     </div>

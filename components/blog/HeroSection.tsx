@@ -70,6 +70,8 @@ export function HeroSection({
           priority
           sizes="100vw"
           style={{ objectPosition: 'center 30%' }}
+          placeholder={coverImage?.asset?.metadata?.lqip ? 'blur' : 'empty'}
+          blurDataURL={coverImage?.asset?.metadata?.lqip}
         />
         {/* Vignette Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />

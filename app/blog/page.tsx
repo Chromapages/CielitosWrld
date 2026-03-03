@@ -14,8 +14,8 @@ export const revalidate = 60; // Revalidate every 60 seconds
 export default async function BlogPage() {
   // 1. Fetch Blog Page Settings & Site Settings first
   const [blogPage, siteSettings] = await Promise.all([
-    client.fetch(BLOG_PAGE_QUERY, {}, { useCdn: false }),
-    client.fetch(SITE_SETTINGS_QUERY, {}, { useCdn: false })
+    client.fetch(BLOG_PAGE_QUERY, {}, { useCdn: false, next: { revalidate: 60 } }),
+    client.fetch(SITE_SETTINGS_QUERY, {}, { useCdn: false, next: { revalidate: 60 } })
   ]);
 
   const {
@@ -55,7 +55,7 @@ export default async function BlogPage() {
     linkUrl
   }`;
 
-  const posts = await client.fetch(query, { limit }, { useCdn: false });
+  const posts = await client.fetch(query, { limit }, { useCdn: false, next: { revalidate: 60 } });
 
   // Resolve Background
   const backgroundImage = blogPage?.pageBackground || blogPage?.heroImage || siteSettings?.globalBackgroundImage;

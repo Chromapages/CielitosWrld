@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { urlFor } from '@/sanity/lib/image';
 
 interface HeroSectionProps {
+  className?: string;
   data?: {
     title?: string;
     subtitle?: string;
@@ -18,7 +19,7 @@ interface HeroSectionProps {
   };
 }
 
-const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
+const HeroSection: React.FC<HeroSectionProps> = ({ data, className }) => {
   const title = data?.title || "Cielito's Wrld";
   const subtitle = data?.subtitle || "Visual stories & late night thoughts.";
   const ctaText = data?.ctaText || "View Gallery";
@@ -28,14 +29,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
   const { backgroundImage, mobileBackgroundImage } = data || {};
 
   // Use mobile background if available, otherwise fall back to desktop background
-  const desktopBgUrl = backgroundImage ? urlFor(backgroundImage).url() : null;
-  const mobileBgUrl = mobileBackgroundImage ? urlFor(mobileBackgroundImage).url() : desktopBgUrl;
+  const desktopBgUrl = backgroundImage ? (backgroundImage?.asset?.url || urlFor(backgroundImage).url()) : null;
+  const mobileBgUrl = mobileBackgroundImage ? (mobileBackgroundImage?.asset?.url || urlFor(mobileBackgroundImage).url()) : desktopBgUrl;
+  const desktopLqip = backgroundImage?.asset?.metadata?.lqip;
+  const mobileLqip = mobileBackgroundImage?.asset?.metadata?.lqip || desktopLqip;
 
   const isDesktopVideo = desktopBgUrl ? (desktopBgUrl.endsWith('.gif') || desktopBgUrl.endsWith('.mp4')) : false;
   const isMobileVideo = mobileBgUrl ? (mobileBgUrl.endsWith('.gif') || mobileBgUrl.endsWith('.mp4')) : false;
 
   return (
-    <section className="relative h-[105vh] sm:h-[85vh] w-full overflow-hidden">
+    <section className={`relative h-[100dvh] sm:h-[85vh] w-full overflow-hidden ${className || ''}`}>
       {/* Background Image */}
       <div className="absolute inset-0">
         <div className="relative h-full w-full overflow-hidden">
@@ -59,6 +62,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
                   priority
                   className="hidden sm:block object-cover"
                   sizes="100vw"
+                  placeholder={desktopLqip ? 'blur' : 'empty'}
+                  blurDataURL={desktopLqip}
                 />
               )}
             </>
@@ -84,6 +89,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data }) => {
                   priority
                   className="sm:hidden object-cover"
                   sizes="100vw"
+                  placeholder={mobileLqip ? 'blur' : 'empty'}
+                  blurDataURL={mobileLqip}
                 />
               )}
             </>
