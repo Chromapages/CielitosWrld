@@ -138,6 +138,7 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
     setMounted(true);
     return () => setMounted(false);
   }, []);
+
   const [showControls, setShowControls] = useState(true);
   const [showInfo, setShowInfo] = useState(false);
   const [shareFeedback, setShareFeedback] = useState(false);
@@ -163,9 +164,13 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
       if (item.mediaType === 'video') return;
 
       // Create a hidden image to preload
-      const img = document.createElement('img');
-      img.src = urlFor(item.image).width(1600).quality(90).auto('format').url();
-      preloadedRef.current.add(i);
+      try {
+        const img = document.createElement('img');
+        img.src = urlFor(item.image).width(1600).quality(90).auto('format').url();
+        preloadedRef.current.add(i);
+      } catch (err) {
+        console.error('Failed to preload:', err);
+      }
     });
   }, [items]);
 
@@ -273,48 +278,116 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
     }
   );
 
-  return (
-    <div className="fixed inset-0 z-[60] bg-black/90 backdrop-blur-xl flex flex-col animate-in fade-in zoom-in-95 duration-300 motion-reduce:animate-none">
-
-      {/* Main Carousel Area */}
+  const lightboxContent = (
+    <div
+      className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex flex-col"
+      onClick={onClose}
+    >
+      {/* Controls Overlay */}
       <div
-        className="flex-1 relative overflow-hidden"
+        className={cn(
+          "absolute inset-x-0 top-0 z-50 p-4 flex justify-between items-start transition-opacity duration-300 bg-gradient-to-b from-black/80 to-transparent",
+          showControls ? "opacity-100" : "opacity-0 pointer-events-none"
+        )}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex flex-col gap-1 max-w-[70%]">
+          <h2 className="text-white font-display text-lg md:text-xl line-clamp-1">
+            {currentItem.title || 'Untitled'}
+          </h2>
+          <p className="text-white/60 text-xs uppercase tracking-widest">
+            {currentIndex + 1} / {items.length}
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {currentItem.mediaType === 'photo' && (
+            <button
+              onClick={handleDownload}
+              className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+              title="Download Original"
+            >
+              <Download size={20} />
+            </button>
+          )}
+          <button
+            onClick={handleShare}
+            className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors relative"
+            title="Share Link"
+          >
+            <Share2 size={20} />
+            {shareFeedback && (
+              <span className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-brand-500 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap">
+                Copied!
+              </span>
+            )}
+          </button>
+          <button
+            onClick={() => setShowInfo(!showInfo)}
+            className={cn(
+              "p-2.5 rounded-full transition-colors",
+              showInfo ? "bg-brand-500 text-white" : "bg-white/10 hover:bg-white/20 text-white"
+            )}
+            title="Information"
+          >
+            <Info size={20} />
+          </button>
+          <button
+            onClick={onClose}
+            className="p-2.5 rounded-full bg-white/20 hover:bg-white/30 text-white transition-colors ml-2"
+            aria-label="Close"
+          >
+            <X size={24} />
+          </button>
+        </div>
+      </div>
+
+      {/* Main Content Area */}
+      <div
+        className="flex-1 relative flex items-center justify-center cursor-default"
         onClick={() => setShowControls(!showControls)}
         {...bindSwipe()}
       >
-        <div className="h-full" ref={emblaRef}>
-          <div className="flex h-full touch-pan-y">
+        {/* Desktop Navigation */}
+        <button
+          onClick={handlePrev}
+          className="absolute left-6 z-40 p-4 rounded-full bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-all hidden md:block"
+          aria-label="Previous"
+        >
+          <ChevronLeft size={36} />
+        </button>
+
+        <button
+          onClick={handleNext}
+          className="absolute right-6 z-40 p-4 rounded-full bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-all hidden md:block"
+          aria-label="Next"
+        >
+          <ChevronRight size={36} />
+        </button>
+
+        {/* Carousel */}
+        <div className="w-full h-full overflow-hidden" ref={emblaRef}>
+          <div className="flex h-full">
             {items.map((item, index) => (
-              <div key={item._id} className="flex-[0_0_100%] min-w-0 relative h-full flex items-center justify-center p-0 md:p-12">
-                <div className="relative w-full h-full max-w-6xl max-h-[100dvh] md:max-h-[85vh] flex items-center justify-center">
+              <div
+                key={item._id}
+                className="flex-[0_0_100%] min-w-0 h-full relative"
+              >
+                <div className="w-full h-full flex items-center justify-center p-4 md:p-16 lg:p-24">
                   {item.mediaType === 'video' && item.videoEmbedUrl ? (
-                    <div className="w-full aspect-video bg-black rounded-lg overflow-hidden shadow-2xl relative">
-                      {/* Only render the actual iframe when this slide is centered (active) */}
-                      {index === currentIndex ? (
-                        <iframe
-                          src={getEmbedUrl(item.videoEmbedUrl)}
-                          className="w-full h-full"
-                          allow="autoplay; fullscreen; picture-in-picture"
-                          allowFullScreen
-                        />
-                      ) : (
-                        /* Show the thumbnail as a static placeholder for inactive slides */
-                        <OptimizedLightboxImage
-                          item={item}
-                          isActive={false}
-                        />
-                      )}
+                    <div className="relative w-full aspect-video max-w-5xl shadow-2xl rounded-lg overflow-hidden bg-black">
+                      <iframe
+                        src={getEmbedUrl(item.videoEmbedUrl)}
+                        className="absolute inset-0 w-full h-full border-0"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        allowFullScreen
+                      />
                     </div>
                   ) : (
                     <div className="relative w-full h-full max-w-7xl">
                       <OptimizedLightboxImage
                         item={item}
                         isActive={index === currentIndex}
-                        onLoad={() => {
-                          if (index === currentIndex) {
-                            // Any specific logic on load
-                          }
-                        }}
                       />
                     </div>
                   )}
@@ -325,47 +398,10 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
         </div>
       </div>
 
-      {/* Footer / Caption */}
+      {/* Info Panel Slider */}
       <div
         className={cn(
-          "p-6 md:p-8 bg-gradient-to-t from-black/80 via-black/40 to-transparent transition-all duration-300",
-          showControls ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
-        )}
-      >
-        <div className="max-w-4xl mx-auto">
-          {currentItem.title && (
-            <h2 className="text-xl md:text-2xl font-display text-white mb-2">{currentItem.title}</h2>
-          )}
-          {currentItem.description && (
-            <p className="text-stone-300 text-sm md:text-base line-clamp-3 md:line-clamp-none max-w-2xl">
-              {currentItem.description}
-            </p>
-          )}
-
-          {/* Quick info badges */}
-          <div className="flex flex-wrap gap-4 mt-6">
-            {currentItem.client && (
-              <div className="flex items-center gap-2 text-xs text-stone-400">
-                <span className="w-1 h-1 rounded-full bg-brand-500" />
-                <span className="uppercase tracking-widest opacity-60">Client:</span>
-                <span className="text-stone-200">{currentItem.client}</span>
-              </div>
-            )}
-            {currentItem.categories && currentItem.categories.length > 0 && (
-              <div className="flex items-center gap-2 text-xs text-stone-400">
-                <span className="w-1 h-1 rounded-full bg-brand-500" />
-                <span className="uppercase tracking-widest opacity-60">Category:</span>
-                <span className="text-stone-200">{currentItem.categories[0].title}</span>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Slide-out Info Panel */}
-      <div
-        className={cn(
-          "fixed top-0 right-0 h-full w-full md:w-96 bg-stone-950/95 backdrop-blur-xl z-[60] border-l border-white/10 transition-transform duration-500 ease-premium shadow-2xl transform overflow-y-auto no-scrollbar",
+          "fixed top-0 right-0 h-full w-full md:w-96 bg-stone-950/98 backdrop-blur-2xl z-[60] border-l border-white/10 transition-transform duration-500 ease-out shadow-2xl transform overflow-y-auto",
           showInfo ? "translate-x-0" : "translate-x-full"
         )}
         onClick={(e) => e.stopPropagation()}
@@ -375,7 +411,7 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
             <h3 className="text-xl font-display text-white">Artwork Details</h3>
             <button
               onClick={() => setShowInfo(false)}
-              className="text-stone-400 hover:text-white transition-colors"
+              className="p-2 text-stone-400 hover:text-white transition-colors"
             >
               <X size={20} />
             </button>
@@ -390,78 +426,49 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
             )}
           </div>
 
-          <div className="grid grid-cols-1 gap-6 pt-4">
+          <div className="space-y-6 pt-4">
             {currentItem.client && (
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
-                  <Eye className="w-4 h-4 text-stone-400" />
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
+                  <Eye className="w-5 h-5 text-brand-400" />
                 </div>
                 <div>
-                  <p className="text-xs text-stone-500 uppercase tracking-wider">Client</p>
-                  <p className="text-stone-200">{currentItem.client}</p>
+                  <p className="text-[10px] text-stone-500 uppercase tracking-[0.2em] mb-1">Client</p>
+                  <p className="text-stone-200 font-medium">{currentItem.client}</p>
                 </div>
               </div>
             )}
 
             {currentItem.medium && (
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
                 <div>
-                  <p className="text-xs text-stone-500 uppercase tracking-wider">Medium</p>
-                  <p className="text-stone-200">{currentItem.medium}</p>
+                  <p className="text-[10px] text-stone-500 uppercase tracking-[0.2em] mb-1">Medium</p>
+                  <p className="text-stone-200 font-medium">{currentItem.medium}</p>
                 </div>
               </div>
             )}
 
             {currentItem.vibe && (
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-4 h-4 text-stone-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
+                  <svg className="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
                   </svg>
                 </div>
                 <div>
-                  <p className="text-xs text-stone-500 uppercase tracking-wider">Vibe</p>
-                  <p className="text-stone-200">{currentItem.vibe}</p>
-                </div>
-              </div>
-            )}
-
-            {/* Image dimensions if available */}
-            {currentItem.image?.asset?.metadata?.dimensions && (
-              <div className="pt-4 border-t border-white/10">
-                <p className="text-xs text-stone-500 uppercase tracking-wider mb-2">Image Details</p>
-                <div className="grid grid-cols-2 gap-3 text-sm">
-                  <div>
-                    <p className="text-stone-500 text-xs">Dimensions</p>
-                    <p className="text-stone-300">
-                      {currentItem.image.asset.metadata.dimensions.width} × {currentItem.image.asset.metadata.dimensions.height}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-stone-500 text-xs">Aspect Ratio</p>
-                    <p className="text-stone-300">
-                      {(currentItem.image.asset.metadata.dimensions.width / currentItem.image.asset.metadata.dimensions.height).toFixed(2)}
-                    </p>
-                  </div>
+                  <p className="text-[10px] text-stone-500 uppercase tracking-[0.2em] mb-1">Vibe</p>
+                  <p className="text-stone-200 font-medium">{currentItem.vibe}</p>
                 </div>
               </div>
             )}
           </div>
         </div>
-
-        {/* Backdrop for info panel */}
-        {showInfo && (
-          <div
-            className="absolute inset-0 bg-black/20 z-10 pointer-events-auto"
-            onClick={() => setShowInfo(false)}
-          />
-        )}
       </div>
     </div>
   );
