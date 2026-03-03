@@ -12,6 +12,9 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
       touchMultiplier: 1,
     });
 
+    // Make lenis accessible globally for blocking
+    (window as any).lenis = lenis;
+
     let rafId = 0;
 
     const raf = (time: number) => {
