@@ -29,8 +29,24 @@ const HeroSection: React.FC<HeroSectionProps> = ({ data, className }) => {
   const { backgroundImage, mobileBackgroundImage } = data || {};
 
   // Use mobile background if available, otherwise fall back to desktop background
-  const desktopBgUrl = backgroundImage ? (backgroundImage?.asset?.url || urlFor(backgroundImage).url()) : null;
-  const mobileBgUrl = mobileBackgroundImage ? (mobileBackgroundImage?.asset?.url || urlFor(mobileBackgroundImage).url()) : desktopBgUrl;
+  const desktopBgUrl = backgroundImage
+    ? (() => {
+        try {
+          return urlFor(backgroundImage).width(2200).quality(82).auto('format').fit('max').url();
+        } catch {
+          return backgroundImage?.asset?.url || backgroundImage?.url || null;
+        }
+      })()
+    : null;
+  const mobileBgUrl = mobileBackgroundImage
+    ? (() => {
+        try {
+          return urlFor(mobileBackgroundImage).width(1280).quality(82).auto('format').fit('max').url();
+        } catch {
+          return mobileBackgroundImage?.asset?.url || mobileBackgroundImage?.url || null;
+        }
+      })()
+    : desktopBgUrl;
   const desktopLqip = backgroundImage?.asset?.metadata?.lqip;
   const mobileLqip = mobileBackgroundImage?.asset?.metadata?.lqip || desktopLqip;
 

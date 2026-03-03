@@ -20,7 +20,13 @@ export default function PageBackground({ image, alt = 'Page Background', classNa
     return (
         <div className={`fixed inset-0 z-0 ${className || ''}`}>
             <Image
-                src={image?.asset?.url || urlFor(image).width(1920).url()}
+                src={(() => {
+                    try {
+                        return urlFor(image).width(1920).quality(78).auto('format').fit('max').url();
+                    } catch {
+                        return image?.asset?.url || image?.url;
+                    }
+                })()}
                 alt={alt}
                 fill
                 className="object-cover"

@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { X, ChevronLeft, ChevronRight, Share2, Download, Info, Eye } from 'lucide-react';
 import { GalleryItem } from '@/app/gallery/page';
-import { urlFor } from '@/sanity/lib/image';
+import { urlFor, sanityLoader } from '@/sanity/lib/image';
 import useEmblaCarousel from 'embla-carousel-react';
 import { useDrag } from '@use-gesture/react';
 import { cn } from '@/lib/utils';
@@ -51,6 +51,7 @@ function OptimizedLightboxImage({
   onLoad?: () => void;
 }) {
   const [status, setStatus] = useState<'loading' | 'loaded' | 'error'>('loading');
+  const [useDirectUrlFallback, setUseDirectUrlFallback] = useState(false);
 
   // Handle video vs image assets
   const mainImage = item.mediaType === 'video' ? item.videoThumbnail : item.image;
@@ -59,15 +60,32 @@ function OptimizedLightboxImage({
   if (!mainImage && item.mediaType !== 'video') return null;
 
   // Get the thumbnail URL (same as used in gallery grid)
-  const thumbnailUrl = mainImage ? (mainImage?.asset?.url || urlFor(mainImage).width(800).url()) : null;
+  const thumbnailUrl = mainImage
+    ? (() => {
+        try {
+          return urlFor(mainImage).width(900).quality(75).auto('format').fit('max').url();
+        } catch {
+          return mainImage?.asset?.url || (mainImage as any)?.url || null;
+        }
+      })()
+    : null;
 
   // Get the LQIP (Low Quality Image Placeholder) if available
   const lqipUrl = mainImage?.asset?.metadata?.lqip;
+  const directUrl = mainImage?.asset?.url || (mainImage as any)?.url || null;
 
   // Get the full-size URL for lightbox
-  const fullSizeUrl = mainImage
-    ? (mainImage?.asset?.url || urlFor(mainImage).width(1600).quality(90).auto('format').url())
+  const transformedUrl = mainImage
+    ? (() => {
+        try {
+          return urlFor(mainImage).width(1800).quality(88).auto('format').fit('max').url();
+        } catch {
+          return directUrl;
+        }
+      })()
     : (item.mediaType === 'video' && item.videoEmbedUrl ? getYouTubeThumbnail(item.videoEmbedUrl, 'maxres') || null : null);
+
+  const fullSizeUrl = useDirectUrlFallback && directUrl ? directUrl : transformedUrl;
 
   const handleLoad = useCallback(() => {
     setStatus('loaded');
@@ -75,9 +93,14 @@ function OptimizedLightboxImage({
   }, [onLoad]);
 
   const handleError = useCallback(() => {
+    if (!useDirectUrlFallback && directUrl && transformedUrl && directUrl !== transformedUrl) {
+      setUseDirectUrlFallback(true);
+      setStatus('loading');
+      return;
+    }
     console.error('Failed to load image:', fullSizeUrl);
     setStatus('error');
-  }, [fullSizeUrl]);
+  }, [directUrl, fullSizeUrl, transformedUrl, useDirectUrlFallback]);
 
   return (
     <div className="relative w-full h-full">
@@ -114,6 +137,7 @@ function OptimizedLightboxImage({
       {/* Full-size image */}
       {fullSizeUrl && (
         <Image
+          loader={sanityLoader}
           src={fullSizeUrl}
           alt={(mainImage as any)?.alt || item.title || 'Gallery item'}
           fill

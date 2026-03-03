@@ -22,7 +22,13 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
         // 'category' here comes from the query mapping 'client' -> 'category'
         category: item.category || 'Portfolio',
         image: item.coverImage
-            ? (item.coverImage?.asset?.url || urlFor(item.coverImage).width(1200).url())
+            ? (() => {
+                try {
+                    return urlFor(item.coverImage).width(1200).quality(80).auto('format').fit('max').url();
+                } catch {
+                    return item.coverImage?.asset?.url || item.coverImage?.url || 'https://placehold.co/800x1000/png?text=No+Image';
+                }
+            })()
             : 'https://placehold.co/800x1000/png?text=No+Image',
         lqip: item.coverImage?.asset?.metadata?.lqip,
         slug: item.slug,
