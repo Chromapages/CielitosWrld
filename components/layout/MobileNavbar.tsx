@@ -22,7 +22,7 @@ export default function MobileNavbar() {
 
   return (
     <nav
-      className="sm:hidden fixed bottom-0 left-0 right-0 z-50 w-full border-t border-white/10 bg-stone-950/90 shadow-navbar-float backdrop-blur-2xl motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-full duration-500 rounded-t-[2rem]"
+      className="sm:hidden fixed bottom-0 left-0 right-0 z-50 w-full border-t border-stone-200 dark:border-white/10 bg-white/95 dark:bg-stone-950/90 shadow-navbar-float backdrop-blur-2xl motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-full duration-500 rounded-t-[2rem]"
       style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 0.5rem)' }}
       aria-label="Mobile Navigation"
     >
@@ -48,9 +48,9 @@ export default function MobileNavbar() {
                 className={cn(
                   "flex h-9 w-14 items-center justify-center rounded-full transition-all duration-300 ease-out-quad motion-reduce:transition-none",
                   isActive
-                    ? "bg-orange-500/30 text-orange-100 scale-100 opacity-100"
-                    : "bg-transparent text-stone-400 opacity-80 group-hover:bg-white/10 group-hover:opacity-100 group-hover:text-stone-200",
-                  "group-focus-visible:ring-2 group-focus-visible:ring-orange-500 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-stone-950"
+                    ? "bg-orange-500/20 dark:bg-orange-500/30 text-orange-600 dark:text-orange-100 scale-100 opacity-100"
+                    : "bg-transparent text-stone-500 dark:text-stone-400 opacity-80 group-hover:bg-stone-100 dark:group-hover:bg-white/10 group-hover:opacity-100 group-hover:text-stone-900 dark:group-hover:text-stone-200",
+                  "group-focus-visible:ring-2 group-focus-visible:ring-orange-500 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-white dark:group-focus-visible:ring-offset-stone-950"
                 )}
               >
                 <Icon
@@ -64,10 +64,10 @@ export default function MobileNavbar() {
               </div>
               <span
                 className={cn(
-                  "text-[10px] font-semibold tracking-wide transition-colors duration-300 ease-out motion-reduce:transition-none",
+                  "text-[10px] font-bold tracking-wide transition-colors duration-300 ease-out motion-reduce:transition-none",
                   isActive
-                    ? "text-white"
-                    : "text-stone-400 group-hover:text-stone-100"
+                    ? "text-orange-700 dark:text-white"
+                    : "text-stone-500 dark:text-stone-400 group-hover:text-stone-900 dark:group-hover:text-stone-100"
                 )}
               >
                 {item.label}
