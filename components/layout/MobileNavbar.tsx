@@ -2,26 +2,35 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Camera, FileText, Mail } from 'lucide-react';
+import { Home, Camera, FileText, Mail, Briefcase } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { NAV_ITEMS } from '@/lib/constants';
 
-const NAV_ITEMS = [
-  { id: 'home', label: 'Home', href: '/', icon: Home },
-  { id: 'gallery', label: 'Gallery', href: '/gallery', icon: Camera },
-  { id: 'blog', label: 'Blog', href: '/blog', icon: FileText },
-  { id: 'contact', label: 'Contact', href: '/contact', icon: Mail },
-];
+// For mobile, we pick the most essential 5 items to maintain a balanced grid
+const MOBILE_NAV_ITEMS = NAV_ITEMS.filter(item => 
+  ['Home', 'Gallery', 'Services', 'Blog', 'Contact'].includes(item.label)
+).map(item => ({
+  ...item,
+  icon: item.label === 'Home' ? Home : 
+        item.label === 'Gallery' ? Camera : 
+        item.label === 'Services' ? Briefcase :
+        item.label === 'Blog' ? FileText : Mail
+}));
 
 export default function MobileNavbar() {
   const pathname = usePathname();
 
   return (
     <nav
-      className="sm:hidden fixed bottom-3 left-1/2 z-50 w-[calc(100%-1rem)] max-w-sm -translate-x-1/2 rounded-full border border-white/20 bg-stone-950/80 shadow-navbar-float backdrop-blur-xl"
-      style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+      className="sm:hidden fixed bottom-0 left-0 right-0 z-50 w-full border-t border-white/10 bg-stone-950/90 shadow-navbar-float backdrop-blur-2xl motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-full duration-500 rounded-t-[2rem]"
+      style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 0.5rem)' }}
+      aria-label="Mobile Navigation"
     >
-      <div className="grid h-16 w-full grid-cols-4 items-center px-2">
-        {NAV_ITEMS.map((item) => {
+      <div 
+        role="tablist" 
+        className="grid h-16 w-full grid-cols-5 items-center px-1"
+      >
+        {MOBILE_NAV_ITEMS.map((item) => {
           const Icon = item.icon;
           const isActive = pathname === item.href;
 
@@ -29,31 +38,37 @@ export default function MobileNavbar() {
             <Link
               key={item.href}
               href={item.href}
-                className="btn-press group flex h-full w-full flex-col items-center justify-center gap-1 transition-transform"
+              role="tab"
+              aria-selected={isActive}
+              aria-current={isActive ? 'page' : undefined}
+              className="group relative flex h-full w-full flex-col items-center justify-center gap-1 transition-transform focus-visible:outline-none"
               aria-label={item.label}
-              data-active={isActive}
             >
               <div
                 className={cn(
-                   "flex h-8 w-14 items-center justify-center rounded-full transition-all duration-300 ease-out-quad",
-                   isActive
-                     ? "bg-orange-500/30 text-orange-100"
-                     : "bg-transparent text-stone-300 group-hover:bg-white/10"
-                 )}
+                  "flex h-9 w-14 items-center justify-center rounded-full transition-all duration-300 ease-out-quad motion-reduce:transition-none",
+                  isActive
+                    ? "bg-orange-500/30 text-orange-100 scale-100 opacity-100"
+                    : "bg-transparent text-stone-400 opacity-80 group-hover:bg-white/10 group-hover:opacity-100 group-hover:text-stone-200",
+                  "group-focus-visible:ring-2 group-focus-visible:ring-orange-500 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-stone-950"
+                )}
               >
                 <Icon
                   size={20}
                   strokeWidth={isActive ? 2.5 : 2}
-                  className="transition-transform duration-300"
+                  className={cn(
+                    "transition-transform duration-300 ease-out motion-reduce:transition-none",
+                    isActive ? "scale-110" : "scale-100 group-hover:scale-105"
+                  )}
                 />
               </div>
               <span
                 className={cn(
-                  "text-[11px] font-medium tracking-wide transition-colors duration-300",
-                   isActive
-                     ? "font-bold text-white"
-                     : "text-stone-300 group-hover:text-stone-100"
-                 )}
+                  "text-[10px] font-semibold tracking-wide transition-colors duration-300 ease-out motion-reduce:transition-none",
+                  isActive
+                    ? "text-white"
+                    : "text-stone-400 group-hover:text-stone-100"
+                )}
               >
                 {item.label}
               </span>

@@ -178,7 +178,10 @@ export default async function RootLayout({
               <ScrollToTop />
               <Navbar />
               <MobileNavbar />
-              <main className="flex-1 pt-16 md:pt-24 pb-0">
+              <main 
+                className="flex-1 md:pt-24 pb-0"
+                style={{ paddingTop: 'calc(4rem + env(safe-area-inset-top))' }}
+              >
                 <PageTransition>
                   {children}
                 </PageTransition>

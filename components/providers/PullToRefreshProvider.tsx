@@ -64,9 +64,13 @@ export default function PullToRefreshProvider({ children }: { children: React.Re
           {refreshing ? 'Refreshing...' : pullDistance >= TRIGGER_PULL ? 'Release to refresh' : 'Pull to refresh'}
         </div>
       </div>
-      <div style={{ transform: `translateY(${pullDistance}px)` }} className="transition-transform duration-150">
-        {children}
-      </div>
+      {pullDistance > 0 ? (
+        <div style={{ transform: `translateY(${pullDistance}px)` }} className="transition-transform duration-150">
+          {children}
+        </div>
+      ) : (
+        children
+      )}
     </div>
   );
 }
