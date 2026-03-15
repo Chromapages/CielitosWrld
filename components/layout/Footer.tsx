@@ -42,12 +42,12 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
   ];
 
   return (
-    <footer className="relative z-10 bg-stone-950 text-stone-400 border-t border-stone-900 font-sans pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-0">
+    <footer className="relative z-10 bg-stone-950 text-stone-400 border-t border-stone-900 font-sans pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0">
       {/* Main Footer Content */}
-      <div className="max-w-[1600px] mx-auto px-6 md:px-12 pt-12 md:pt-20 pb-12">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-12 pt-8 md:pt-20 pb-0">
 
         {/* Mobile: Editorial Signature Layout */}
-        <div className="md:hidden flex flex-col items-center text-center space-y-8 pb-8">
+        <div className="md:hidden flex flex-col items-center text-center space-y-2 pb-0">
           <Link
             href="/"
             className="text-5xl font-bold font-pattaya text-stone-100 hover:text-orange-500 transition-colors"
@@ -71,20 +71,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
             ))}
           </div>
 
-          {/* Legal Links for Mobile */}
-          <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 px-4">
-            {navigation.legal.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-[11px] uppercase tracking-widest text-stone-500 hover:text-orange-400 transition-colors"
-              >
-                {item.name}
-              </Link>
-            ))}
-          </div>
-
-          <div className="text-xs text-stone-500 uppercase tracking-widest pt-4">
+          <div className="text-xs text-stone-500 uppercase tracking-widest pt-2 md:hidden">
             &copy; {currentYear} • Southern California
           </div>
         </div>
@@ -190,17 +177,17 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
         </div>
       </div>
 
-      {/* Bottom Bar (Desktop Only) */}
-      <div className="hidden md:block border-t border-stone-900 bg-stone-950/50">
+      {/* Bottom Bar (Responsive) */}
+      <div className="border-t border-stone-900 bg-stone-950/50">
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-stone-600">
-            <p>&copy; {currentYear} Cielito's Wrld. All rights reserved.</p>
-            <div className="flex gap-6">
+            <p className="order-2 md:order-1">&copy; {currentYear} Cielito's Wrld. All rights reserved.</p>
+            <div className="flex flex-wrap justify-center gap-6 order-1 md:order-2">
               {navigation.legal.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="hover:text-stone-400 transition-colors"
+                  className="hover:text-stone-400 transition-colors uppercase tracking-tight md:normal-case md:tracking-normal"
                 >
                   {item.name}
                 </Link>
