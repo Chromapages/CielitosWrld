@@ -42,7 +42,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
   ];
 
   return (
-    <footer className="relative z-10 bg-stone-950 text-stone-400 border-t border-stone-900 font-sans">
+    <footer className="relative z-10 bg-stone-950 text-stone-400 border-t border-stone-900 font-sans pb-[calc(5.5rem+env(safe-area-inset-bottom))] md:pb-0">
       {/* Main Footer Content */}
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 pt-12 md:pt-20 pb-12">
 
@@ -51,26 +51,40 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
           <Link
             href="/"
             className="text-5xl font-bold font-pattaya text-stone-100 hover:text-orange-500 transition-colors"
+            aria-label="Cielito's Wrld Home"
           >
             Cielito's Wrld
           </Link>
 
-          <div className="flex gap-6">
+          <div className="flex gap-4">
             {socialLinks.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-stone-400 hover:text-orange-500 transition-colors"
-                aria-label={item.name}
+                className="w-11 h-11 flex items-center justify-center rounded-full bg-stone-900/50 text-stone-400 hover:text-orange-500 hover:bg-stone-900 transition-all"
+                aria-label={`Follow on ${item.name}`}
               >
                 <item.icon className="w-5 h-5" />
               </a>
             ))}
           </div>
 
-          <div className="text-[10px] text-stone-600 uppercase tracking-widest">
+          {/* Legal Links for Mobile */}
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 px-4">
+            {navigation.legal.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="text-[11px] uppercase tracking-widest text-stone-500 hover:text-orange-400 transition-colors"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
+
+          <div className="text-xs text-stone-500 uppercase tracking-widest pt-4">
             &copy; {currentYear} • Southern California
           </div>
         </div>
