@@ -229,21 +229,43 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
           </div>
         </div>
 
-        {/* BOTTOM: Quick Facts Strip */}
+        {/* BOTTOM: Quick Facts Marquee Ticker */}
         {displayData.quickFacts.length > 0 && (
-          <div className="mt-20 pt-10 border-t border-stone-200 dark:border-stone-800">
-            <div className="flex flex-wrap justify-center gap-4 md:gap-8">
-              {displayData.quickFacts.map((fact, index) => {
+          <div className="mt-16 md:mt-24 pt-10 border-t border-stone-200 dark:border-stone-800 overflow-hidden relative">
+            <style>{`
+              @keyframes quick-facts-marquee {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
+              }
+              .quick-facts-marquee {
+                animation: quick-facts-marquee 80s linear infinite;
+              }
+              @media (prefers-reduced-motion: reduce) {
+                .quick-facts-marquee {
+                  animation: none;
+                  flex-wrap: wrap;
+                  justify-content: center;
+                }
+              }
+            `}</style>
+            
+            {/* Gradient Fades for edges */}
+            <div className="absolute left-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-r from-white dark:from-stone-950 to-transparent pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-l from-white dark:from-stone-950 to-transparent pointer-events-none" />
+
+            <div className="quick-facts-marquee flex w-max items-center py-4">
+              {[...displayData.quickFacts, ...displayData.quickFacts, ...displayData.quickFacts].map((fact, index) => {
                 const Icon = ICON_MAP[fact.icon] || Star;
                 return (
                   <div
                     key={index}
-                    className="flex items-center px-4 py-2 bg-white dark:bg-stone-900 border border-stone-100 dark:border-stone-800 rounded-full shadow-sm hover:border-orange-200 dark:hover:border-orange-900 transition-colors"
+                    className="flex items-center mx-6 md:mx-10 whitespace-nowrap group transition-all duration-300"
                   >
-                    <Icon className="w-4 h-4 mr-2.5 text-orange-600" />
-                    <span className="text-sm font-medium text-stone-700 dark:text-stone-300 tracking-wide">
+                    <Icon className="w-5 h-5 mr-3 text-orange-600 transition-transform group-hover:scale-110" />
+                    <span className="text-sm md:text-base font-bold text-stone-900 dark:text-stone-100 uppercase tracking-[0.2em]">
                       {fact.label}
                     </span>
+                    <span className="ml-12 md:ml-20 text-orange-500/40 font-light text-xl">✦</span>
                   </div>
                 );
               })}

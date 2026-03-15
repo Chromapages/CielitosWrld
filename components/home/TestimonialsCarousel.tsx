@@ -10,8 +10,10 @@ import { motion } from 'framer-motion';
 import {
   Dialog,
   DialogContent,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { VisuallyHidden } from '@/components/ui/visually-hidden';
 import ReviewForm from './ReviewForm';
 
 interface Testimonial {
@@ -126,6 +128,9 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
                   </button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-lg bg-white dark:bg-stone-950 border-stone-200 dark:border-stone-800">
+                  <VisuallyHidden>
+                    <DialogTitle>Leave a Review</DialogTitle>
+                  </VisuallyHidden>
                   <ReviewForm
                     onCancel={() => setIsModalOpen(false)}
                     onSuccess={() => setIsModalOpen(false)}
