@@ -42,7 +42,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
   ];
 
   return (
-    <footer className="relative z-10 bg-stone-950 text-stone-400 border-t border-stone-900 font-sans pb-[calc(4.5rem+env(safe-area-inset-bottom))] md:pb-0">
+    <footer className="relative z-10 bg-stone-950 text-stone-400 border-t border-stone-900 font-sans">
       {/* Main Footer Content */}
       <div className="max-w-[1600px] mx-auto px-6 md:px-12 pt-8 md:pt-20 pb-0">
 

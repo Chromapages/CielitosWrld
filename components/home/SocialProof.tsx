@@ -52,6 +52,19 @@ export default function SocialProof({ data }: SocialProofProps) {
         </div>
       )}
 
+      <style>{`
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .logos-marquee {
+          animation: marquee 18s linear infinite;
+        }
+        .logos-marquee:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+
       <div className="max-w-5xl mx-auto relative z-10">
         <h2
           id="collaborations-title"
@@ -59,14 +72,44 @@ export default function SocialProof({ data }: SocialProofProps) {
         >
           {displayData.heading}
         </h2>
-        <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 lg:gap-16">
+
+        {/* Mobile: auto-scrolling marquee */}
+        <div className="md:hidden overflow-hidden relative">
+          <div className="absolute left-0 top-0 bottom-0 w-10 z-10 bg-gradient-to-r from-neutral-200 dark:from-stone-900 to-transparent pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-10 z-10 bg-gradient-to-l from-neutral-200 dark:from-stone-900 to-transparent pointer-events-none" />
+          <div className="logos-marquee flex w-max items-center gap-10">
+            {[...displayData.items, ...displayData.items].map((item, index) => (
+              <div
+                key={index}
+                className="flex-shrink-0 flex items-center justify-center opacity-80 grayscale dark:brightness-0 dark:invert transition-all duration-300"
+              >
+                {item.asset?.url ? (
+                  <div className="relative h-10 w-28">
+                    <Image
+                      loader={sanityLoader}
+                      src={item.asset.url || urlFor(item.asset).url()}
+                      alt={item.alt || item.name || 'Partner Logo'}
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                ) : (
+                  <p className="font-fitzgerald-italic text-[#371d13] dark:text-stone-400 text-lg">{item.name}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop: wrapped flex grid */}
+        <div className="hidden md:flex flex-wrap justify-center items-center gap-12 lg:gap-16">
           {displayData.items.map((item, index) => (
             <div
               key={index}
               className="flex items-center justify-center p-2 opacity-80 hover:opacity-100 grayscale hover:grayscale-0 dark:brightness-0 dark:invert dark:hover:invert-0 dark:hover:brightness-100 transition-all duration-300"
             >
               {item.asset?.url ? (
-                <div className="relative h-12 w-32 md:h-16 md:w-40">
+                <div className="relative h-16 w-40">
                   <Image
                     loader={sanityLoader}
                     src={item.asset.url || urlFor(item.asset).url()}
