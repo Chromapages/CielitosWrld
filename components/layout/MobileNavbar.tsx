@@ -22,7 +22,7 @@ export default function MobileNavbar() {
 
   return (
     <nav
-      className="sm:hidden fixed bottom-0 left-0 right-0 z-50 w-full border-t border-stone-200 dark:border-white/10 bg-white/95 dark:bg-stone-950/90 shadow-navbar-float backdrop-blur-2xl motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-full duration-500 rounded-t-[2rem]"
+      className="sm:hidden fixed bottom-0 left-0 right-0 z-50 w-full border-t border-stone-200 dark:border-white/10 bg-white/95 dark:bg-stone-950/90 shadow-navbar-float backdrop-blur-2xl motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-full duration-500 "
       style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 0.5rem)' }}
       aria-label="Mobile Navigation"
     >

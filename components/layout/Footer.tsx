@@ -87,7 +87,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
             >
               Cielito's Wrld
             </Link>
-            <p className="text-sm leading-relaxed max-w-xs text-stone-400 font-light">
+            <p className="text-xs leading-relaxed max-w-xs text-stone-400 font-light">
               Capturing life's fleeting moments with authenticity and passion. Based in Southern California, available worldwide.
             </p>
 
@@ -118,7 +118,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-sm hover:text-orange-400 transition-colors inline-block hover:translate-x-1 duration-200"
+                    className="text-xs hover:text-orange-400 transition-colors inline-block hover:translate-x-1 duration-200"
                   >
                     {item.name}
                   </Link>
@@ -135,7 +135,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-stone-600 mt-0.5" />
-                <span className="text-sm text-stone-400 leading-relaxed">
+                <span className="text-xs text-stone-400 leading-relaxed">
                   {contactInfo?.location || 'Southern California, USA'}
                 </span>
               </li>
@@ -143,14 +143,14 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
                 <Mail className="w-5 h-5 text-stone-600" />
                 <a
                   href={`mailto:${contactInfo?.email || 'Abajo.Del.Cieloo@gmail.com'}`}
-                  className="text-sm hover:text-white transition-colors"
+                  className="text-xs hover:text-white transition-colors"
                 >
                   {contactInfo?.email || 'Abajo.Del.Cieloo@gmail.com'}
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <Camera className="w-5 h-5 text-stone-600" />
-                <span className="text-sm text-stone-500">
+                <span className="text-xs text-stone-500">
                   Accepting new projects
                 </span>
               </li>
@@ -162,7 +162,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
             <h3 className="text-stone-100 font-bold uppercase tracking-widest text-xs mb-6">
               Let's Create
             </h3>
-            <p className="text-sm text-stone-400 mb-6 font-light">
+            <p className="text-xs text-stone-400 mb-6 font-light">
               Ready to bring your vision to life? Let's discuss your next project.
             </p>
             <Link
@@ -178,7 +178,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
       </div>
 
       {/* Bottom Bar (Responsive) */}
-      <div className="border-t border-stone-900 bg-stone-950/50">
+      <div className="md:border-t border-stone-900 bg-stone-950/50">
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-stone-600">
             <p className="order-2 md:order-1">&copy; {currentYear} Cielito's Wrld. All rights reserved.</p>
@@ -187,7 +187,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="hover:text-stone-400 transition-colors uppercase tracking-tight md:normal-case md:tracking-normal"
+                  className="text-[10px] hover:text-stone-400 transition-colors uppercase tracking-tight md:normal-case md:tracking-normal"
                 >
                   {item.name}
                 </Link>
