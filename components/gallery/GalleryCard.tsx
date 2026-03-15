@@ -43,30 +43,31 @@ export default function GalleryCard({ item, onClick, aspectRatio }: GalleryCardP
     };
 
     return (
-        <div
+        <button
             onClick={onClick}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="group relative cursor-pointer overflow-hidden rounded-lg bg-stone-100 dark:bg-stone-900 shadow-md hover:shadow-xl ring-1 ring-stone-200/50 dark:ring-stone-700/50 hover:ring-orange-500/30 dark:hover:ring-orange-400/30 transition-all duration-300 ease-out hover:scale-[1.05]"
+            className="group relative cursor-pointer overflow-hidden rounded-lg bg-stone-100 dark:bg-stone-900 shadow-md md:hover:shadow-xl ring-1 ring-stone-200/50 dark:ring-stone-700/50 md:hover:ring-orange-500/30 dark:md:hover:ring-orange-400/30 transition-all duration-300 ease-out md:hover:scale-[1.05] text-left w-full"
             style={{ aspectRatio: item.isShort ? '9/16' : aspectRatio || `${width} / ${height}` }}
+            aria-label={`${item.title} - ${item.category}${isVideo ? ' - Video' : ''}`}
         >
             {(imageAsset || youtubeThumbnail) ? (
                 <Image
                     src={imageAsset
                       ? (() => {
                           try {
-                            return urlFor(imageAsset).width(900).quality(78).auto('format').fit('max').url();
+                            return urlFor(imageAsset).width(600).quality(78).auto('format').fit('max').url();
                           } catch {
-                            return imageAsset?.asset?.url || imageAsset?.url || '';
+                            return imageAsset?.asset?.url || (imageAsset as any)?.url || '';
                           }
                         })()
                       : youtubeThumbnail!}
                     alt={imageAsset?.alt || item.title}
                     fill
-                    className="object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"
+                    className="object-cover transition-transform duration-300 ease-out md:group-hover:scale-[1.03]"
                     placeholder={imageAsset?.asset?.metadata?.lqip ? 'blur' : 'empty'}
                     blurDataURL={imageAsset?.asset?.metadata?.lqip}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
                     unoptimized={!imageAsset} // Required for external YouTube URLs
                 />
             ) : (
@@ -84,14 +85,14 @@ export default function GalleryCard({ item, onClick, aspectRatio }: GalleryCardP
                     muted
                     loop
                     playsInline
-                    className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    className="absolute inset-0 w-full h-full object-cover opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 hidden md:block"
                 />
             )}
 
             {/* Video Play Icon Overlay (Fades out on hover if preview plays) */}
             {isVideo && (
-                <div className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300 ${item.hoverVideo ? 'group-hover:opacity-0' : ''}`}>
-                    <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/40 shadow-lg group-hover:scale-110 transition-transform duration-300 group-hover:animate-pulse">
+                <div className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-300 ${item.hoverVideo ? 'md:group-hover:opacity-0' : ''}`}>
+                    <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/40 shadow-lg md:group-hover:scale-110 transition-transform duration-300 md:group-hover:animate-pulse">
                         <svg className="w-5 h-5 text-white fill-white ml-1" viewBox="0 0 24 24">
                             <path d="M8 5v14l11-7z" />
                         </svg>
@@ -100,21 +101,21 @@ export default function GalleryCard({ item, onClick, aspectRatio }: GalleryCardP
             )}
 
             {/* Gradient Overlay - Always visible for depth */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-40 md:opacity-60 md:group-hover:opacity-80 transition-opacity duration-300 pointer-events-none" />
 
             {/* Overlay - Desktop */}
-            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 md:p-6 pointer-events-none">
-                <h3 className="text-white font-bold font-archivo text-base md:text-lg translate-y-4 group-hover:translate-y-0 transition-transform duration-300 drop-shadow-lg line-clamp-2">
+            <div className="absolute inset-0 bg-black/20 opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 hidden md:flex flex-col justify-end p-4 md:p-6 pointer-events-none">
+                <h3 className="text-white font-bold font-archivo text-base md:text-lg translate-y-4 md:group-hover:translate-y-0 transition-transform duration-300 drop-shadow-lg line-clamp-2">
                     {item.title}
                 </h3>
-                <div className="text-stone-200 text-sm translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75 drop-shadow-md flex items-center gap-2 mt-1">
+                <div className="text-stone-200 text-sm translate-y-4 md:group-hover:translate-y-0 transition-transform duration-300 delay-75 drop-shadow-md flex items-center gap-2 mt-1">
                     <span>{item.category}</span>
                     {item.location && <span>· {item.location}</span>}
                 </div>
 
                 {/* Video Stats */}
                 {isVideo && item.videoStats && (
-                    <div className="flex items-center gap-3 mt-2 text-xs text-stone-300 font-medium translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-100">
+                    <div className="flex items-center gap-3 mt-2 text-xs text-stone-300 font-medium translate-y-4 md:group-hover:translate-y-0 transition-transform duration-300 delay-100">
                         {item.videoStats.views && (
                             <span className="flex items-center gap-1">
                                 <Eye className="w-3 h-3" /> {item.videoStats.views}
@@ -127,6 +128,16 @@ export default function GalleryCard({ item, onClick, aspectRatio }: GalleryCardP
                         )}
                     </div>
                 )}
+            </div>
+
+            {/* Mobile Info Strip - Always visible */}
+            <div className="md:hidden absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-black/80 to-transparent pointer-events-none">
+                <h3 className="text-white font-bold font-archivo text-xs line-clamp-1 drop-shadow-md">
+                    {item.title}
+                </h3>
+                <p className="text-stone-300 text-[10px] uppercase tracking-wider mt-0.5 drop-shadow-sm">
+                    {item.category}
+                </p>
             </div>
 
             {/* Badges */}
@@ -143,6 +154,6 @@ export default function GalleryCard({ item, onClick, aspectRatio }: GalleryCardP
                     <span className="uppercase tracking-wider">Shorts</span>
                 </div>
             )}
-        </div>
+        </button>
     );
 }

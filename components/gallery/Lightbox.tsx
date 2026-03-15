@@ -7,7 +7,6 @@ import { X, ChevronLeft, ChevronRight, Share2, Download, Info, Eye } from 'lucid
 import { GalleryItem } from '@/app/gallery/page';
 import { urlFor, sanityLoader } from '@/sanity/lib/image';
 import useEmblaCarousel from 'embla-carousel-react';
-import { useDrag } from '@use-gesture/react';
 import { cn } from '@/lib/utils';
 import { getYouTubeThumbnail } from '@/lib/videoUtils';
 
@@ -78,7 +77,7 @@ function OptimizedLightboxImage({
   const transformedUrl = mainImage
     ? (() => {
         try {
-          return urlFor(mainImage).width(1800).quality(88).auto('format').fit('max').url();
+          return urlFor(mainImage).width(1200).quality(88).auto('format').fit('max').url();
         } catch {
           return directUrl;
         }
@@ -268,12 +267,38 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
 
   const handleShare = useCallback(async () => {
     const url = window.location.href;
+    
+    // Modern Clipboard API
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(url);
+        setShareFeedback(true);
+        setTimeout(() => setShareFeedback(false), 2000);
+        return;
+      } catch (err) {
+        console.warn('Clipboard API failed, trying fallback:', err);
+      }
+    }
+
+    // Legacy Fallback
     try {
-      await navigator.clipboard.writeText(url);
-      setShareFeedback(true);
-      setTimeout(() => setShareFeedback(false), 2000);
+      const textArea = document.createElement("textarea");
+      textArea.value = url;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-9999px";
+      textArea.style.top = "0";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      
+      if (successful) {
+        setShareFeedback(true);
+        setTimeout(() => setShareFeedback(false), 2000);
+      }
     } catch (err) {
-      console.error('Failed to copy:', err);
+      console.error('Final fallback copy failed:', err);
     }
   }, []);
 
@@ -287,29 +312,17 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
     }
   }, [currentItem]);
 
-  const bindSwipe = useDrag(
-    ({ last, movement: [mx], velocity: [vx], direction: [dx] }) => {
-      if (!last) return;
-      const hasSwipeIntent = Math.abs(mx) > 80 || vx > 0.35;
-      if (!hasSwipeIntent) return;
-
-      if (dx > 0) {
-        handlePrev();
-      } else {
-        handleNext();
-      }
-    },
-    {
-      axis: 'x',
-      pointer: { touch: true },
-      filterTaps: true,
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose();
     }
-  );
+  };
 
   const lightboxContent = (
     <div
       className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex flex-col"
-      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
     >
       {/* Controls Overlay */}
       <div
@@ -331,19 +344,19 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
         <div className="flex items-center gap-2">
           {currentItem.mediaType === 'photo' && (
             <button
-              onClick={handleDownload}
+              onClick={(e) => { e.stopPropagation(); handleDownload(); }}
               className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
               title="Download Original"
             >
-              <Download size={20} />
+              <Download size={18} className="md:w-5 md:h-5" />
             </button>
           )}
           <button
-            onClick={handleShare}
+            onClick={(e) => { e.stopPropagation(); handleShare(); }}
             className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors relative"
             title="Share Link"
           >
-            <Share2 size={20} />
+            <Share2 size={18} className="md:w-5 md:h-5" />
             {shareFeedback && (
               <span className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-brand-500 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap">
                 Copied!
@@ -351,30 +364,29 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
             )}
           </button>
           <button
-            onClick={() => setShowInfo(!showInfo)}
+            onClick={(e) => { e.stopPropagation(); setShowInfo(!showInfo); }}
             className={cn(
               "p-2.5 rounded-full transition-colors",
               showInfo ? "bg-brand-500 text-white" : "bg-white/10 hover:bg-white/20 text-white"
             )}
             title="Information"
           >
-            <Info size={20} />
+            <Info size={18} className="md:w-5 md:h-5" />
           </button>
           <button
-            onClick={onClose}
-            className="p-2.5 rounded-full bg-white/20 hover:bg-white/30 text-white transition-colors ml-2"
+            onClick={(e) => { e.stopPropagation(); onClose(); }}
+            className="p-2.5 rounded-full bg-white/20 hover:bg-white/30 text-white transition-colors ml-1 md:ml-2"
             aria-label="Close"
           >
-            <X size={24} />
+            <X size={20} className="md:w-6 md:h-6" />
           </button>
         </div>
       </div>
 
       {/* Main Content Area */}
       <div
-        className="flex-1 relative flex items-center justify-center cursor-default"
+        className="flex-1 relative flex items-center justify-center cursor-default bg-black/40"
         onClick={() => setShowControls(!showControls)}
-        {...bindSwipe()}
       >
         {/* Desktop Navigation */}
         <button
@@ -396,12 +408,19 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
         {/* Carousel */}
         <div className="w-full h-full overflow-hidden" ref={emblaRef}>
           <div className="flex h-full">
-            {items.map((item, index) => (
-              <div
-                key={item._id}
-                className="flex-[0_0_100%] min-w-0 h-full relative"
-              >
-                <div className="w-full h-full flex items-center justify-center p-4 md:p-16 lg:p-24">
+            {items.map((item, index) => {
+              // Virtualization: only render current and adjacent items
+              const distance = Math.abs(index - currentIndex);
+              const isAdjacent = distance <= 1 || distance === items.length - 1;
+
+              if (!isAdjacent) return <div key={item._id} className="flex-[0_0_100%] min-w-0" />;
+
+              return (
+                <div
+                  key={item._id}
+                  className="flex-[0_0_100%] min-w-0 h-full relative"
+                >
+                  <div className="w-full h-full flex items-center justify-center p-2 md:p-16 lg:p-24">
                   {item.mediaType === 'video' && item.videoEmbedUrl ? (
                     <div className="relative w-full aspect-video max-w-5xl shadow-2xl rounded-lg overflow-hidden bg-black">
                       <iframe
@@ -421,22 +440,27 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
                   )}
                 </div>
               </div>
-            ))}
+            );
+          })}
           </div>
         </div>
       </div>
 
-      {/* Info Panel Slider */}
+      {/* Info Panel Slider - Drawer on Desktop, Bottom Sheet on Mobile */}
       <div
         className={cn(
-          "fixed top-0 right-0 h-full w-full md:w-96 bg-stone-950/98 backdrop-blur-2xl z-[60] border-l border-white/10 transition-transform duration-500 ease-out shadow-2xl transform overflow-y-auto",
-          showInfo ? "translate-x-0" : "translate-x-full"
+          "fixed z-[110] bg-stone-950/98 backdrop-blur-2xl border-stone-800 transition-transform duration-500 ease-out shadow-2xl",
+          // Desktop: Right Drawer
+          "md:top-0 md:right-0 md:h-full md:w-96 md:border-l md:translate-y-0",
+          // Mobile: Bottom Sheet
+          "bottom-0 left-0 w-full rounded-t-3xl border-t",
+          showInfo ? "translate-x-0 translate-y-0" : "md:translate-x-full translate-y-full"
         )}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="p-8 space-y-8">
-          <div className="flex items-center justify-between border-b border-white/10 pb-6">
-            <h3 className="text-xl font-display text-white">Artwork Details</h3>
+        <div className="p-6 md:p-8 space-y-6 md:space-y-8 max-h-[70vh] md:max-h-full overflow-y-auto">
+          <div className="flex items-center justify-between border-b border-white/10 pb-4 md:pb-6">
+            <h3 className="text-lg md:text-xl font-display text-white">Artwork Details</h3>
             <button
               onClick={() => setShowInfo(false)}
               className="p-2 text-stone-400 hover:text-white transition-colors"

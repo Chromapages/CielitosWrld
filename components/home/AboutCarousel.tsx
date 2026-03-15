@@ -47,10 +47,10 @@ export default function AboutCarousel({ images = [] }: AboutCarouselProps) {
     return (
         <section className="bg-white dark:bg-stone-950">
             {/* Mobile Bento Grid */}
-            <div 
-                className="md:hidden grid grid-cols-2 gap-2 grid-flow-dense px-4 pb-4"
-                style={{ 
-                    gridAutoRows: 'calc((100vw - 3rem) / 2)'
+            <div
+                className="md:hidden grid grid-cols-2 grid-rows-2 gap-2 px-4 pb-2"
+                style={{
+                    gridTemplateRows: 'repeat(2, calc((100vw - 3rem) / 2))'
                 }}
             >
                 {images.slice(0, 3).map((item, i) => {

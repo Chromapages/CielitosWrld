@@ -131,7 +131,7 @@ export default function GalleryClient({ initialItems, pageData }: GalleryClientP
 
                 {/* Header */}
                 <div className="container mx-auto px-4 md:px-8 mb-8 md:mb-12">
-                    <h1 className="font-pattaya text-4xl md:text-6xl font-bold text-stone-900 dark:text-stone-50 mb-4">
+                    <h1 className="font-pattaya text-3xl sm:text-4xl md:text-6xl font-bold text-stone-900 dark:text-stone-50 mb-4">
                         {pageData?.title || 'Visual Stories'}
                     </h1>
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
@@ -152,14 +152,14 @@ export default function GalleryClient({ initialItems, pageData }: GalleryClientP
                                     SUBSCRIBE
                                 </a>
                             )}
-                            <div className="text-sm font-medium text-stone-500 dark:text-stone-500">
+                            <div className="text-sm font-medium text-stone-500 dark:text-stone-500 hidden sm:block">
                                 Showing {filteredItems.length} of {items.length} results
                             </div>
                         </div>
                     </div>
 
                     {/* Search and Sort Bar */}
-                    <div className="flex flex-col sm:flex-row gap-3 mb-4">
+                    <div className="flex flex-col sm:flex-row gap-3 mb-4 hidden sm:flex">
                         {/* Search Input */}
                         <div className="relative flex-1 max-w-md">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
@@ -284,7 +284,7 @@ export default function GalleryClient({ initialItems, pageData }: GalleryClientP
                     </aside>
 
                     {/* Mobile Filter Bar */}
-                    <div className="md:hidden mb-6 sticky top-0 z-30 bg-white/90 dark:bg-stone-950/90 backdrop-blur-md py-2 -mx-4 px-4 border-b border-stone-100 dark:border-stone-900">
+                    <div className="md:hidden mb-6 sticky top-[calc(4rem+env(safe-area-inset-top))] z-30 bg-white/90 dark:bg-stone-950/90 backdrop-blur-md py-2 -mx-4 px-4 border-b border-stone-100 dark:border-stone-900">
                         <GalleryMobileFilters
                             filters={filters}
                             onFilterChange={handleFilterChange}
@@ -292,6 +292,10 @@ export default function GalleryClient({ initialItems, pageData }: GalleryClientP
                             activeCount={activeFilterCount}
                             mediaType={mediaType}
                             onMediaTypeChange={setMediaType}
+                            sortBy={sortBy}
+                            onSortChange={setSortBy}
+                            viewMode={viewMode}
+                            onViewModeChange={setViewMode}
                         />
                     </div>
 

@@ -179,7 +179,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
 
       {/* Bottom Bar (Responsive) */}
       <div className="md:border-t border-stone-900 bg-stone-950/50">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 py-6">
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 py-6 sm:pb-6 pb-[calc(4.5rem+env(safe-area-inset-bottom))]">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-stone-600">
             <p className="order-2 md:order-1">&copy; {currentYear} Cielito's Wrld. All rights reserved.</p>
             <div className="flex flex-wrap justify-center gap-6 order-1 md:order-2">

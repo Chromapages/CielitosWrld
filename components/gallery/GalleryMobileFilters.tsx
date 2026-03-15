@@ -16,6 +16,10 @@ interface GalleryMobileFiltersProps {
     activeCount: number;
     mediaType: 'photo' | 'video';
     onMediaTypeChange: (type: 'photo' | 'video') => void;
+    sortBy: 'newest' | 'oldest' | 'title';
+    onSortChange: (sort: 'newest' | 'oldest' | 'title') => void;
+    viewMode: 'masonry' | 'grid';
+    onViewModeChange: (view: 'masonry' | 'grid') => void;
 }
 
 export default function GalleryMobileFilters({
@@ -24,7 +28,11 @@ export default function GalleryMobileFilters({
     onClear,
     activeCount,
     mediaType,
-    onMediaTypeChange
+    onMediaTypeChange,
+    sortBy,
+    onSortChange,
+    viewMode,
+    onViewModeChange
 }: GalleryMobileFiltersProps) {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -80,7 +88,8 @@ export default function GalleryMobileFilters({
     return (
         <div className="flex flex-col gap-2">
             {/* Top Row: Filters Btn + Quick Chips */}
-            <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1 px-4 -mx-4">
+            <div className="relative group/filters px-4 -mx-4">
+                <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1">
                 {/* Main Filter Button */}
                 <button
                     onClick={() => setIsOpen(true)}
@@ -118,6 +127,9 @@ export default function GalleryMobileFilters({
                         </button>
                     );
                 })}
+                </div>
+                {/* Horizontal scroll fade indicators */}
+                <div className="absolute right-0 top-0 bottom-1 w-12 bg-gradient-to-l from-white dark:from-stone-950 to-transparent pointer-events-none opacity-0 group-hover/filters:opacity-100 transition-opacity md:hidden" />
             </div>
 
             {/* Secondary Row: Extra Active Filters (Location, etc.) */}
@@ -138,13 +150,22 @@ export default function GalleryMobileFilters({
 
             {/* Filter Sheet / Modal */}
             {isOpen && (
-                <div className="fixed inset-0 z-50 flex flex-col justify-end bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+                <div
+                    className="fixed inset-0 z-50 flex flex-col justify-end bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="filter-title"
+                >
+                    {/* Body Scroll Lock */}
+                    <style jsx global>{`
+                        body { overflow: hidden !important; overscroll-behavior: contain; }
+                    `}</style>
 
                     <div className="bg-white dark:bg-stone-950 rounded-t-3xl overflow-hidden max-h-[90vh] flex flex-col animate-in slide-in-from-bottom-full duration-300 shadow-2xl">
 
                         {/* Header */}
                         <div className="flex items-center justify-between px-6 py-5 border-b border-stone-100 dark:border-stone-900">
-                            <h2 className="text-xl font-bold font-display">Filters</h2>
+                            <h2 id="filter-title" className="text-xl font-bold font-display">Filters</h2>
                             <button onClick={() => setIsOpen(false)} className="p-2 -mr-2 text-stone-500">
                                 <X className="w-6 h-6" />
                             </button>
@@ -177,6 +198,61 @@ export default function GalleryMobileFilters({
                                         )}
                                     >
                                         Videos
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Sort Order */}
+                            <div>
+                                <h3 className="font-bold text-stone-900 dark:text-stone-100 mb-3 text-lg uppercase tracking-wider">Sort By</h3>
+                                <div className="grid grid-cols-1 gap-2">
+                                    {[
+                                        { label: 'Newest First', value: 'newest' },
+                                        { label: 'Oldest First', value: 'oldest' },
+                                        { label: 'Title (A-Z)', value: 'title' }
+                                    ].map((option) => (
+                                        <button
+                                            key={option.value}
+                                            onClick={() => onSortChange(option.value as any)}
+                                            className={cn(
+                                                "w-full py-3 px-4 text-left text-sm font-medium rounded-xl border transition-all flex items-center justify-between",
+                                                sortBy === option.value
+                                                    ? "bg-orange-50 dark:bg-orange-900/20 border-orange-500 text-orange-900 dark:text-orange-100"
+                                                    : "bg-white dark:bg-stone-900 border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-400"
+                                            )}
+                                        >
+                                            {option.label}
+                                            {sortBy === option.value && <div className="w-2 h-2 rounded-full bg-orange-500" />}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* View Mode */}
+                            <div>
+                                <h3 className="font-bold text-stone-900 dark:text-stone-100 mb-3 text-lg uppercase tracking-wider">Layout</h3>
+                                <div className="flex p-1 bg-stone-100 dark:bg-stone-900 rounded-xl">
+                                    <button
+                                        onClick={() => onViewModeChange('masonry')}
+                                        className={cn(
+                                            "flex-1 py-3 text-sm font-bold rounded-lg transition-all",
+                                            viewMode === 'masonry'
+                                                ? "bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
+                                                : "text-stone-500 hover:text-stone-900 dark:hover:text-stone-300"
+                                        )}
+                                    >
+                                        Masonry
+                                    </button>
+                                    <button
+                                        onClick={() => onViewModeChange('grid')}
+                                        className={cn(
+                                            "flex-1 py-3 text-sm font-bold rounded-lg transition-all",
+                                            viewMode === 'grid'
+                                                ? "bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
+                                                : "text-stone-500 hover:text-stone-900 dark:hover:text-stone-300"
+                                        )}
+                                    >
+                                        Grid
                                     </button>
                                 </div>
                             </div>

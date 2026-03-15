@@ -13,6 +13,8 @@ export interface GalleryItem {
   medium?: string;
   vibe?: string;
   location?: string;
+  description?: string;
+  client?: string;
   mediaType: 'photo' | 'video';
   videoEmbedUrl?: string;
   videoStats?: {

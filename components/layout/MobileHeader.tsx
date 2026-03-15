@@ -23,8 +23,8 @@ export default function MobileHeader() {
       className={cn(
         "md:hidden fixed top-0 left-0 right-0 z-50 flex flex-col justify-end transition-all duration-300",
         scrolled
-          ? "bg-white/95 dark:bg-stone-950/95 shadow-md border-b border-stone-200 dark:border-stone-800 backdrop-blur-md"
-          : "bg-white/80 dark:bg-stone-950/80 border-b border-transparent backdrop-blur-sm"
+          ? "bg-white dark:bg-stone-950 shadow-md border-b border-stone-200 dark:border-stone-800"
+          : "bg-white dark:bg-stone-950 border-b border-transparent"
       )}
       style={{
         paddingTop: 'env(safe-area-inset-top)',
