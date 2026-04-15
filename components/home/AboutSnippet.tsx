@@ -11,13 +11,13 @@ import {
   Clock,
   Heart,
   Star,
-  Quote,
   LucideIcon
 } from 'lucide-react';
 import { urlFor, sanityLoader } from '@/sanity/lib/image';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import AboutCarousel from './AboutCarousel';
+import { MobileSection } from '../layout/MobileSection';
 
 // Define icon mapping
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -34,22 +34,9 @@ interface AboutSnippetProps {
   data?: {
     eyebrow?: string;
     heading?: string;
-    bio?: string; // "content" in Sanity is mapped to "bio" if I recall, but schema says "bio". Let's update props to match schema or keep flexible.
-    // The previous implementation used data?.content mapped to bio. Current schema has a 'bio' field.
-    // I will check the prop standard. Previous code: "bio: data?.content || ..."
-
-    // Schema fields I added: eyebrow, heading, bio, testimonial, profileImage, backgroundImage, quickFacts, features, ctaPrimary, ctaSecondary
-
-    // Let's expect the data passed from page.tsx to match the GROQ query result.
-    // I'll need to trust the GROQ query fetches these fields.
-    // Wait, I need to check the GROQ query in `sanity/lib/queries.ts` to make sure it fetches the new fields!
-    // Since I can't check queries.ts right now without another tool call, I will assume it fetches everything (*) or I might need to update it.
-    // Actually, `HOME_PAGE_QUERY` likely fetches the referencing object.
-    // Let's assume standard fetching practice.
-
-    content?: string; // legacy support if needed
-    title?: string; // legacy support
-
+    bio?: string;
+    content?: string; 
+    title?: string;
     image?: any;
     testimonial?: {
       quote: string;
@@ -109,20 +96,12 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
     }
   };
 
-
-
   return (
-    <section className="relative pt-20 md:pt-32 pb-0 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 overflow-hidden">
-
-      {/* Background Decor */}
-      <div className="absolute top-0 right-0 w-1/3 h-full bg-stone-50/50 dark:bg-stone-900/20 -z-10 skew-x-12 translate-x-32 hidden lg:block" />
-
-      <div className="container mx-auto px-4 md:px-8 max-w-7xl relative z-10">
-
+    <MobileSection className="bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 overflow-hidden !py-20 md:!py-32">
+      <div className="container mx-auto max-w-7xl relative z-10">
         <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
-
-          {/* LEFT COLUMN: IMAGE (Sticky-ish) */}
-          <div className="w-full lg:w-1/2 relative group">
+          {/* LEFT COLUMN: IMAGE */}
+          <div className="w-full lg:w-1/2 relative group px-4 sm:px-0">
             {/* Decorative Elements */}
             <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-orange-100 dark:bg-orange-900/10 rounded-full blur-3xl -z-10 transition-transform duration-700 group-hover:scale-110" />
             <div className="absolute -top-8 -left-8 w-64 h-64 bg-stone-100 dark:bg-stone-800/50 rounded-full blur-3xl -z-10" />
@@ -139,20 +118,17 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
                 priority
                 placeholder={displayData.profileImage.blurDataURL ? 'blur' : 'empty'}
                 blurDataURL={displayData.profileImage.blurDataURL}
+                suppressHydrationWarning
               />
-
-              {/* Optional overlay gradient for text legibility if we wanted overlaid text, but we don't here. 
-                   Adding a subtle inner shadow though. */}
               <div className="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-[2rem]" />
             </div>
           </div>
 
           {/* RIGHT COLUMN: CONTENT */}
-          <div className="w-full lg:w-1/2 flex flex-col space-y-10">
-
+          <div className="w-full lg:w-1/2 flex flex-col space-y-10 px-4 sm:px-0">
             {/* 1. Header Block */}
             <div className="space-y-4 text-center lg:text-left">
-              <span className="inline-block text-orange-700 dark:text-orange-500 font-medium tracking-widest text-sm uppercase mb-2">
+              <span className="inline-block text-orange-700 dark:text-orange-500 font-bold tracking-[0.3em] text-[11px] uppercase mb-2">
                 {displayData.eyebrow}
               </span>
               <h2 className="font-pattaya text-5xl md:text-6xl lg:text-7xl font-light text-stone-900 dark:text-stone-50 leading-[1.1]">
@@ -166,17 +142,17 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
               {displayData.bio}
             </p>
 
-            {/* 3. Value Props Grid (Icons + Title) */}
+            {/* 3. Value Props Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
               {displayData.features.map((feature, idx) => {
                 const Icon = ICON_MAP[feature.icon] || Sparkles;
                 return (
                   <div
                     key={idx}
-                    className="flex items-center space-x-3 p-3 rounded-lg hover:bg-stone-50 dark:hover:bg-stone-900 transition-colors"
+                    className="flex items-center space-x-3 p-3 rounded-xl hover:bg-stone-50 dark:hover:bg-stone-900 transition-colors"
                   >
                     <div className="flex-shrink-0 w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/20 flex items-center justify-center text-orange-600 dark:text-orange-400">
-                      <Icon className="w-5 h-5" />
+                      <Icon className="w-5 h-5" suppressHydrationWarning />
                     </div>
                     <div>
                       <h3 className="font-bold text-stone-900 dark:text-stone-100 text-base">{feature.title}</h3>
@@ -189,101 +165,30 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
               })}
             </div>
 
-            {/* 4. Trust/Testimonial Element */}
-            <div className="relative bg-stone-50 dark:bg-stone-900 rounded-2xl p-6 border-l-4 border-orange-500 shadow-sm">
-              <Quote className="absolute top-4 left-4 w-6 h-6 text-stone-300 dark:text-stone-700 opacity-50" />
-              <div className="pl-6 relative z-10">
-                <p className="text-stone-700 dark:text-stone-300 italic mb-4 font-light text-lg">
-                  &quot;{displayData.testimonial.quote}&quot;
-                </p>
-                <div className="flex items-center text-sm font-medium">
-                  <span className="text-stone-900 dark:text-stone-100">{displayData.testimonial.author}</span>
-                  {displayData.testimonial.role && (
-                    <>
-                      <span className="mx-2 text-stone-300 dark:text-stone-600">•</span>
-                      <span className="text-orange-600 dark:text-orange-400">{displayData.testimonial.role}</span>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* 5. CTAs */}
+            {/* 4. CTAs */}
             <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 justify-center lg:justify-start">
               <Link
                 href={displayData.ctaPrimary.link}
-                className="btn-press inline-flex items-center justify-center h-12 px-8 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-medium transition-all hover:scale-105 hover:shadow-lg text-base w-full sm:w-auto"
+                className="btn-press inline-flex items-center justify-center h-12 px-8 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-bold transition-all hover:scale-105 hover:shadow-lg text-base w-full sm:w-auto"
               >
                 {displayData.ctaPrimary.label}
               </Link>
-
               <Link
                 href={displayData.ctaSecondary.link}
-                className="btn-press inline-flex items-center justify-center h-12 px-8 text-stone-600 dark:text-stone-300 hover:text-orange-600 dark:hover:text-orange-400 font-medium transition-colors group w-full sm:w-auto"
+                className="btn-press inline-flex items-center justify-center h-12 px-8 text-stone-600 dark:text-stone-300 hover:text-orange-600 dark:hover:text-orange-400 font-bold transition-colors group w-full sm:w-auto"
               >
                 {displayData.ctaSecondary.label}
-                <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+                <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" suppressHydrationWarning />
               </Link>
             </div>
-
           </div>
         </div>
-
-        {/* BOTTOM: Quick Facts Marquee Ticker */}
-        {displayData.quickFacts.length > 0 && (
-          <div className="mt-16 md:mt-24 pt-10 border-t border-stone-200 dark:border-stone-800 overflow-hidden relative">
-            <style>{`
-              @keyframes quick-facts-marquee {
-                0% { transform: translateX(0); }
-                100% { transform: translateX(-50%); }
-              }
-              .quick-facts-marquee {
-                animation: quick-facts-marquee 80s linear infinite;
-              }
-              @media (prefers-reduced-motion: reduce) {
-                .quick-facts-marquee {
-                  animation: none;
-                  flex-wrap: wrap;
-                  justify-content: center;
-                }
-              }
-            `}</style>
-            
-            {/* Gradient Fades for edges */}
-            <div className="absolute left-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-r from-white dark:from-stone-950 to-transparent pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-20 z-10 bg-gradient-to-l from-white dark:from-stone-950 to-transparent pointer-events-none" />
-
-            <div className="quick-facts-marquee flex w-max items-center py-4">
-              {[...displayData.quickFacts, ...displayData.quickFacts, ...displayData.quickFacts].map((fact, index) => {
-                const Icon = ICON_MAP[fact.icon] || Star;
-                return (
-                  <div
-                    key={index}
-                    className="flex items-center mx-6 md:mx-10 whitespace-nowrap group transition-all duration-300"
-                  >
-                    <Icon className="w-5 h-5 mr-3 text-orange-600 transition-transform group-hover:scale-110" />
-                    <span className="text-sm md:text-base font-bold text-stone-900 dark:text-stone-100 uppercase tracking-[0.2em]">
-                      {fact.label}
-                    </span>
-                    <span className="ml-12 md:ml-20 text-orange-500/40 font-light text-xl">✦</span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
       </div>
-
-      {/* Existing Carousel remains if desired, or we can remove it. 
-          The plan was to "Integrate at least one trust element" which we did with the quote. 
-          The AboutCarousel was "Full Width Carousel" at bottom. 
-          It might distract from the new clean design, but the user didn't explicitly say remove it. 
-          I'll keep it as a "Recent Sessions" strip at the very bottom, but add some breathing room. */}
-      <div className="mt-16">
+      
+      {/* Bottom Carousel strip */}
+      <div className="mt-20">
         <AboutCarousel images={data?.carouselImages} />
       </div>
-
-    </section>
+    </MobileSection>
   );
 }

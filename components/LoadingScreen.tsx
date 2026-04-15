@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { Camera } from "lucide-react";
 
 interface LoadingScreenProps {
     onLoadingComplete?: () => void;
@@ -11,9 +12,11 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
     const [loading, setLoading] = useState(true);
     const [progress, setProgress] = useState(0);
     const [isMobile, setIsMobile] = useState(false);
+    const [hasMounted, setHasMounted] = useState(false);
     const prefersReducedMotion = useReducedMotion();
 
     useEffect(() => {
+        setHasMounted(true);
         setIsMobile(window.matchMedia("(max-width: 767px)").matches);
     }, []);
 
@@ -25,7 +28,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
             return;
         }
 
-        // Progress fills over exactly 2500ms: +1 every 25ms = 100 steps
+        // Progress fills over exactly 2500ms
         const timer = setInterval(() => {
             setProgress((prev) => {
                 if (prev >= 100) {
@@ -48,29 +51,23 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
         };
     }, [onLoadingComplete]);
 
-    // Smoothstep easing: slow start, fast middle, slow finish — feels mechanical
-    const t = progress / 100;
-    const easedT = t * t * (3 - 2 * t);
+    // Ambient particles to match the "cinematic dust" in the user image
+    const ambientParticles = useMemo(() => 
+        Array.from({ length: 25 }).map((_, i) => ({
+            id: i,
+            size: Math.random() * 2 + 0.5,
+            x: Math.random() * 100,
+            y: Math.random() * 100,
+            duration: Math.random() * 20 + 15,
+            delay: Math.random() * -20,
+            opacity: Math.random() * 0.4 + 0.1,
+        })), []);
 
-    // Iris radius in vmin (0 = fully closed, 150 = covers all corners of any screen)
-    // vmin ensures a true circle on any aspect ratio
-    const irisR = prefersReducedMotion ? 150 : easedT * 150;
+    if (!hasMounted) return null;
 
-    // Black overlay mask: transparent inside the growing circle, opaque black outside
-    const irisMask = `radial-gradient(circle ${irisR}vmin at 50% 50%, transparent 97%, black 100%)`;
-
-    // Brand name fades in once the iris is large enough to frame it (~35% progress)
-    const logoOpacity = prefersReducedMotion ? 1 : Math.max(0, (progress - 35) / 65);
-
-    const exitAnimation =
-        prefersReducedMotion
-            ? { opacity: 0, transition: { duration: 0 } }
-            : isMobile
-            ? { opacity: 0, transition: { duration: 0.4, ease: "easeOut" } }
-            : {
-                  clipPath: "polygon(0 0, 100% 0, 100% 0, 0 0)",
-                  transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1] },
-              };
+    const exitAnimation = prefersReducedMotion 
+        ? { opacity: 0 } 
+        : { opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } };
 
     return (
         <AnimatePresence>
@@ -82,69 +79,111 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
                     aria-label={`Loading Cielito's Wrld — ${progress}% complete`}
                     initial={{ opacity: 1 }}
                     exit={exitAnimation}
-                    className="fixed inset-0 z-[9999] bg-black"
+                    className="fixed inset-0 z-[9999] bg-black flex items-center justify-center overflow-hidden"
+                    suppressHydrationWarning
                 >
                     <span className="sr-only">
                         Loading Cielito&apos;s Wrld, {progress} percent complete
                     </span>
 
-                    {/* ── Content layer: revealed as iris opens ── */}
-                    <div
-                        className="fixed inset-0 z-10 flex flex-col items-center justify-center pointer-events-none select-none"
-                        style={{ opacity: logoOpacity }}
-                    >
-                        <h1 className="font-pattaya text-4xl md:text-5xl text-amber-500">
-                            Cielito&apos;s Wrld
-                        </h1>
-                        <div className="h-px w-10 bg-amber-500/30 my-3" />
-                        <p className="font-archivo text-[9px] uppercase tracking-[0.35em] text-white/25">
-                            {progress}%
-                        </p>
+                    {/* ── Background Particles layer ── */}
+                    <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                        {ambientParticles.map((p) => (
+                            <motion.div
+                                key={p.id}
+                                className="absolute bg-white rounded-full"
+                                style={{
+                                    width: p.size,
+                                    height: p.size,
+                                    left: `${p.x}%`,
+                                    top: `${p.y}%`,
+                                    opacity: p.opacity,
+                                }}
+                                animate={{
+                                    y: [0, -40, 0],
+                                    x: [0, 20, 0],
+                                    opacity: [p.opacity, p.opacity * 1.5, p.opacity],
+                                }}
+                                transition={{
+                                    duration: p.duration,
+                                    repeat: Infinity,
+                                    ease: "easeInOut",
+                                    delay: p.delay,
+                                }}
+                            />
+                        ))}
                     </div>
 
-                    {/* ── Aperture iris: black overlay with growing circular hole ── */}
-                    <div
-                        className="fixed inset-0 z-20 bg-black pointer-events-none"
-                        style={{
-                            WebkitMaskImage: irisMask,
-                            maskImage: irisMask,
-                        }}
-                    />
+                    {/* ── Main UI Container ── */}
+                    <div className="relative flex flex-col items-center gap-12 z-10 w-full max-w-sm px-4">
+                        
+                        {/* 1. Branding Row */}
+                        <motion.div 
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, ease: "easeOut" }}
+                            className="flex items-center gap-3 md:gap-5"
+                        >
+                            <div className="size-10 md:size-14 text-orange-600 drop-shadow-[0_0_10px_rgba(234,88,12,0.4)]">
+                                <Camera className="w-full h-full" strokeWidth={1.5} />
+                            </div>
+                            <h1 className="font-pattaya text-4xl md:text-6xl lg:text-7xl text-white italic drop-shadow-xl tracking-tight">
+                                Cielito&apos;s Wrld
+                            </h1>
+                        </motion.div>
 
-                    {/* ── Blade seam lines: 6 radial divisions inside the black area ──
-                        repeating-conic-gradient creates thin lines at 0°, 60°, 120°, 180°, 240°, 300°
-                        Same mask as the iris so seams only show in the dark region, not through the opening
-                    ── */}
-                    <div
-                        className="fixed inset-0 z-[21] pointer-events-none"
-                        style={{
-                            background: `repeating-conic-gradient(
-                                from 0deg,
-                                rgba(255,255,255,0.07) 0deg,
-                                rgba(255,255,255,0.07) 0.6deg,
-                                transparent 0.6deg,
-                                transparent 60deg
-                            )`,
-                            WebkitMaskImage: irisMask,
-                            maskImage: irisMask,
-                        }}
-                    />
+                        {/* 2. Glowing circular loader */}
+                        <div className="relative size-20 md:size-24">
+                            {/* Static Background Ring */}
+                            <svg className="w-full h-full transform -rotate-90">
+                                <circle
+                                    cx="50%"
+                                    cy="50%"
+                                    r="40%"
+                                    className="stroke-white/5 fill-none"
+                                    strokeWidth="4"
+                                />
+                                {/* Progress Ring */}
+                                <motion.circle
+                                    cx="50%"
+                                    cy="50%"
+                                    r="40%"
+                                    className="stroke-orange-600 fill-none"
+                                    strokeWidth="4"
+                                    strokeLinecap="round"
+                                    initial={{ strokeDasharray: "0 250" }}
+                                    animate={{ strokeDasharray: `${(progress / 100) * 250} 250` }}
+                                    style={{
+                                        filter: "drop-shadow(0 0 8px rgba(234, 88, 12, 0.8))",
+                                    }}
+                                />
+                            </svg>
+                            
+                            {/* Spinner Glow Core */}
+                            <motion.div 
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                                className="absolute inset-0 border-2 border-transparent border-t-orange-500 rounded-full opacity-40"
+                                style={{ filter: "blur(4px)" }}
+                            />
+                        </div>
 
-                    {/* ── Iris edge amber glow ring ──
-                        A thin amber halo at the exact iris boundary
-                    ── */}
-                    <div
-                        className="fixed inset-0 z-[22] pointer-events-none"
-                        style={{
-                            background: `radial-gradient(
-                                circle ${irisR}vmin at 50% 50%,
-                                transparent calc(100% - 1.5px),
-                                rgba(217,119,6,0.55) calc(100% - 0.5px),
-                                rgba(217,119,6,0.2) 100%,
-                                transparent calc(100% + 1.5px)
-                            )`,
-                        }}
-                    />
+                        {/* 3. Loading Footer */}
+                        <div className="flex flex-col items-center gap-3">
+                            <p className="font-archivo text-xs md:text-sm uppercase tracking-[0.6em] text-white/50 font-bold">
+                                Loading...
+                            </p>
+                            {/* Subtle Progress Bar */}
+                            <div className="w-48 h-[1px] bg-white/10 rounded-full overflow-hidden">
+                                <motion.div 
+                                    className="h-full bg-orange-600 shadow-[0_0_10px_rgba(234,88,12,0.8)]"
+                                    initial={{ width: "0%" }}
+                                    animate={{ width: `${progress}%` }}
+                                />
+                            </div>
+                        </div>
+
+                    </div>
                 </motion.div>
             )}
         </AnimatePresence>

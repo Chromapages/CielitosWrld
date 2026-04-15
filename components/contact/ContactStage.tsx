@@ -77,21 +77,9 @@ export default function ContactStage({
     };
 
     return (
-        <section className="relative min-h-screen w-full bg-white dark:bg-stone-900 overflow-hidden flex items-center justify-center pt-32 md:pt-44 pb-12 px-4">
-            {/* Background Media */}
-            <div className="absolute inset-0 z-0">
-                <Image
-                    src={pageBackground?.asset?.url || "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=2560"}
-                    alt="Contact background"
-                    fill
-                    className="object-cover opacity-10 dark:opacity-20 blend-overlay"
-                    priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-stone-100/90 dark:from-stone-950 dark:via-stone-950/95 dark:to-stone-950/80" />
-            </div>
-
-            <div className="container max-w-7xl relative z-10 mx-auto w-full px-4 sm:px-6">
-                <div className="flex flex-col gap-8 md:gap-10 items-center">
+        <section className="relative w-full overflow-hidden flex flex-col items-center py-12 px-[var(--mobile-gutter)] sm:px-8">
+            <div className="container max-w-7xl relative z-10 mx-auto w-full">
+                <div className="flex flex-col gap-10 items-center">
                     
                     {/* Top Header Section */}
                     <motion.div 
@@ -101,77 +89,60 @@ export default function ContactStage({
                         className="w-full max-w-3xl flex flex-col items-center text-center pt-8"
                     >
                         {showBookingWizard && (
-                            <span className="inline-block mb-2 text-sm font-medium uppercase tracking-[0.2em] text-stone-500">
-                                Available for Booking
+                            <span className="inline-block mb-3 text-xs font-bold uppercase tracking-[0.3em] text-orange-500">
+                                Status: Accepting New Projects
                             </span>
                         )}
 
-                        <h1 className="text-5xl md:text-6xl lg:text-7xl font-archivo font-black text-stone-950 dark:text-white tracking-tighter mb-6 leading-[0.95]">
+                        <h1 className="text-5xl md:text-8xl font-archivo font-black text-stone-950 dark:text-white tracking-tighter mb-6 leading-[0.9] uppercase">
                             {showBookingWizard ? (
                                 <>
-                                    Let&apos;s Create <br className="hidden md:block"/>
-                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-200">Something Real.</span>
+                                    Let&apos;s Inscribe <br className="hidden md:block"/>
+                                    <span className="text-transparent border-stone-950 dark:border-white [-webkit-text-stroke:1px_var(--tw-content)] font-outline">Something</span> <span className="text-orange-600">Pure.</span>
                                 </>
                             ) : (
                                 <>
-                                    Keep In Touch
+                                    The <span className="text-orange-600">Connection</span>
                                 </>
                             )}
                         </h1>
 
-                        <p className="text-lg font-inter text-stone-600 dark:text-stone-300 max-w-2xl leading-relaxed mb-8">
+                        <p className="text-lg md:text-xl font-medium text-stone-600 dark:text-stone-300 max-w-2xl leading-relaxed mb-10">
                             {showBookingWizard
-                                ? "I'm currently accepting new projects across Southern California. Fill out the inquiry form and I'll get back to you within 48 hours to discuss your vision."
-                                : "Thanks for reaching out. Your inquiry is in. Use the details below for direct contact, social links, and location information while you wait for a response."}
+                                ? "I thrive on capturing raw emotion and cinematic moments. Share your vision below and let's craft something timeless."
+                                : "Thank you for reaching out. I personally review every inquiry and will respond within 24-48 hours. In the meantime, feel free to dive deeper into my world."}
                         </p>
 
                         {showBookingWizard && (
-                            <div className="mb-4 flex w-full flex-col items-center justify-center gap-4 sm:flex-row">
+                            <div className="mb-8 flex w-full flex-col items-center justify-center gap-4 sm:flex-row">
                                 <button
                                     onClick={handleScrollToWizard}
-                                    className="inline-flex min-w-[240px] items-center justify-center gap-3 rounded-full bg-orange-600 px-8 py-4 text-sm font-black uppercase tracking-[0.22em] text-white transition-all hover:bg-orange-500"
+                                    className="btn-press inline-flex min-w-[240px] items-center justify-center gap-3 rounded-full bg-orange-600 px-8 py-4 text-xs font-black uppercase tracking-[0.2em] text-white shadow-xl shadow-orange-600/20"
                                 >
-                                    Fill Out The Form
+                                    Start The Inquiry
                                     <ArrowDownRight className="h-4 w-4" />
                                 </button>
                                 <button
                                     onClick={() => setShowBookingWizard(false)}
-                                    className="inline-flex min-w-[240px] items-center justify-center gap-3 rounded-full border border-stone-300 bg-white px-8 py-4 text-sm font-black uppercase tracking-[0.22em] text-stone-950 transition-all hover:border-orange-500 hover:bg-stone-50 dark:border-white/15 dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
+                                    className="btn-press inline-flex min-w-[240px] items-center justify-center gap-3 rounded-full border-2 border-stone-200 bg-white px-8 py-4 text-xs font-black uppercase tracking-[0.2em] text-stone-950 dark:border-white/10 dark:bg-stone-900 dark:text-white"
                                 >
-                                    View Contact Info
+                                    Direct Contact
                                     <ArrowRight className="h-4 w-4" />
                                 </button>
                             </div>
                         )}
 
                         {!showBookingWizard && (
-                            <div className="w-full flex flex-col sm:flex-row justify-center items-center gap-8 md:gap-16">
-                            {email && (
-                                <div className="flex flex-col items-center">
-                                    <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500 mb-2">Direct Email</h3>
-                                    <a href={`mailto:${email}`} className="text-lg font-medium text-stone-950 hover:text-orange-400 transition-colors dark:text-white">
-                                        {email}
-                                    </a>
-                                </div>
-                            )}
-
-                            <div className="flex flex-col items-center">
-                                <div className="flex flex-wrap justify-center gap-3">
-                                    {links.map(({ id, url, Icon, label }) => (
-                                        <a
-                                            key={id}
-                                            href={url}
-                                            target={id !== 'email' ? "_blank" : undefined}
-                                            rel={id !== 'email' ? "noopener noreferrer" : undefined}
-                                            className="w-10 h-10 rounded-full bg-white border border-stone-200 flex items-center justify-center text-stone-600 hover:bg-orange-500 hover:text-white hover:border-orange-500 transition-all duration-300 group shadow-lg dark:bg-white/5 dark:border-white/10 dark:text-stone-300"
-                                            aria-label={`Visit my ${label}`}
-                                        >
-                                            <Icon className="w-4 h-4 transition-transform group-hover:scale-110" />
+                            <div className="w-full flex flex-col sm:flex-row justify-center items-center gap-8 md:gap-16 mt-4">
+                                {email && (
+                                    <div className="flex flex-col items-center">
+                                        <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-stone-400 mb-3">Direct Channel</h3>
+                                        <a href={`mailto:${email}`} className="text-xl md:text-2xl font-bold text-stone-950 hover:text-orange-600 transition-colors dark:text-white">
+                                            {email}
                                         </a>
-                                    ))}
-                                </div>
+                                    </div>
+                                )}
                             </div>
-                        </div>
                         )}
                     </motion.div>
 
@@ -183,11 +154,8 @@ export default function ContactStage({
                             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                             className="w-full max-w-5xl"
                         >
-                            <div className="bg-white/5 dark:bg-stone-900/60 backdrop-blur-xl border border-white/10 rounded-[2rem] overflow-hidden shadow-2xl relative h-[820px] md:h-[940px] flex flex-col mb-8">
-                                <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/20 rounded-full blur-3xl -z-10 mix-blend-screen" />
-                                <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl -z-10 mix-blend-screen" />
-
-                                <div className="flex-1 w-full relative z-10 layout-wizard-container">
+                            <div className="bg-white/5 dark:bg-stone-900/60 backdrop-blur-3xl border border-stone-200/50 dark:border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl relative h-[780px] md:h-[900px] flex flex-col mb-12">
+                                <div className="flex-1 w-full relative z-10">
                                     <BookingWizard onClose={() => setShowBookingWizard(false)} isEmbedded={true} />
                                 </div>
                             </div>
@@ -199,88 +167,69 @@ export default function ContactStage({
                             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                             className="w-full max-w-5xl mb-12"
                         >
-                            <div className="relative overflow-hidden rounded-[2rem] border border-stone-200 bg-white/90 backdrop-blur-xl shadow-2xl dark:border-white/10 dark:bg-white/5">
-                                <div className="absolute top-0 right-0 h-64 w-64 rounded-full bg-orange-500/15 blur-3xl" />
-                                <div className="absolute bottom-0 left-0 h-64 w-64 rounded-full bg-orange-500/10 blur-3xl" />
-
-                                <div className="relative grid gap-6 p-6 md:grid-cols-3 md:p-10">
-                                    <div className="rounded-[1.75rem] border border-stone-200 bg-stone-50 p-6 dark:border-white/10 dark:bg-black/20">
-                                        <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-100 text-orange-500 dark:bg-orange-500/10 dark:text-orange-400">
+                            <div className="relative overflow-hidden rounded-[2.5rem] border border-stone-200 bg-white/95 backdrop-blur-3xl shadow-2xl dark:border-white/10 dark:bg-stone-900/40">
+                                <div className="relative grid gap-6 p-6 md:grid-cols-3 md:p-12">
+                                    <div className="rounded-[2rem] border border-stone-100 bg-stone-50/50 p-8 dark:border-white/5 dark:bg-white/5">
+                                        <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-600 text-white shadow-lg shadow-orange-600/20">
                                             <Mail className="h-5 w-5" />
                                         </div>
-                                        <p className="mb-2 text-[10px] font-black uppercase tracking-[0.25em] text-stone-500 dark:text-stone-500">
-                                            {emailLabel || 'Email'}
+                                        <p className="mb-2 text-[10px] font-black uppercase tracking-[0.3em] text-stone-400">
+                                            {emailLabel || 'Communication'}
                                         </p>
                                         <a
                                             href={email ? `mailto:${email}` : 'mailto:Abajo.Del.Cieloo@gmail.com'}
-                                            className="block break-words text-lg font-semibold text-stone-950 transition-colors hover:text-orange-500 dark:text-white dark:hover:text-orange-400"
+                                            className="block break-words text-lg font-bold text-stone-950 transition-colors hover:text-orange-600 dark:text-white"
                                         >
                                             {email || 'Abajo.Del.Cieloo@gmail.com'}
                                         </a>
-                                        <p className="mt-3 text-sm leading-relaxed text-stone-600 dark:text-stone-400">
-                                            Best for bookings, project briefs, rates, and collaboration requests.
-                                        </p>
                                     </div>
 
-                                    <div className="rounded-[1.75rem] border border-stone-200 bg-stone-50 p-6 dark:border-white/10 dark:bg-black/20">
-                                        <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-100 text-orange-500 dark:bg-orange-500/10 dark:text-orange-400">
+                                    <div className="rounded-[2rem] border border-stone-100 bg-stone-50/50 p-8 dark:border-white/5 dark:bg-white/5">
+                                        <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-stone-950 text-white dark:bg-white dark:text-stone-950">
                                             <MapPin className="h-5 w-5" />
                                         </div>
-                                        <p className="mb-2 text-[10px] font-black uppercase tracking-[0.25em] text-stone-500 dark:text-stone-500">
-                                            {studioLabel || 'Location'}
+                                        <p className="mb-2 text-[10px] font-black uppercase tracking-[0.3em] text-stone-400">
+                                            {studioLabel || 'Presence'}
                                         </p>
-                                        <p className="text-lg font-semibold text-stone-950 dark:text-white">
-                                            {location || 'Southern California, USA'}
-                                        </p>
-                                        <p className="mt-3 text-sm leading-relaxed text-stone-600 dark:text-stone-400">
-                                            Available for local shoots, travel projects, and creative collaborations across the region.
+                                        <p className="text-lg font-bold text-stone-950 dark:text-white uppercase tracking-tight">
+                                            {location || 'Southern California'}
                                         </p>
                                     </div>
 
-                                    <div className="rounded-[1.75rem] border border-stone-200 bg-stone-50 p-6 dark:border-white/10 dark:bg-black/20">
-                                        <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-100 text-orange-500 dark:bg-orange-500/10 dark:text-orange-400">
+                                    <div className="rounded-[2rem] border border-stone-100 bg-stone-50/50 p-8 dark:border-white/5 dark:bg-white/5">
+                                        <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-stone-100 text-stone-900">
                                             <Clock className="h-5 w-5" />
                                         </div>
-                                        <p className="mb-2 text-[10px] font-black uppercase tracking-[0.25em] text-stone-500 dark:text-stone-500">
-                                            Response Time
+                                        <p className="mb-2 text-[10px] font-black uppercase tracking-[0.3em] text-stone-400">
+                                            Response
                                         </p>
-                                        <p className="text-lg font-semibold text-stone-950 dark:text-white">
-                                            Within 24-48 hours
-                                        </p>
-                                        <p className="mt-3 text-sm leading-relaxed text-stone-600 dark:text-stone-400">
-                                            If your project has a hard deadline, include the requested date in your message.
+                                        <p className="text-lg font-bold text-stone-950 dark:text-white uppercase tracking-tight">
+                                            24-48 Hours
                                         </p>
                                     </div>
                                 </div>
 
-                                <div className="relative border-t border-stone-200 px-6 py-8 md:px-10 dark:border-white/10">
-                                    <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
-                                        <div className="max-w-2xl">
-                                            <p className="mb-2 text-[10px] font-black uppercase tracking-[0.25em] text-stone-500 dark:text-stone-500">
-                                                {followMeLabel || 'Social Media'}
-                                            </p>
-                                            <h2 className="text-3xl font-archivo font-black uppercase tracking-tight text-stone-950 dark:text-white">
-                                                {title || 'Stay in the Loop'}
+                                <div className="relative border-t border-stone-100 dark:border-white/5 px-6 py-10 md:px-12">
+                                    <div className="flex flex-col gap-10 md:flex-row md:items-center md:justify-between">
+                                        <div className="max-w-xl">
+                                            <h2 className="text-2xl md:text-3xl font-archivo font-black uppercase tracking-tighter text-stone-950 dark:text-white mb-4">
+                                                Digital Footprint
                                             </h2>
-                                            <p className="mt-3 text-sm leading-relaxed text-stone-600 dark:text-stone-400">
-                                                {introText || 'Follow along for new work, behind-the-scenes moments, and current availability updates.'}
-                                            </p>
-                                        </div>
-
-                                        <div className="flex flex-wrap gap-3">
-                                            {links.map(({ id, url, Icon, label }) => (
-                                                <a
-                                                    key={id}
-                                                    href={url}
-                                                    target={id !== 'email' ? "_blank" : undefined}
-                                                    rel={id !== 'email' ? "noopener noreferrer" : undefined}
-                                                    className="inline-flex items-center gap-3 rounded-full border border-stone-200 bg-white px-5 py-3 text-sm font-bold text-stone-700 transition-all hover:border-orange-500 hover:bg-orange-500 hover:text-white dark:border-white/10 dark:bg-black/20 dark:text-stone-200"
-                                                    aria-label={`Visit my ${label}`}
-                                                >
-                                                    <Icon className="h-4 w-4" />
-                                                    {label}
-                                                </a>
-                                            ))}
+                                            <div className="flex flex-wrap gap-3">
+                                                {links.map(({ id, url, Icon, label }) => (
+                                                    <a
+                                                        key={id}
+                                                        href={url}
+                                                        target={id !== 'email' ? "_blank" : undefined}
+                                                        rel={id !== 'email' ? "noopener noreferrer" : undefined}
+                                                        className="btn-press inline-flex items-center gap-3 rounded-full border border-stone-200 bg-white px-5 py-3 text-xs font-bold text-stone-900 transition-all dark:border-white/10 dark:bg-stone-800 dark:text-white"
+                                                        aria-label={`Visit my ${label}`}
+                                                    >
+                                                        <Icon className="h-4 w-4" />
+                                                        {label}
+                                                    </a>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

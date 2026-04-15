@@ -36,7 +36,7 @@ export default function ReviewForm({ onCancel, onSuccess }: ReviewFormProps) {
         <form ref={formRef} action={action} className="space-y-6">
             <div className="text-center mb-6">
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 mb-3">
-                    <Star className="w-6 h-6 fill-current" />
+                    <Star className="w-6 h-6 fill-current" suppressHydrationWarning />
                 </div>
                 <h3 className="text-xl font-bold text-stone-900 dark:text-stone-100">Leave a Review</h3>
                 <p className="text-stone-500 dark:text-stone-400 text-sm mt-1">
@@ -139,7 +139,7 @@ export default function ReviewForm({ onCancel, onSuccess }: ReviewFormProps) {
                 >
                     {isPending ? (
                         <>
-                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <Loader2 className="w-4 h-4 animate-spin" suppressHydrationWarning />
                             Submitting...
                         </>
                     ) : state.success ? (
@@ -149,7 +149,7 @@ export default function ReviewForm({ onCancel, onSuccess }: ReviewFormProps) {
                     ) : (
                         <>
                             Submit Review
-                            <Send className="w-4 h-4" />
+                            <Send className="w-4 h-4" suppressHydrationWarning />
                         </>
                     )}
                 </button>

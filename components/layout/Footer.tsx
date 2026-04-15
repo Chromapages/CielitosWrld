@@ -50,7 +50,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
         <div className="md:hidden flex flex-col items-center text-center space-y-2 pb-0">
           <Link
             href="/"
-            className="text-5xl font-bold font-pattaya text-stone-100 hover:text-orange-500 transition-colors"
+            className="text-5xl font-bold font-pattaya text-stone-100 hover:text-orange-500 transition-colors italic pr-2"
             aria-label="Cielito's Wrld Home"
           >
             Cielito's Wrld
@@ -66,7 +66,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
                 className="w-11 h-11 flex items-center justify-center rounded-full bg-stone-900/50 text-stone-400 hover:text-orange-500 hover:bg-stone-900 transition-all"
                 aria-label={`Follow on ${item.name}`}
               >
-                <item.icon className="w-5 h-5" />
+                <item.icon className="w-5 h-5" suppressHydrationWarning />
               </a>
             ))}
           </div>
@@ -83,7 +83,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
           <div className="space-y-6 stagger-1">
             <Link
               href="/"
-              className="inline-block text-3xl font-bold font-pattaya text-stone-100 hover:text-orange-500 transition-colors"
+              className="inline-block text-3xl font-bold font-pattaya text-stone-100 hover:text-orange-500 transition-colors italic pr-2"
             >
               Cielito's Wrld
             </Link>
@@ -102,7 +102,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
                   className="w-10 h-10 rounded-full bg-stone-900 flex items-center justify-center text-stone-400 hover:bg-stone-800 hover:text-white transition-all duration-300"
                   aria-label={`Follow on ${item.name}`}
                 >
-                  <item.icon className="w-5 h-5" />
+                  <item.icon className="w-5 h-5" suppressHydrationWarning />
                 </a>
               ))}
             </div>
@@ -134,13 +134,13 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
             </h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-stone-600 mt-0.5" />
+                <MapPin className="w-5 h-5 text-stone-600 mt-0.5" suppressHydrationWarning />
                 <span className="text-xs text-stone-400 leading-relaxed">
                   {contactInfo?.location || 'Southern California, USA'}
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-stone-600" />
+                <Mail className="w-5 h-5 text-stone-600" suppressHydrationWarning />
                 <a
                   href={`mailto:${contactInfo?.email || 'Abajo.Del.Cieloo@gmail.com'}`}
                   className="text-xs hover:text-white transition-colors"
@@ -149,7 +149,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Camera className="w-5 h-5 text-stone-600" />
+                <Camera className="w-5 h-5 text-stone-600" suppressHydrationWarning />
                 <span className="text-xs text-stone-500">
                   Accepting new projects
                 </span>
@@ -170,7 +170,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
               className="btn-press inline-flex items-center justify-center w-full px-6 py-3 bg-stone-100 text-stone-950 font-bold text-sm rounded-lg hover:bg-orange-500 hover:text-white transition-all duration-300 group"
             >
               Book a Session
-              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" suppressHydrationWarning />
             </Link>
           </div>
 
@@ -178,16 +178,27 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
       </div>
 
       {/* Bottom Bar (Responsive) */}
-      <div className="md:border-t border-stone-900 bg-stone-950/50">
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 py-6 sm:pb-6 pb-[calc(4.5rem+env(safe-area-inset-bottom))]">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-stone-600">
-            <p className="order-2 md:order-1">&copy; {currentYear} Cielito's Wrld. All rights reserved.</p>
-            <div className="flex flex-wrap justify-center gap-6 order-1 md:order-2">
+      <div className="md:border-t border-stone-900 bg-stone-950/50 relative overflow-hidden">
+        {/* Mobile Edge Gradient - For smooth transition behind floating nav */}
+        <div className="md:hidden absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-stone-950 to-transparent pointer-events-none z-20" />
+
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 py-10 md:py-6 pb-[calc(6.5rem+env(safe-area-inset-bottom))] md:pb-6 relative z-10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 text-center md:text-left">
+            <div className="order-2 md:order-1 space-y-2">
+              <p className="text-[10px] md:text-xs text-stone-600 font-medium uppercase tracking-widest">
+                &copy; {currentYear} Cielito's Wrld • Southern California
+              </p>
+              <p className="text-[9px] text-stone-700 md:hidden">
+                All rights reserved. Photography & Direction.
+              </p>
+            </div>
+            
+            <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 order-1 md:order-2">
               {navigation.legal.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-[10px] hover:text-stone-400 transition-colors uppercase tracking-tight md:normal-case md:tracking-normal"
+                  className="text-[10px] md:text-xs text-stone-500 hover:text-orange-500 transition-colors uppercase tracking-[0.2em] font-bold"
                 >
                   {item.name}
                 </Link>

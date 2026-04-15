@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { urlFor, sanityLoader } from '@/sanity/lib/image';
+import { MobileSection } from '../layout/MobileSection';
 
 interface CollaborationItem {
   name: string;
@@ -21,8 +22,6 @@ interface SocialProofProps {
   };
 }
 
-
-
 export default function SocialProof({ data }: SocialProofProps) {
 
   // Display data
@@ -35,7 +34,10 @@ export default function SocialProof({ data }: SocialProofProps) {
   if (displayData.items.length === 0) return null;
 
   return (
-    <section aria-labelledby="collaborations-title" className="relative py-12 md:py-16 px-4 bg-neutral-200 dark:bg-stone-900 border-t border-neutral-300 dark:border-stone-800">
+    <MobileSection 
+      aria-labelledby="collaborations-title" 
+      className="relative !py-12 md:!py-16 bg-neutral-200 dark:bg-stone-900 border-t border-neutral-300 dark:border-stone-800"
+    >
       {/* Optional Background Image */}
       {data?.backgroundImage && (
         <div className="absolute inset-0 z-0">
@@ -47,28 +49,26 @@ export default function SocialProof({ data }: SocialProofProps) {
             className="object-cover opacity-50"
             placeholder={data.backgroundImage?.asset?.metadata?.lqip ? 'blur' : 'empty'}
             blurDataURL={data.backgroundImage?.asset?.metadata?.lqip}
+            suppressHydrationWarning
           />
           <div className="absolute inset-0 bg-gradient-to-b from-neutral-200/80 via-neutral-200/50 to-neutral-200/80 dark:from-stone-900/80 dark:via-stone-900/50 dark:to-stone-900/80" />
         </div>
       )}
 
-      <style>{`
+      <style suppressHydrationWarning>{`
         @keyframes marquee {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
         .logos-marquee {
-          animation: marquee 18s linear infinite;
-        }
-        .logos-marquee:hover {
-          animation-play-state: paused;
+          animation: marquee 20s linear infinite;
         }
       `}</style>
 
-      <div className="max-w-5xl mx-auto relative z-10">
+      <div className="max-w-5xl mx-auto relative z-10 px-4 md:px-0">
         <h2
           id="collaborations-title"
-          className="text-center text-xl md:text-2xl font-pattaya tracking-tight text-neutral-800 dark:text-stone-200 mb-10"
+          className="text-center text-xl md:text-2xl font-bold tracking-tight text-neutral-800 dark:text-stone-200 mb-10 uppercase font-archivo"
         >
           {displayData.heading}
         </h2>
@@ -91,10 +91,11 @@ export default function SocialProof({ data }: SocialProofProps) {
                       alt={item.alt || item.name || 'Partner Logo'}
                       fill
                       className="object-contain"
+                      suppressHydrationWarning
                     />
                   </div>
                 ) : (
-                  <p className="font-fitzgerald-italic text-[#371d13] dark:text-stone-400 text-lg">{item.name}</p>
+                  <p className="font-bold text-[#371d13] dark:text-stone-400 text-lg uppercase tracking-tight">{item.name}</p>
                 )}
               </div>
             ))}
@@ -116,17 +117,18 @@ export default function SocialProof({ data }: SocialProofProps) {
                     alt={item.alt || item.name || 'Partner Logo'}
                     fill
                     className="object-contain"
+                    suppressHydrationWarning
                   />
                 </div>
               ) : (
-                <div className="text-center">
-                  <p className="font-fitzgerald-italic text-[#371d13] dark:text-stone-400 text-lg">Partner</p>
+                <div className="text-center font-bold">
+                  <p className="text-[#371d13] dark:text-stone-400 text-lg uppercase tracking-tight">Partner</p>
                 </div>
               )}
             </div>
           ))}
         </div>
       </div>
-    </section>
+    </MobileSection>
   );
 }

@@ -274,10 +274,10 @@ html {
   column-fill: balance;
 }
 
-/* Mobile navigation padding */
+/* Mobile navigation padding - Replaced by MobilePageShell system */
 @media (max-width: 767px) {
   body {
-    padding-bottom: 120px;
+    padding-bottom: 0px; 
   }
 }
 

@@ -123,40 +123,34 @@ export default function BookingWizard({ onClose, isEmbedded = false }: BookingWi
         }),
     };
 
-    const shellClassName = isEmbedded
-        ? 'rounded-[2rem]'
-        : 'rounded-[2.5rem]';
-
     return (
-        <div className={`flex h-full min-h-0 flex-col bg-white/85 text-stone-950 backdrop-blur-2xl border border-stone-200/80 dark:bg-black/40 dark:text-white dark:border-white/5 overflow-hidden shadow-2xl ${shellClassName}`}>
-            {/* Ultra-minimal Progress Line */}
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-stone-200/80 dark:bg-white/5 overflow-hidden z-20">
+        <div className="flex h-full min-h-0 flex-col bg-white dark:bg-stone-900 overflow-hidden relative">
+            {/* Minimal Progress Line */}
+            <div className="absolute top-0 left-0 right-0 h-[3px] bg-stone-100 dark:bg-white/5 overflow-hidden z-20">
                 <motion.div
-                    className="h-full bg-orange-600 shadow-[0_0_10px_rgba(234,88,12,0.5)]"
+                    className="h-full bg-orange-600 shadow-[0_0_12px_rgba(234,88,12,0.6)]"
                     animate={{ width: `${(step / totalSteps) * 100}%` }}
                     transition={{ duration: 0.8, ease: "circOut" }}
                 />
             </div>
 
             {/* Header Content */}
-            <div className="relative shrink-0 pt-10 px-6 md:px-10 lg:px-12 pb-2">
-                <div className="flex items-center justify-between mb-4">
-                    <div className="flex flex-col">
-                        <span className="text-[10px] font-black text-orange-500 uppercase tracking-[0.3em] mb-1">
-                            Phase {step} of {totalSteps}
-                        </span>
-                        <h2 className="text-xl md:text-2xl font-archivo font-black text-stone-950 dark:text-white uppercase tracking-tighter">
-                            {step === 1 && "The Vision"}
-                            {step === 2 && "The Timeline"}
-                            {step === 3 && "The Canvas"}
-                            {step === 4 && "The Connection"}
-                        </h2>
-                    </div>
+            <div className="relative shrink-0 pt-10 px-6 md:px-12 pb-4">
+                <div className="flex flex-col">
+                    <span className="text-[10px] font-black text-orange-500 uppercase tracking-[0.4em] mb-2">
+                        Phase 0{step} <span className="text-stone-300 dark:text-stone-700 mx-2">/</span> 0{totalSteps}
+                    </span>
+                    <h2 className="text-2xl md:text-3xl font-archivo font-black text-stone-950 dark:text-white uppercase tracking-tighter leading-none">
+                        {step === 1 && "The Vision"}
+                        {step === 2 && "The Timeline"}
+                        {step === 3 && "The Canvas"}
+                        {step === 4 && "The Connection"}
+                    </h2>
                 </div>
             </div>
 
             {/* Content Area */}
-            <div className="relative flex-1 min-h-0 overflow-y-auto overflow-x-hidden px-6 md:px-10 lg:px-12 pb-4 md:pb-6">
+            <div className="relative flex-1 min-h-0 overflow-y-auto overflow-x-hidden px-6 md:px-12 pb-6 scroll-smooth">
                 <AnimatePresence initial={false} custom={direction} mode="wait">
                     <motion.div
                         key={step}
@@ -166,37 +160,37 @@ export default function BookingWizard({ onClose, isEmbedded = false }: BookingWi
                         animate="center"
                         exit="exit"
                         transition={{ type: "spring", duration: 0.6, bounce: 0 }}
-                        className="w-full"
+                        className="w-full h-full"
                     >
                         {isSuccess ? (
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 className="flex flex-col items-center justify-center h-full text-center py-12"
                             >
-                                <div className="w-24 h-24 bg-orange-600/20 rounded-full flex items-center justify-center mb-10 relative">
-                                    <Sparkles className="w-12 h-12 text-orange-500 animate-pulse" />
+                                <div className="w-24 h-24 bg-orange-600/10 rounded-full flex items-center justify-center mb-10 relative">
+                                    <Sparkles className="w-10 h-10 text-orange-600 animate-pulse" />
                                     <motion.div 
-                                        className="absolute inset-0 rounded-full border-2 border-orange-500/30"
-                                        animate={{ scale: [1, 1.2, 1], opacity: [0.5, 0, 0.5] }}
-                                        transition={{ duration: 2, repeat: Infinity }}
+                                        className="absolute inset-0 rounded-full border-2 border-orange-600/20"
+                                        animate={{ scale: [1, 1.3, 1], opacity: [0.6, 0, 0.6] }}
+                                        transition={{ duration: 2.5, repeat: Infinity }}
                                     />
                                 </div>
-                                <h3 className="text-3xl md:text-5xl font-archivo font-black text-stone-950 dark:text-white mb-6 tracking-tighter uppercase">
-                                    Vibe Sent.
+                                <h3 className="text-4xl md:text-6xl font-pattaya text-stone-950 dark:text-white mb-6">
+                                    Inquiry Received
                                 </h3>
-                                <p className="text-xl text-stone-600 dark:text-stone-400 max-w-sm mb-12 leading-relaxed">
-                                    I&apos;ll dive into your vision and reach back within 24-48 hours. Let&apos;s make this real.
+                                <p className="text-lg text-stone-600 dark:text-stone-400 max-w-sm mb-12 leading-relaxed font-medium">
+                                    Your story is being processed. I&apos;ll reach out personally within 24-48 hours.
                                 </p>
                                 <button
                                     onClick={onClose}
-                                    className="px-10 py-5 bg-stone-950 text-white dark:bg-white dark:text-black rounded-full font-black uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl dark:shadow-white/10"
+                                    className="btn-press px-12 py-5 bg-stone-950 text-white dark:bg-white dark:text-stone-950 rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-2xl"
                                 >
-                                    Close Story
+                                    Return Home
                                 </button>
                             </motion.div>
                         ) : (
-                            <div className="pt-6 pb-2"> 
+                            <div className="py-2"> 
                                 {step === 1 && <VisionStep formData={formData} updateFormData={updateFormData} />}
                                 {step === 2 && <TimelineStep formData={formData} updateFormData={updateFormData} />}
                                 {step === 3 && <CanvasStep formData={formData} updateFormData={updateFormData} />}
@@ -209,15 +203,15 @@ export default function BookingWizard({ onClose, isEmbedded = false }: BookingWi
 
             {/* Premium Footer Navigation */}
             {!isSuccess && (
-                <div className="shrink-0 px-6 md:px-10 lg:px-12 py-6 md:py-8 border-t border-stone-200/80 bg-white/70 dark:border-white/5 dark:bg-black/20 flex justify-between items-center gap-4 backdrop-blur-md">
+                <div className="shrink-0 px-6 md:px-12 py-8 bg-white/95 dark:bg-stone-900/95 flex justify-between items-center gap-4 backdrop-blur-3xl border-t border-stone-100 dark:border-white/5">
                     {step > 1 ? (
                         <button
                             onClick={handleBack}
                             disabled={isSubmitting}
-                            className="flex items-center gap-3 group text-stone-500 hover:text-stone-950 dark:hover:text-white text-xs font-black uppercase tracking-[0.2em] transition-all disabled:opacity-20"
+                            className="btn-press flex items-center gap-3 text-stone-400 hover:text-stone-950 dark:hover:text-white text-[10px] font-black uppercase tracking-[0.3em] transition-all disabled:opacity-20"
                         >
-                            <ChevronLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
-                            Prev
+                            <ChevronLeft className="w-4 h-4" />
+                            Back
                         </button>
                     ) : (
                         <div /> 
@@ -229,10 +223,10 @@ export default function BookingWizard({ onClose, isEmbedded = false }: BookingWi
                             <button
                                 onClick={handleNext}
                                 disabled={(step === 1 && formData.services.length === 0)}
-                                className="group flex items-center gap-4 px-10 py-5 bg-stone-950 text-white dark:bg-white dark:text-black rounded-full font-black text-xs uppercase tracking-[0.2em] hover:bg-orange-600 hover:text-white transition-all disabled:opacity-20 shadow-2xl active:scale-95"
+                                className="btn-press group flex items-center gap-4 px-10 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.25em] transition-all disabled:opacity-20 shadow-xl shadow-orange-600/10"
                             >
-                                {step === 1 ? "Start The Magic" : "Next Phase"}
-                                <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                                Continue
+                                <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                             </button>
                         )}
 
@@ -240,17 +234,17 @@ export default function BookingWizard({ onClose, isEmbedded = false }: BookingWi
                             <button
                                 onClick={handleSubmit}
                                 disabled={isSubmitting || !formData.name || !formData.email}
-                                className="flex items-center gap-4 px-12 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.3em] hover:bg-orange-500 transition-all shadow-2xl shadow-orange-600/30 disabled:opacity-20 min-w-[220px] justify-center active:scale-95"
+                                className="btn-press flex items-center gap-4 px-10 py-5 bg-stone-950 text-white dark:bg-white dark:text-stone-950 rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-2xl disabled:opacity-20 min-w-[200px] justify-center"
                             >
                                 {isSubmitting ? (
                                     <>
-                                        <Loader2 className="w-5 h-5 animate-spin" />
-                                        Inking...
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                        Sending...
                                     </>
                                 ) : (
                                     <>
-                                        Finalize Connection
-                                        <Check className="w-5 h-5" />
+                                        Sign Vision
+                                        <Check className="w-4 h-4" />
                                     </>
                                 )}
                             </button>

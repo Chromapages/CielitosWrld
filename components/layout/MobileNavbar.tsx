@@ -17,13 +17,27 @@ const MOBILE_NAV_ITEMS = NAV_ITEMS.filter(item =>
         item.label === 'Blog' ? FileText : Mail
 }));
 
+import { motion, AnimatePresence } from 'framer-motion';
+import { useHaptics } from '@/hooks/useHaptics';
+
 export default function MobileNavbar() {
   const pathname = usePathname();
+  const { triggerLight } = useHaptics();
+
+  const handleTabClick = (e: React.MouseEvent<HTMLAnchorElement>, isActive: boolean) => {
+    // Provide tactile feedback on tab change
+    triggerLight();
+
+    if (isActive) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   return (
     <nav
-      className="sm:hidden fixed bottom-0 left-0 right-0 z-50 w-full border-t border-stone-200 dark:border-white/10 bg-white/95 dark:bg-stone-950/90 shadow-navbar-float backdrop-blur-2xl motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-full duration-500 "
-      style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 0.5rem)' }}
+      className="sm:hidden fixed bottom-1 left-4 right-4 z-50 rounded-2xl border border-stone-200/50 dark:border-white/10 bg-white/70 dark:bg-stone-900/70 shadow-2xl backdrop-blur-2xl motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-full duration-700"
+      style={{ bottom: 'calc(4px + env(safe-area-inset-bottom))' }}
       aria-label="Mobile Navigation"
     >
       <div 
@@ -41,33 +55,47 @@ export default function MobileNavbar() {
               role="tab"
               aria-selected={isActive}
               aria-current={isActive ? 'page' : undefined}
-              className="group relative flex h-full w-full flex-col items-center justify-center gap-1 transition-transform focus-visible:outline-none"
+              onClick={(e) => handleTabClick(e, isActive)}
+              className="btn-press group relative flex h-full w-full flex-col items-center justify-center gap-0.5 transition-all focus-visible:outline-none"
               aria-label={item.label}
             >
-              <div
-                className={cn(
-                  "flex h-9 w-14 items-center justify-center rounded-full transition-all duration-300 ease-out-quad motion-reduce:transition-none",
-                  isActive
-                    ? "bg-orange-500/20 dark:bg-orange-500/30 text-orange-600 dark:text-orange-100 scale-100 opacity-100"
-                    : "bg-transparent text-stone-500 dark:text-stone-400 opacity-80 group-hover:bg-stone-100 dark:group-hover:bg-white/10 group-hover:opacity-100 group-hover:text-stone-900 dark:group-hover:text-stone-200",
-                  "group-focus-visible:ring-2 group-focus-visible:ring-orange-500 group-focus-visible:ring-offset-2 group-focus-visible:ring-offset-white dark:group-focus-visible:ring-offset-stone-950"
-                )}
-              >
+              <div className="relative flex h-8 w-12 items-center justify-center">
+                {/* Framer Motion Active Indicator */}
+                <AnimatePresence>
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeTabPill"
+                      className="absolute inset-0 bg-orange-600/10 dark:bg-orange-500/20 rounded-full"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 30
+                      }}
+                    />
+                  )}
+                </AnimatePresence>
+
                 <Icon
-                  size={20}
+                  size={isActive ? 20 : 18}
                   strokeWidth={isActive ? 2.5 : 2}
                   className={cn(
-                    "transition-transform duration-300 ease-out motion-reduce:transition-none",
-                    isActive ? "scale-110" : "scale-100 group-hover:scale-105"
+                    "relative z-10 transition-all duration-300 ease-out",
+                    isActive 
+                      ? "text-orange-600 dark:text-orange-400 scale-110" 
+                      : "text-stone-500 dark:text-stone-500 group-hover:text-stone-900 dark:group-hover:text-stone-200"
                   )}
+                  suppressHydrationWarning
                 />
               </div>
               <span
                 className={cn(
-                  "text-[10px] font-bold tracking-wide transition-colors duration-300 ease-out motion-reduce:transition-none",
+                  "relative z-10 text-[9px] font-black tracking-[0.15em] uppercase transition-colors duration-300",
                   isActive
-                    ? "text-orange-700 dark:text-white"
-                    : "text-stone-500 dark:text-stone-400 group-hover:text-stone-900 dark:group-hover:text-stone-100"
+                    ? "text-orange-700 dark:text-orange-400"
+                    : "text-stone-400 dark:text-stone-500"
                 )}
               >
                 {item.label}

@@ -7,7 +7,8 @@ import FeaturedPost from '@/components/blog/FeaturedPost';
 import SonicAura from '@/components/blog/SonicAura';
 import PageBackground from '@/components/ui/PageBackground';
 import { MusicProvider } from '@/components/blog/MusicContext';
-
+import { MobilePageShell } from '@/components/layout/MobilePageShell';
+import { MobileSection } from '@/components/layout/MobileSection';
 
 export const revalidate = 60; // Revalidate every 60 seconds
 
@@ -62,41 +63,41 @@ export default async function BlogPage() {
 
   return (
     <MusicProvider initialPlaylist={playlist || []}>
-      {/* 1. Background (Fixed) */}
-      {backgroundImage ? (
-        <PageBackground
-          image={backgroundImage}
-          overlayClassName="bg-white/40 dark:bg-white/20 backdrop-blur-[4px]"
-        />
-      ) : (
-        <div className="fixed inset-0 z-0 bg-brand-50 dark:bg-brand-950" />
-      )}
+      <MobilePageShell immersive={true}>
+        {/* Background */}
+        {backgroundImage ? (
+          <PageBackground
+            image={backgroundImage}
+            overlayClassName="bg-white/40 dark:bg-black/40 backdrop-blur-[2px]"
+          />
+        ) : (
+          <div className="fixed inset-0 z-0 bg-stone-50 dark:bg-stone-950" />
+        )}
 
-      {/* 2. Sonic Aura (Fixed) */}
-      <SonicAura tags={posts[0]?.tags || []} />
+        {/* Sonic Aura */}
+        <SonicAura tags={posts[0]?.tags || []} />
 
-      {/* 3. Main Page Content (Normal Flow) */}
-      <div className="relative z-10 flex flex-col pt-8 md:pt-16 bg-transparent">
-        <div className="flex-1 flex flex-col">
-          {/* Mobile Header (Visible only on small screens) */}
-          <div className="lg:hidden container mx-auto px-4 mb-8 text-center flex-shrink-0">
-            <h1 className="font-display text-3xl font-bold text-brand-900 dark:text-brand-100 mb-2 drop-shadow-md">
-              {title || "Cielito's Wrld"}
-            </h1>
-            <p className="text-sm text-brand-600 dark:text-brand-400 font-inter drop-shadow-sm">
-              {subtitle || "Visual stories & late night thoughts."}
-            </p>
-          </div>
-
-          <div className="container mx-auto px-4 md:px-8 flex justify-center gap-16 flex-1">
+        {/* Main Feed Section */}
+        <MobileSection className="relative z-10 pt-12 md:pt-24 min-h-[50vh]" hasGutter={false}>
+          <div className="container mx-auto max-w-[1600px] flex justify-center gap-16 px-0 sm:px-8">
             {/* Main Feed */}
-            <main className="w-full max-w-[640px] pt-4">
+            <main className="w-full max-w-[640px] px-[var(--mobile-gutter)] sm:px-0">
+              {/* Header */}
+              <header className="mb-12 text-center sm:text-left">
+                <h1 className="font-pattaya text-4xl md:text-7xl font-bold text-stone-900 dark:text-stone-50 mb-3 tracking-tight">
+                  {title || "Late Night Thoughts"}
+                </h1>
+                <p className="text-lg md:text-xl text-stone-600 dark:text-stone-400 font-light max-w-lg mx-auto sm:mx-0">
+                  {subtitle || "Visual stories & editorial fragments."}
+                </p>
+              </header>
+
               {posts.length === 0 ? (
-                <div className="bg-white dark:bg-brand-900 p-12 rounded-sm text-center border border-brand-100 dark:border-brand-800">
-                  <p className="text-brand-500 font-inter">{noPostsMessage || "No posts found."}</p>
+                <div className="bg-white dark:bg-stone-900 p-12 rounded-[2rem] text-center border border-stone-100 dark:border-stone-800 shadow-sm">
+                  <p className="text-stone-500 font-medium">{noPostsMessage || "No stories found yet."}</p>
                 </div>
               ) : (
-                <div className="space-y-16 pb-20">
+                <div className="space-y-12 md:space-y-20 pb-20">
                   {posts.map((post: any, index: number) => (
                     <div
                       key={post._id}
@@ -115,18 +116,18 @@ export default async function BlogPage() {
 
               {/* Pagination */}
               <div className="mt-8 mb-20 flex justify-between items-center px-4">
-                <button className="text-brand-600 dark:text-brand-400 font-display font-bold text-lg hover:text-orange-600 transition-colors disabled:opacity-50" disabled>
+                <button className="btn-press font-bold text-lg text-stone-900 dark:text-stone-100 disabled:opacity-30" disabled>
                   &larr; {pagination?.newer || "Newer"}
                 </button>
-                <span className="text-xs font-bold text-brand-300 uppercase tracking-widest">Page 1</span>
-                <button className="text-brand-600 dark:text-brand-400 font-display font-bold text-lg hover:text-orange-600 transition-colors">
+                <span className="text-[10px] font-bold text-stone-400 uppercase tracking-[0.2em]">Page 1</span>
+                <button className="btn-press font-bold text-lg text-stone-900 dark:text-stone-100">
                   {pagination?.older || "Older"} &rarr;
                 </button>
               </div>
             </main>
 
-            {/* Sidebar - Sticky on desktop */}
-            <aside className="hidden lg:block w-72 pt-4 sticky top-32 self-start mb-20">
+            {/* Desktop Sidebar - Sticky */}
+            <aside className="hidden lg:block w-72 sticky top-32 self-start mb-20">
               <BlogSidebar
                 title={title}
                 subtitle={subtitle}
@@ -138,8 +139,8 @@ export default async function BlogPage() {
               />
             </aside>
           </div>
-        </div>
-      </div>
+        </MobileSection>
+      </MobilePageShell>
     </MusicProvider>
   );
 }

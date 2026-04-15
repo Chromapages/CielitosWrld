@@ -23,6 +23,12 @@ export default function PullToRefreshProvider({ children }: { children: React.Re
       const isTouch = touchEvent.type.startsWith('touch');
       if (!isTouch) return;
 
+      // Don't trigger pull-to-refresh if the user is interacting with navigation or head elements
+      const target = touchEvent.target as HTMLElement;
+      if (target.closest('header') || target.closest('nav') || target.closest('button') || target.closest('a')) {
+        return;
+      }
+
       const atTop = window.scrollY <= 0;
       if (!atTop && down) {
         cancel();

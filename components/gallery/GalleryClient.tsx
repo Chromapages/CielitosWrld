@@ -17,6 +17,8 @@ interface GalleryClientProps {
     pageData: any;
 }
 
+import { MobileSection } from '../layout/MobileSection';
+
 export default function GalleryClient({ initialItems, pageData }: GalleryClientProps) {
     const [items] = useState<GalleryItem[]>(initialItems);
     const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
@@ -119,7 +121,7 @@ export default function GalleryClient({ initialItems, pageData }: GalleryClientP
 
     return (
         <div className={cn(
-            "min-h-screen pt-24 pb-20 md:pt-32 -mt-16 md:-mt-24 relative transition-colors duration-700 ease-in-out",
+            "relative transition-colors duration-700 ease-in-out",
             mediaType === 'video' ? "bg-stone-950 text-white" : "bg-white dark:bg-stone-950"
         )}>
             {/* Background Image */}
@@ -128,64 +130,52 @@ export default function GalleryClient({ initialItems, pageData }: GalleryClientP
             )}
 
             <div className="relative z-10">
-
-                {/* Header */}
-                <div className="container mx-auto px-4 md:px-8 mb-8 md:mb-12">
-                    <h1 className="font-pattaya text-3xl sm:text-4xl md:text-6xl font-bold text-stone-900 dark:text-stone-50 mb-4">
+                {/* Header (Hidden on Mobile as it's in the stickyer header) */}
+                <div className="container mx-auto max-w-[1600px] px-4 sm:px-8 py-12 md:py-20">
+                    <h1 className="font-pattaya text-3xl sm:text-4xl md:text-8xl font-bold text-stone-900 dark:text-stone-50 mb-6 drop-shadow-sm">
                         {pageData?.title || 'Visual Stories'}
                     </h1>
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-                        <p className="text-stone-600 dark:text-stone-400 text-lg max-w-2xl">
+                    
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <p className="text-stone-600 dark:text-stone-400 text-lg md:text-2xl max-w-3xl font-light leading-relaxed">
                             {pageData?.subtitle || 'A curated collection of moments, captured in time.'}
                         </p>
+                        
                         <div className="flex items-center gap-4">
                             {mediaType === 'video' && pageData?.youtubeChannelUrl && (
                                 <a
                                     href={pageData.youtubeChannelUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-full transition-colors shadow-lg shadow-red-900/20 group"
+                                    className="btn-press inline-flex items-center gap-2 px-6 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-xl transition-all shadow-xl shadow-red-900/20"
                                 >
-                                    <svg className="w-4 h-4 fill-current group-hover:scale-110 transition-transform" viewBox="0 0 24 24">
+                                    <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
                                         <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
                                     </svg>
                                     SUBSCRIBE
                                 </a>
                             )}
-                            <div className="text-sm font-medium text-stone-500 dark:text-stone-500 hidden sm:block">
-                                Showing {filteredItems.length} of {items.length} results
-                            </div>
                         </div>
                     </div>
 
-                    {/* Search and Sort Bar */}
-                    <div className="flex flex-col sm:flex-row gap-3 mb-4 hidden sm:flex">
-                        {/* Search Input */}
+                    {/* Desktop Search & Controls */}
+                    <div className="hidden sm:flex flex-wrap gap-4 mt-12 bg-stone-50 dark:bg-stone-900/50 p-4 rounded-2xl border border-stone-200 dark:border-stone-800">
                         <div className="relative flex-1 max-w-md">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
                             <input
                                 type="text"
-                                placeholder="Search by title, category, or location..."
+                                placeholder="Search stories..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all"
+                                className="w-full pl-10 pr-4 py-3 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-all font-medium"
                             />
-                            {searchQuery && (
-                                <button
-                                    onClick={() => setSearchQuery('')}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-full transition-colors"
-                                >
-                                    <X className="w-3 h-3 text-stone-400" />
-                                </button>
-                            )}
                         </div>
 
-                        {/* Sort Dropdown */}
                         <div className="relative">
                             <select
                                 value={sortBy}
                                 onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-                                className="appearance-none pl-10 pr-8 py-2.5 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 transition-all cursor-pointer"
+                                className="appearance-none pl-10 pr-10 py-3 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-all cursor-pointer font-bold"
                             >
                                 <option value="newest">Newest First</option>
                                 <option value="oldest">Oldest First</option>
@@ -194,51 +184,43 @@ export default function GalleryClient({ initialItems, pageData }: GalleryClientP
                             <ArrowUpDown className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400 pointer-events-none" />
                         </div>
 
-                        {/* View Mode Toggle */}
-                        <div className="flex p-1 bg-stone-100 dark:bg-stone-900 rounded-lg">
+                        <div className="flex p-1 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-xl">
                             <button
                                 onClick={() => setViewMode('masonry')}
                                 className={cn(
-                                    "p-2 rounded-md transition-all",
+                                    "p-2 rounded-lg transition-all",
                                     viewMode === 'masonry'
-                                        ? "bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
-                                        : "text-stone-500 hover:text-stone-900 dark:hover:text-stone-300"
+                                        ? "bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
+                                        : "text-stone-400 hover:text-stone-900 dark:hover:text-stone-200"
                                 )}
-                                aria-label="Masonry view"
-                                title="Masonry view"
                             >
-                                <Columns3 className="w-4 h-4" />
+                                <Columns3 className="w-5 h-5" />
                             </button>
                             <button
                                 onClick={() => setViewMode('grid')}
                                 className={cn(
-                                    "p-2 rounded-md transition-all",
+                                    "p-2 rounded-lg transition-all",
                                     viewMode === 'grid'
-                                        ? "bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
-                                        : "text-stone-500 hover:text-stone-900 dark:hover:text-stone-300"
+                                        ? "bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
+                                        : "text-stone-400 hover:text-stone-900 dark:hover:text-stone-200"
                                 )}
-                                aria-label="Grid view"
-                                title="Grid view"
                             >
-                                <LayoutGrid className="w-4 h-4" />
+                                <LayoutGrid className="w-5 h-5" />
                             </button>
                         </div>
-
                     </div>
 
-                    {/* Active Filter Pills */}
+                    {/* Active Filters */}
                     {(activeFilters.length > 0 || searchQuery) && (
-                        <div className="flex flex-wrap items-center gap-2 animate-in fade-in slide-in-from-top-2 duration-200">
-                            <span className="text-xs font-medium text-stone-500 dark:text-stone-400">Active:</span>
-
+                        <div className="flex flex-wrap items-center gap-2 mt-6 animate-in fade-in slide-in-from-top-2">
                             {searchQuery && (
                                 <button
                                     onClick={() => setSearchQuery('')}
-                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-medium rounded-full hover:bg-orange-200 dark:hover:bg-orange-900/50 transition-colors group"
+                                    className="btn-press flex items-center gap-1.5 px-4 py-2 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-xs font-bold rounded-full border border-orange-200 dark:border-orange-800"
                                 >
-                                    <Search className="w-3 h-3" />
+                                    <Search className="w-3.5 h-3.5" />
                                     "{searchQuery}"
-                                    <X className="w-3 h-3 opacity-60 group-hover:opacity-100" />
+                                    <X className="w-3.5 h-3.5" />
                                 </button>
                             )}
 
@@ -246,45 +228,32 @@ export default function GalleryClient({ initialItems, pageData }: GalleryClientP
                                 <button
                                     key={`${filter.type}-${filter.value}`}
                                     onClick={() => handleFilterChange(filter.type as keyof typeof filters, filter.value)}
-                                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs font-medium rounded-full hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors group"
+                                    className="btn-press flex items-center gap-1.5 px-4 py-2 bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs font-bold rounded-full border border-stone-200 dark:border-stone-700"
                                 >
-                                    <span className="capitalize text-stone-400">{filter.type}:</span>
+                                    <span className="text-stone-400 uppercase text-[10px] tracking-widest">{filter.type}:</span>
                                     {filter.label}
-                                    <X className="w-3 h-3 opacity-60 group-hover:opacity-100" />
+                                    <X className="w-3.5 h-3.5" />
                                 </button>
                             ))}
-
-                            <button
-                                onClick={() => {
-                                    clearFilters();
-                                    setSearchQuery('');
-                                }}
-                                className="text-xs text-orange-600 hover:text-orange-700 font-medium ml-2 hover:underline"
-                            >
-                                Clear all
-                            </button>
                         </div>
                     )}
                 </div>
 
-                <div className="container mx-auto px-4 md:px-8 flex flex-col md:flex-row gap-8 lg:gap-12">
-
+                <div className="container mx-auto max-w-[1600px] flex flex-col md:flex-row gap-8 lg:gap-12 relative px-4 sm:px-8">
                     {/* Desktop Sidebar */}
-                    <aside className="hidden md:block w-64 flex-shrink-0 sticky top-32 self-start h-[calc(100vh-8rem)] overflow-y-auto pr-4 scrollbar-thin">
-                        <div className="bg-white/80 dark:bg-stone-950/80 backdrop-blur-xl rounded-2xl p-4 border border-stone-200/50 dark:border-stone-800/50 shadow-lg shadow-stone-200/20 dark:shadow-black/20">
-                            <GallerySidebar
-                                filters={filters}
-                                onFilterChange={handleFilterChange}
-                                onClear={clearFilters}
-                                counts={items}
-                                mediaType={mediaType}
-                                onMediaTypeChange={setMediaType}
-                            />
-                        </div>
+                    <aside className="hidden md:block w-72 flex-shrink-0 sticky top-32 self-start h-[calc(100vh-10rem)] pr-4 scrollbar-thin">
+                        <GallerySidebar
+                            filters={filters}
+                            onFilterChange={handleFilterChange}
+                            onClear={clearFilters}
+                            counts={items}
+                            mediaType={mediaType}
+                            onMediaTypeChange={setMediaType}
+                        />
                     </aside>
 
-                    {/* Mobile Filter Bar */}
-                    <div className="md:hidden mb-6 sticky top-[calc(4rem+env(safe-area-inset-top))] z-30 bg-white/90 dark:bg-stone-950/90 backdrop-blur-md py-2 -mx-4 px-4 border-b border-stone-100 dark:border-stone-900">
+                    {/* Mobile Filter Bar - Sticky with System Height */}
+                    <div className="md:hidden sticky top-[var(--mobile-header-height)] z-40 bg-white/95 dark:bg-stone-950/95 backdrop-blur-xl py-2 -mx-4 px-4 border-b border-stone-100 dark:border-stone-800/60 shadow-sm">
                         <GalleryMobileFilters
                             filters={filters}
                             onFilterChange={handleFilterChange}
@@ -299,21 +268,20 @@ export default function GalleryClient({ initialItems, pageData }: GalleryClientP
                         />
                     </div>
 
-                    {/* Main Content */}
-                    <main className="flex-1 min-h-[50vh]">
-                        {/* Grid View (Always visible) */}
-                        <div>
-                            {filteredItems.length > 0 ? (
-                                <GalleryGrid
-                                    items={filteredItems}
-                                    onImageClick={(index) => setSelectedImageIndex(index)}
-                                    viewMode={viewMode}
-                                />
-                            ) : items.length === 0 ? (
-                                <EmptyState
-                                    type="no-images"
-                                />
-                            ) : (
+                    {/* Grid Section */}
+                    <main className="flex-1 pb-20">
+                        {filteredItems.length > 0 ? (
+                            <GalleryGrid
+                                items={filteredItems}
+                                onImageClick={(index) => setSelectedImageIndex(index)}
+                                viewMode={viewMode}
+                            />
+                        ) : items.length === 0 ? (
+                            <div className="py-20">
+                                <EmptyState type="no-images" />
+                            </div>
+                        ) : (
+                            <div className="py-20">
                                 <EmptyState
                                     type="no-results"
                                     searchQuery={searchQuery}
@@ -322,10 +290,9 @@ export default function GalleryClient({ initialItems, pageData }: GalleryClientP
                                         setSearchQuery('');
                                     }}
                                 />
-                            )}
-                        </div>
+                            </div>
+                        )}
                     </main>
-
                 </div>
 
                 {/* Lightbox */}

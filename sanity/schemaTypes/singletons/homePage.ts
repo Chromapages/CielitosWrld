@@ -1,5 +1,5 @@
-import { defineField, defineType } from 'sanity'
 import { HomeIcon } from '@sanity/icons'
+import { defineField, defineType } from 'sanity'
 
 export default defineType({
     name: 'homePage',
@@ -40,6 +40,44 @@ export default defineType({
                     title: 'Hero Background Image (Mobile)',
                     description: 'Optional. If set, this image will be used on mobile devices instead of the desktop background image.',
                     options: { hotspot: true }
+                }),
+                defineField({
+                    name: 'backgroundVideo',
+                    type: 'file' as const,
+                    title: 'Hero Background Video (Desktop)',
+                    description: 'Optional MP4 video for desktop hero animation.',
+                    options: {
+                        accept: 'video/mp4'
+                    }
+                }),
+                defineField({
+                    name: 'mobileBackgroundVideo',
+                    type: 'file' as const,
+                    title: 'Hero Background Video (Mobile)',
+                    description: 'Optional MP4 video for mobile hero animation. Falls back to the desktop video if empty.',
+                    options: {
+                        accept: 'video/mp4'
+                    }
+                }),
+                defineField({
+                    name: 'backgroundPosterImage',
+                    type: 'image' as const,
+                    title: 'Hero Poster Image (Desktop)',
+                    description: 'Optional poster image shown before the desktop video loads. Falls back to the desktop background image.',
+                    options: { hotspot: true }
+                }),
+                defineField({
+                    name: 'mobileBackgroundPosterImage',
+                    type: 'image' as const,
+                    title: 'Hero Poster Image (Mobile)',
+                    description: 'Optional poster image shown before the mobile video loads. Falls back to the mobile background image.',
+                    options: { hotspot: true }
+                }),
+                defineField({
+                    name: 'backgroundMediaAlt',
+                    type: 'string',
+                    title: 'Hero Media Alt Text',
+                    description: 'Optional alt text for the hero poster image. Leave blank if the background is decorative.'
                 }),
                 defineField({
                     name: 'ctaText',

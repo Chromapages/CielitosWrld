@@ -10,14 +10,13 @@ export const metadata: Metadata = {
 
 export const revalidate = 60;
 
-export default async function Contact() {
-  // In the future, we can fetch background images or wizard options from Sanity here
-  // and pass them as props to ContactStage.
+import { MobilePageShell } from '@/components/layout/MobilePageShell';
 
+export default async function Contact() {
   const data = await client.fetch(CONTACT_PAGE_QUERY).catch(() => ({}));
 
   return (
-    <div className="-mt-16 md:-mt-24">
+    <MobilePageShell immersive={true}>
       <ContactStage
         title={data?.title}
         introText={data?.introText}
@@ -29,6 +28,6 @@ export default async function Contact() {
         followMeLabel={data?.followMeLabel}
         pageBackground={data?.pageBackground}
       />
-    </div>
+    </MobilePageShell>
   );
 }

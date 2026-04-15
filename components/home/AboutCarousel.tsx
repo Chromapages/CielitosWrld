@@ -73,6 +73,7 @@ export default function AboutCarousel({ images = [] }: AboutCarouselProps) {
                                 placeholder={item.image.asset.metadata?.lqip ? 'blur' : 'empty'}
                                 blurDataURL={item.image.asset.metadata?.lqip}
                                 priority={i < 4}
+                                suppressHydrationWarning
                             />
                             {/* Visual polish for mobile grid */}
                             <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors duration-300" />
@@ -98,6 +99,7 @@ export default function AboutCarousel({ images = [] }: AboutCarouselProps) {
                                 sizes="(max-width: 1024px) 45vw, 25vw"
                                 placeholder={item.image.asset.metadata?.lqip ? 'blur' : 'empty'}
                                 blurDataURL={item.image.asset.metadata?.lqip}
+                                suppressHydrationWarning
                             />
                         </div>
                     ))}

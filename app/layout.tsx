@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { OrganizationSchema, WebsiteSchema } from '@/components/seo/JsonLd';
 import Navbar from '@/components/layout/Navbar';
 import MobileNavbar from '@/components/layout/MobileNavbar';
+import MobileHeader from '@/components/layout/MobileHeader';
 import Footer from '@/components/layout/Footer';
 import { ScrollToTop } from '@/components/layout/ScrollToTop';
 import AnimationProvider from '@/components/providers/AnimationProvider';
@@ -72,7 +73,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteTitle = settings?.title || "Cielito's Wrld";
   const metaTitle = settings?.seo?.metaTitle || defaultTitle;
   const metaDescription = settings?.seo?.metaDescription || defaultDescription;
-  const ogImageUrl = settings?.seo?.ogImage?.asset?.url || '/og-image.jpg';
+  const ogImageUrl = settings?.seo?.ogImage?.asset?.url || '/ogimage.jpeg';
   const ogImageAlt = settings?.seo?.ogImage?.alt || siteTitle;
 
   return {
@@ -118,6 +119,9 @@ export async function generateMetadata(): Promise<Metadata> {
         'max-snippet': -1,
       },
     },
+    other: {
+      'darkreader-lock': 'true',
+    },
   };
 }
 
@@ -149,15 +153,6 @@ export default async function RootLayout({
       className={`${inter.variable} ${pattaya.variable} ${archivo.variable} font-sans`}
       suppressHydrationWarning
     >
-      <head>
-        <link
-          rel="preload"
-          href="/fonts/fitzgerald-bold.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-      </head>
       <body
         className="min-h-screen flex flex-col bg-brand-50 dark:bg-brand-950 dark:text-brand-50"
         style={fontVariables as React.CSSProperties}
@@ -174,13 +169,13 @@ export default async function RootLayout({
           <Analytics />
           <AnimationProvider>
             <LoadingScreen />
-            <div className="flex flex-col min-h-screen">
+            <div className="flex flex-col min-h-screen" suppressHydrationWarning>
               <ScrollToTop />
               <Navbar />
+              <MobileHeader />
               <MobileNavbar />
               <main 
                 className="flex-1 md:pt-24 pb-0"
-                style={{ paddingTop: 'calc(4rem + env(safe-area-inset-top))' }}
               >
                 <PageTransition>
                   {children}

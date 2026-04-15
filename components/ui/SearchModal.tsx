@@ -101,9 +101,9 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
             >
               <h4 className="font-medium text-stone-900 dark:text-stone-100">{post.title}</h4>
               {post.excerpt && (
-                <p className="text-sm text-stone-500 mt-1 line-clamp-1">{post.excerpt}            </Link>
-</p>
+                <p className="text-sm text-stone-500 mt-1 line-clamp-1">{post.excerpt}</p>
               )}
+            </Link>
           ))}
         </div>
       </div>

@@ -17,16 +17,14 @@ export default function Navbar() {
 
   return (
     <>
-      <MobileHeader />
-
       {/* Navbar - Hidden on mobile, floating on desktop */}
       <header className="hidden md:flex md:fixed md:top-6 md:left-1/2 md:-translate-x-1/2 z-50 md:w-[95%] max-w-5xl bg-white dark:bg-brand-900 rounded-full shadow-navbar-float px-6 py-3 items-center justify-between border border-white/20 dark:border-white/5">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2 text-brand-900 dark:text-white group">
           <div className="size-6 text-orange-600 dark:text-orange-500 transition-transform duration-300 group-hover:scale-110">
-            <Camera className="w-full h-full" />
+            <Camera className="w-full h-full" suppressHydrationWarning />
           </div>
-          <h2 className="text-xl font-bold tracking-tight font-pattaya">
+          <h2 className="text-xl font-bold tracking-tight font-pattaya italic pr-1">
             Cielito's Wrld
           </h2>
         </Link>

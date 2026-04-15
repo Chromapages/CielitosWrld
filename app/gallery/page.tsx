@@ -53,6 +53,8 @@ export interface GalleryItem {
   };
 }
 
+import { MobilePageShell } from '@/components/layout/MobilePageShell';
+
 export default async function GalleryPage() {
   const [galleryItems, galleryPage] = await Promise.all([
     client.fetch(GALLERY_QUERY, {}, { next: { revalidate: 60 } }),
@@ -66,7 +68,7 @@ export default async function GalleryPage() {
     .map((image: any) => urlFor(image).width(1200).url());
 
   return (
-    <>
+    <MobilePageShell immersive={true}>
       <ImageGallerySchema
         name={galleryPage?.title || 'Cielitos Wrld Gallery'}
         description={galleryPage?.subtitle || 'A curated image and video gallery from Cielitos Wrld.'}
@@ -74,6 +76,6 @@ export default async function GalleryPage() {
         images={schemaImages}
       />
       <GalleryClient initialItems={galleryItems} pageData={galleryPage} />
-    </>
+    </MobilePageShell>
   );
 }

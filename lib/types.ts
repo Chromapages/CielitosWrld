@@ -34,6 +34,41 @@ export interface SanityImage {
   };
 }
 
+export interface SanityImageMetadata {
+  dimensions?: {
+    width?: number;
+    height?: number;
+    aspectRatio?: number;
+  };
+  lqip?: string;
+}
+
+export interface SanityImageAsset {
+  _id?: string;
+  url?: string;
+  metadata?: SanityImageMetadata;
+}
+
+export interface SanityImageWithAsset {
+  asset?: SanityImageAsset;
+}
+
+export interface HomeHero {
+  title?: string;
+  subtitle?: string;
+  backgroundImage?: SanityImageWithAsset;
+  mobileBackgroundImage?: SanityImageWithAsset;
+  backgroundPosterImage?: SanityImageWithAsset;
+  mobileBackgroundPosterImage?: SanityImageWithAsset;
+  backgroundVideoUrl?: string;
+  mobileBackgroundVideoUrl?: string;
+  backgroundMediaAlt?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  secondaryCtaText?: string;
+  secondaryCtaLink?: string;
+}
+
 export interface SanityPost {
   _id: string;
   title: string;
