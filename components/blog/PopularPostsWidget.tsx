@@ -41,7 +41,7 @@ export default function PopularPostsWidget({ posts = [] }: PopularPostsWidgetPro
                   src={urlFor(post.coverImage).width(100).height(100).url()}
                   alt={post.title}
                   fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-110"
+                  className="object-contain transition-transform duration-300 group-hover:scale-110"
                 />
               ) : (
                 <div className="w-full h-full bg-gradient-to-br from-orange-200 to-brand-200 dark:from-orange-900/30 dark:to-brand-900/30 flex items-center justify-center">

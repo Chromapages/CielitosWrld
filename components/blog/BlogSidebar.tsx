@@ -163,18 +163,11 @@ export default function BlogSidebar({
                 </div>
             </div>
 
-            {/* Newsletter Widget - Bottom */}
+            {/* Contact CTA - Bottom */}
             <NewsletterWidget
                 heading={newsletter?.heading}
                 description={newsletter?.description}
             />
-
-            {/* Footer */}
-            <div className="text-center">
-                <p className="text-[10px] text-brand-400 dark:text-brand-600 uppercase tracking-widest font-medium">
-                    Theme by Cielito
-                </p>
-            </div>
         </aside>
     );
 }

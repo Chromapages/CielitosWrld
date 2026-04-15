@@ -289,7 +289,7 @@ export default function BlogPost({ post, avatar, username }: BlogPostProps) {
                     alt={coverImage.alt || title || "Blog post image"}
                     width={1200}
                     height={1600}
-                    className="w-full h-auto object-cover group-hover/image:scale-[1.01] transition-transform duration-1000 ease-out"
+                    className="w-full h-auto object-contain group-hover/image:scale-[1.01] transition-transform duration-1000 ease-out"
                     priority
                   />
                   {/* Subtle vignette */}
@@ -306,7 +306,7 @@ export default function BlogPost({ post, avatar, username }: BlogPostProps) {
                         alt={photo.alt || `Photo ${idx + 1}`}
                         width={1200}
                         height={1600}
-                        className="w-full h-auto object-cover group-hover/image:scale-[1.01] transition-transform duration-1000 ease-out"
+                        className="w-full h-auto object-contain group-hover/image:scale-[1.01] transition-transform duration-1000 ease-out"
                       />
                     </div>
                   ))}
