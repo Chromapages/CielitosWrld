@@ -82,7 +82,7 @@ export default function AboutCarousel({ images = [] }: AboutCarouselProps) {
             </div>
 
             {/* Desktop Carousel (Existing Embla logic) */}
-            <div className="hidden md:block w-full overflow-hidden py-12" ref={emblaRef}>
+            <div className="hidden md:block w-full overflow-hidden py-8" ref={emblaRef}>
                 <div className="flex touch-pan-y gap-6 px-4">
                     {images.map((item) => (
                         <div

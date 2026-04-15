@@ -490,7 +490,7 @@ export const SERVICES_PAGE_QUERY = `
         "description": seoDescription
       }
     },
-    "packages": *[_type == "service"] | order(price asc) {
+    "packages": *[_type == "service"] | order(order asc, price asc) {
       _id,
       name,
       tagline,

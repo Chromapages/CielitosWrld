@@ -36,7 +36,7 @@ export default function ContactCTA({ data }: ContactCTAProps) {
   const buttonLink = data?.buttonLink || "/contact";
 
   return (
-    <section className="py-24 px-4 relative overflow-hidden text-white">
+    <section className="py-20 md:py-24 px-4 relative overflow-hidden text-white">
       {/* Background image with overlay */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-fixed transform scale-105"

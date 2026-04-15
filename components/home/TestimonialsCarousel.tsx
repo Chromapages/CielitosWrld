@@ -86,7 +86,7 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
 
 
   return (
-    <section className="relative py-20 md:py-32 bg-stone-50 dark:bg-stone-950 overflow-hidden border-t border-stone-200 dark:border-stone-900">
+    <section className="relative py-20 md:py-24 bg-stone-50 dark:bg-stone-950 overflow-hidden border-t border-stone-200 dark:border-stone-900">
 
       {/* Background Image (Optional) */}
       {data?.backgroundImage && (

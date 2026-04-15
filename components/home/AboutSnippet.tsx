@@ -112,7 +112,7 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
 
 
   return (
-    <section className="relative py-20 md:py-32 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 overflow-hidden">
+    <section className="relative pt-20 md:pt-32 pb-0 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 overflow-hidden">
 
       {/* Background Decor */}
       <div className="absolute top-0 right-0 w-1/3 h-full bg-stone-50/50 dark:bg-stone-900/20 -z-10 skew-x-12 translate-x-32 hidden lg:block" />
@@ -280,7 +280,7 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
           The AboutCarousel was "Full Width Carousel" at bottom. 
           It might distract from the new clean design, but the user didn't explicitly say remove it. 
           I'll keep it as a "Recent Sessions" strip at the very bottom, but add some breathing room. */}
-      <div className="mt-24">
+      <div className="mt-16">
         <AboutCarousel images={data?.carouselImages} />
       </div>
 

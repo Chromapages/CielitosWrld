@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
-import { X, ChevronLeft, ChevronRight, Share2, Download, Info, Eye } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Share2, Info, Eye, MapPin, Camera, Sparkles } from 'lucide-react';
 import { GalleryItem } from '@/app/gallery/page';
 import { urlFor, sanityLoader } from '@/sanity/lib/image';
 import useEmblaCarousel from 'embla-carousel-react';
@@ -302,15 +302,7 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
     }
   }, []);
 
-  const handleDownload = useCallback(() => {
-    if (currentItem.mediaType === 'photo' && currentItem.image) {
-      const link = document.createElement('a');
-      link.href = urlFor(currentItem.image).width(2400).quality(95).auto('format').url();
-      link.download = `${currentItem.title || 'image'}.jpg`;
-      link.target = '_blank';
-      link.click();
-    }
-  }, [currentItem]);
+
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -332,25 +324,46 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
         )}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex flex-col gap-1 max-w-[70%]">
-          <h2 className="text-white font-display text-lg md:text-xl line-clamp-1">
+        <div className="flex flex-col gap-1 max-w-[85vw] sm:max-w-[70%]">
+          <h2 className="text-white font-sans text-lg md:text-xl font-semibold line-clamp-1 drop-shadow-md">
             {currentItem.title || 'Untitled'}
           </h2>
-          <p className="text-white/60 text-xs uppercase tracking-widest">
+          <p className="text-white/80 text-xs uppercase tracking-widest drop-shadow-md">
             {currentIndex + 1} / {items.length}
+            {currentItem.client && <span className="hidden sm:inline"> • {currentItem.client}</span>}
           </p>
+
+          {/* Condensed Details Overlay */}
+          {showInfo && (
+            <div className="mt-3 flex flex-col gap-3 animate-in fade-in slide-in-from-top-2 duration-300 pointer-events-auto">
+              {currentItem.description && (
+                <p className="text-white/90 text-sm leading-relaxed max-w-lg drop-shadow-md pb-1">
+                  {currentItem.description}
+                </p>
+              )}
+              <div className="flex flex-wrap gap-x-3 gap-y-2">
+                {currentItem.medium && (
+                  <span className="inline-flex items-center gap-1.5 text-xs text-white/90 drop-shadow-md bg-black/40 px-2.5 py-1.5 rounded-md backdrop-blur-md border border-white/10">
+                    <Camera size={14} className="text-white/60" /> {currentItem.medium}
+                  </span>
+                )}
+                {currentItem.vibe && (
+                  <span className="inline-flex items-center gap-1.5 text-xs text-white/90 drop-shadow-md bg-black/40 px-2.5 py-1.5 rounded-md backdrop-blur-md border border-white/10">
+                    <Sparkles size={14} className="text-white/60" /> {currentItem.vibe}
+                  </span>
+                )}
+                {currentItem.location && (
+                  <span className="inline-flex items-center gap-1.5 text-xs text-white/90 drop-shadow-md bg-black/40 px-2.5 py-1.5 rounded-md backdrop-blur-md border border-white/10">
+                    <MapPin size={14} className="text-white/60" /> {currentItem.location}
+                  </span>
+                )}
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
-          {currentItem.mediaType === 'photo' && (
-            <button
-              onClick={(e) => { e.stopPropagation(); handleDownload(); }}
-              className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
-              title="Download Original"
-            >
-              <Download size={18} className="md:w-5 md:h-5" />
-            </button>
-          )}
+
           <button
             onClick={(e) => { e.stopPropagation(); handleShare(); }}
             className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors relative"
@@ -446,82 +459,7 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
         </div>
       </div>
 
-      {/* Info Panel Slider - Drawer on Desktop, Bottom Sheet on Mobile */}
-      <div
-        className={cn(
-          "fixed z-[110] bg-stone-950/98 backdrop-blur-2xl border-stone-800 transition-transform duration-500 ease-out shadow-2xl",
-          // Desktop: Right Drawer
-          "md:top-0 md:right-0 md:h-full md:w-96 md:border-l md:translate-y-0",
-          // Mobile: Bottom Sheet
-          "bottom-0 left-0 w-full rounded-t-3xl border-t",
-          showInfo ? "translate-x-0 translate-y-0" : "md:translate-x-full translate-y-full"
-        )}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="p-6 md:p-8 space-y-6 md:space-y-8 max-h-[70vh] md:max-h-full overflow-y-auto">
-          <div className="flex items-center justify-between border-b border-white/10 pb-4 md:pb-6">
-            <h3 className="text-lg md:text-xl font-display text-white">Artwork Details</h3>
-            <button
-              onClick={() => setShowInfo(false)}
-              className="p-2 text-stone-400 hover:text-white transition-colors"
-            >
-              <X size={20} />
-            </button>
-          </div>
 
-          <div className="space-y-4">
-            <h4 className="text-lg text-white font-medium">{currentItem.title || 'Untitled'}</h4>
-            {currentItem.description && (
-              <p className="text-stone-400 text-sm leading-relaxed">
-                {currentItem.description}
-              </p>
-            )}
-          </div>
-
-          <div className="space-y-6 pt-4">
-            {currentItem.client && (
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
-                  <Eye className="w-5 h-5 text-brand-400" />
-                </div>
-                <div>
-                  <p className="text-[10px] text-stone-500 uppercase tracking-[0.2em] mb-1">Client</p>
-                  <p className="text-stone-200 font-medium">{currentItem.client}</p>
-                </div>
-              </div>
-            )}
-
-            {currentItem.medium && (
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-[10px] text-stone-500 uppercase tracking-[0.2em] mb-1">Medium</p>
-                  <p className="text-stone-200 font-medium">{currentItem.medium}</p>
-                </div>
-              </div>
-            )}
-
-            {currentItem.vibe && (
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center flex-shrink-0">
-                  <svg className="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                  </svg>
-                </div>
-                <div>
-                  <p className="text-[10px] text-stone-500 uppercase tracking-[0.2em] mb-1">Vibe</p>
-                  <p className="text-stone-200 font-medium">{currentItem.vibe}</p>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
     </div>
   );
 

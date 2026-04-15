@@ -34,13 +34,13 @@ export default function WizardModal({ isOpen, onClose, children }: WizardModalPr
                     />
 
                     {/* Modal Container */}
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 md:p-6 pointer-events-none">
                         <motion.div
                             initial={{ scale: 0.95, opacity: 0, y: 20 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.95, opacity: 0, y: 20 }}
                             transition={{ type: "spring", duration: 0.5, bounce: 0.3 }}
-                            className="relative w-full max-w-4xl bg-white dark:bg-stone-900 rounded-3xl shadow-2xl overflow-hidden pointer-events-auto"
+                            className="relative h-[min(92vh,980px)] w-full max-w-5xl bg-white dark:bg-stone-900 rounded-3xl shadow-2xl overflow-hidden pointer-events-auto"
                         >
                             <button
                                 onClick={onClose}

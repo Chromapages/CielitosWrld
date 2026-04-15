@@ -6,9 +6,9 @@ import Image from 'next/image';
 import { urlFor } from '@/sanity/lib/image';
 import { GalleryItem } from '@/app/gallery/page';
 import { 
-  X, ChevronLeft, ChevronRight, Share2, Download, 
+  X, ChevronLeft, ChevronRight, Share2, 
   Info, Camera, Aperture, Clock, MapPin, Calendar,
-  ZoomIn, ZoomOut, Maximize2
+  ZoomIn, ZoomOut, Maximize2, Sparkles, Eye
 } from 'lucide-react';
 
 interface GalleryLightboxProps {
@@ -50,15 +50,7 @@ export default function GalleryLightbox({
     }
   };
 
-  const handleDownload = () => {
-    if (!isVideo && imageAsset) {
-      const link = document.createElement('a');
-      link.href = urlFor(imageAsset).width(2400).quality(95).auto('format').url();
-      link.download = `${currentItem.title || 'image'}.jpg`;
-      link.target = '_blank';
-      link.click();
-    }
-  };
+
 
   const handleZoomIn = () => setZoom(prev => Math.min(prev + 0.5, 3));
   const handleZoomOut = () => setZoom(prev => Math.max(prev - 0.5, 1));
@@ -88,15 +80,51 @@ export default function GalleryLightbox({
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="flex items-center justify-between p-4 md:p-6 text-white z-20"
+            className="flex items-start justify-between p-4 md:p-6 text-white z-30 relative"
           >
-            <div className="flex items-center gap-4">
-              <span className="text-sm font-medium text-white/60">
+            <div className="flex flex-col gap-1 max-w-[85vw] sm:max-w-[70%]">
+              <h2 className="text-white font-sans text-lg md:text-xl font-semibold line-clamp-1 drop-shadow-md">
+                {currentItem.title || 'Untitled'}
+              </h2>
+              <p className="text-white/80 text-xs uppercase tracking-widest drop-shadow-md">
                 {currentIndex + 1} / {items.length}
-              </span>
-              <h3 className="hidden md:block text-lg font-bold truncate max-w-md">
-                {currentItem.title}
-              </h3>
+                {currentItem.client && <span className="hidden sm:inline"> • {currentItem.client}</span>}
+              </p>
+
+              {/* Condensed Details Overlay */}
+              <AnimatePresence>
+                {showInfo && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute top-full mt-2 left-4 md:left-6 flex flex-col gap-3 pointer-events-auto"
+                  >
+                    {currentItem.description && (
+                      <p className="text-white/90 text-sm leading-relaxed max-w-lg drop-shadow-md pb-1 bg-black/20 p-3 rounded-lg backdrop-blur-md border border-white/10">
+                        {currentItem.description}
+                      </p>
+                    )}
+                    <div className="flex flex-wrap gap-x-3 gap-y-2">
+                      {currentItem.medium && (
+                        <span className="inline-flex items-center gap-1.5 text-xs text-white/90 drop-shadow-md bg-black/40 px-2.5 py-1.5 rounded-md backdrop-blur-md border border-white/10">
+                          <Camera size={14} className="text-white/60" /> {currentItem.medium}
+                        </span>
+                      )}
+                      {currentItem.vibe && (
+                        <span className="inline-flex items-center gap-1.5 text-xs text-white/90 drop-shadow-md bg-black/40 px-2.5 py-1.5 rounded-md backdrop-blur-md border border-white/10">
+                          <Sparkles size={14} className="text-white/60" /> {currentItem.vibe}
+                        </span>
+                      )}
+                      {currentItem.location && (
+                        <span className="inline-flex items-center gap-1.5 text-xs text-white/90 drop-shadow-md bg-black/40 px-2.5 py-1.5 rounded-md backdrop-blur-md border border-white/10">
+                          <MapPin size={14} className="text-white/60" /> {currentItem.location}
+                        </span>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
 
             <div className="flex items-center gap-2">
@@ -145,15 +173,7 @@ export default function GalleryLightbox({
                 )}
               </button>
 
-              {/* Download */}
-              {!isVideo && (
-                <button
-                  onClick={handleDownload}
-                  className="p-2 hover:bg-white/10 rounded-full transition-colors"
-                >
-                  <Download className="w-5 h-5" />
-                </button>
-              )}
+
 
               <div className="w-px h-6 bg-white/20 mx-2" />
 
@@ -230,97 +250,7 @@ export default function GalleryLightbox({
             </p>
           </motion.div>
 
-          {/* Info Panel - Slide in from right */}
-          <AnimatePresence>
-            {showInfo && (
-              <motion.div
-                initial={{ x: '100%' }}
-                animate={{ x: 0 }}
-                exit={{ x: '100%' }}
-                transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-                className="absolute right-0 top-0 bottom-0 w-80 max-w-full bg-black/90 backdrop-blur-xl border-l border-white/10 p-6 overflow-y-auto z-30"
-              >
-                <div className="flex items-center justify-between mb-6">
-                  <h4 className="text-lg font-bold text-white">Image Details</h4>
-                  <button
-                    onClick={() => setShowInfo(false)}
-                    className="p-1 hover:bg-white/10 rounded-full transition-colors"
-                  >
-                    <X className="w-5 h-5 text-white" />
-                  </button>
-                </div>
 
-                <div className="space-y-6">
-                  {/* Title & Category */}
-                  <div>
-                    <h5 className="text-xl font-bold text-white mb-1">{currentItem.title}</h5>
-                    <p className="text-orange-400">{currentItem.category}</p>
-                  </div>
-
-                  {/* Location */}
-                  {currentItem.location && (
-                    <div className="flex items-start gap-3">
-                      <MapPin className="w-5 h-5 text-white/60 mt-0.5" />
-                      <div>
-                        <p className="text-xs text-white/40 uppercase tracking-wider">Location</p>
-                        <p className="text-white">{currentItem.location}</p>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Medium */}
-                  {currentItem.medium && (
-                    <div className="flex items-start gap-3">
-                      <Camera className="w-5 h-5 text-white/60 mt-0.5" />
-                      <div>
-                        <p className="text-xs text-white/40 uppercase tracking-wider">Medium</p>
-                        <p className="text-white">{currentItem.medium}</p>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Vibe */}
-                  {currentItem.vibe && (
-                    <div className="flex items-start gap-3">
-                      <Aperture className="w-5 h-5 text-white/60 mt-0.5" />
-                      <div>
-                        <p className="text-xs text-white/40 uppercase tracking-wider">Vibe</p>
-                        <p className="text-white">{currentItem.vibe}</p>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Dimensions */}
-                  {imageAsset?.asset?.metadata?.dimensions && (
-                    <div className="pt-4 border-t border-white/10">
-                      <p className="text-xs text-white/40 uppercase tracking-wider mb-2">Technical Details</p>
-                      <div className="grid grid-cols-2 gap-3 text-sm">
-                        <div>
-                          <p className="text-white/40">Dimensions</p>
-                          <p className="text-white">
-                            {imageAsset.asset.metadata.dimensions.width} × {imageAsset.asset.metadata.dimensions.height}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-white/40">Aspect Ratio</p>
-                          <p className="text-white">
-                            {(imageAsset.asset.metadata.dimensions.width / imageAsset.asset.metadata.dimensions.height).toFixed(2)}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* File Info */}
-                  <div className="pt-4 border-t border-white/10 text-sm text-white/40">
-                    <p>Press <kbd className="px-2 py-1 bg-white/10 rounded text-white">←</kbd> <kbd className="px-2 py-1 bg-white/10 rounded text-white">→</kbd> to navigate</p>
-                    <p className="mt-1">Press <kbd className="px-2 py-1 bg-white/10 rounded text-white">I</kbd> to toggle info</p>
-                    <p className="mt-1">Press <kbd className="px-2 py-1 bg-white/10 rounded text-white">ESC</kbd> to close</p>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </motion.div>
       )}
     </AnimatePresence>

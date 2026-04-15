@@ -8,6 +8,13 @@ export default defineType({
     icon: TagIcon,
     fields: [
         defineField({
+            name: 'order',
+            title: 'Order Number',
+            type: 'number',
+            description: 'Used for manual positioning (0, 1, 2...). Lower numbers appear first.',
+            initialValue: 0,
+        }),
+        defineField({
             name: 'name',
             title: 'Package Name',
             type: 'string',
@@ -61,10 +68,11 @@ export default defineType({
             title: 'name',
             subtitle: 'price',
             popular: 'popular',
+            order: 'order',
         },
-        prepare({ title, subtitle, popular }) {
+        prepare({ title, subtitle, popular, order }) {
             return {
-                title: title,
+                title: `${order !== undefined ? `[${order}] ` : ''}${title}`,
                 subtitle: `${subtitle} ${popular ? '(Popular)' : ''}`,
                 media: TagIcon,
             }

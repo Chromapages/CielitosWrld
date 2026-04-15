@@ -56,7 +56,7 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
     });
 
     return (
-        <section className="py-20 md:py-32 bg-stone-50 dark:bg-stone-950 overflow-hidden">
+        <section className="py-20 md:py-24 bg-stone-50 dark:bg-stone-950 overflow-hidden">
             <div className="container mx-auto px-4 md:px-8 max-w-[1600px]">
 
                 {/* Header */}
@@ -75,7 +75,7 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                     </div>
 
                     <Link
-                        href="/work"
+                        href="/gallery"
                         className="hidden md:inline-flex items-center text-stone-900 dark:text-stone-100 font-medium hover:text-orange-600 dark:hover:text-orange-400 transition-colors group"
                     >
                         View Full Portfolio <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -225,7 +225,7 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                         {/* Mobile Bottom CTA */}
                         <div className="mt-12 md:hidden text-center">
                             <Link
-                                href="/work"
+                                href="/gallery"
                                 className="btn-press inline-flex items-center px-8 py-4 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-medium text-lg w-full justify-center shadow-lg"
                             >
                                 View Full Portfolio

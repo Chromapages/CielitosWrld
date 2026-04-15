@@ -1,5 +1,6 @@
 export interface ServicePackage {
     _id: string;
+    order?: number;
     name: string;
     tagline?: string;
     price: string;
