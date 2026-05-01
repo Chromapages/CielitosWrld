@@ -36,7 +36,7 @@ export default function SocialProof({ data }: SocialProofProps) {
   return (
     <MobileSection 
       aria-labelledby="collaborations-title" 
-      className="relative bg-neutral-200 dark:bg-stone-900 border-t border-neutral-300 dark:border-stone-800"
+      className="relative bg-neutral-200 dark:bg-stone-900 border-t border-neutral-300 dark:border-stone-800 py-10 md:py-16 lg:py-20"
     >
       {/* Optional Background Image */}
       {data?.backgroundImage && (
@@ -73,7 +73,7 @@ export default function SocialProof({ data }: SocialProofProps) {
       <div className="relative z-10 md:px-8 lg:px-12">
         <h2
           id="collaborations-title"
-          className="text-center text-3xl md:text-5xl font-pattaya italic text-neutral-800 dark:text-stone-200 mb-12"
+          className="text-center text-3xl md:text-5xl font-pattaya italic text-neutral-800 dark:text-stone-200 mb-8"
         >
           {displayData.heading}
         </h2>
