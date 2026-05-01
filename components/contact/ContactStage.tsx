@@ -62,7 +62,7 @@ export default function ContactStage({
     followMeLabel,
     pageBackground
 }: ContactStageProps) {
-    const displayTitle = title || "Let's Inscribe Something Pure.";
+    const displayTitle = title || "Let's Capture Something Pure.";
     const displayIntro = introText || "I thrive on capturing raw emotion and cinematic moments. Share your vision below and let's craft something timeless.";
     const backgroundUrl = pageBackground?.asset?.url || '/images/contact/bg_cta.png';
     const displayEmail = email || 'Abajo.Del.Cieloo@gmail.com';
