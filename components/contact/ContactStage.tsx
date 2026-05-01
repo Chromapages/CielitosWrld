@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import BookingWizard from './BookingWizard';
@@ -27,6 +27,13 @@ interface ContactStageProps {
     pageBackground?: {
         asset: {
             url: string;
+            metadata?: {
+                dimensions?: {
+                    width?: number;
+                    height?: number;
+                };
+                lqip?: string;
+            };
         };
     };
 }
@@ -57,7 +64,10 @@ export default function ContactStage({
 }: ContactStageProps) {
     const displayTitle = title || "Let's Inscribe Something Pure.";
     const displayIntro = introText || "I thrive on capturing raw emotion and cinematic moments. Share your vision below and let's craft something timeless.";
-    
+    const backgroundUrl = pageBackground?.asset?.url || '/images/contact/bg_cta.png';
+    const displayEmail = email || 'Abajo.Del.Cieloo@gmail.com';
+    const displayLocation = location || 'Southern California';
+
     const [showBookingWizard, setShowBookingWizard] = useState(true);
 
     // Map Sanity object to an array for rendering
@@ -72,155 +82,181 @@ export default function ContactStage({
 
 
 
+    const directRows = [
+        {
+            id: 'email',
+            Icon: Mail,
+            label: emailLabel || 'Communication',
+            value: displayEmail,
+            href: `mailto:${displayEmail}`,
+            accent: 'bg-orange-600 text-white'
+        },
+        {
+            id: 'location',
+            Icon: MapPin,
+            label: studioLabel || 'Presence',
+            value: displayLocation,
+            accent: 'bg-stone-950 text-white dark:bg-white dark:text-stone-950'
+        },
+        {
+            id: 'response',
+            Icon: Clock,
+            label: 'Response',
+            value: '24-48 Hours',
+            accent: 'bg-stone-100 text-stone-950 dark:bg-white/10 dark:text-white'
+        },
+    ];
+
     return (
-        <section className="relative w-full overflow-hidden flex flex-col items-start py-16 px-6">
-            <div className="container max-w-7xl relative z-10 mx-auto w-full">
-                <div className="flex flex-col items-start">
-                    {/* Minimal Premium Header */}
-                    <motion.div 
+        <section className="relative w-full overflow-hidden bg-stone-50 px-0 pb-6 pt-[calc(var(--mobile-header-height,64px)+var(--safe-area-top,0px))] dark:bg-stone-950 md:px-6 md:py-16">
+            <div className="relative z-10 mx-auto w-full max-w-7xl">
+                <div className="flex flex-col items-center">
+                    <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
-                        className="flex flex-col items-start text-left max-w-3xl mb-16 px-4 sm:px-0"
+                        className="relative min-h-[240px] overflow-hidden px-5 pb-6 pt-12 text-center text-white md:mb-14 md:min-h-0 md:max-w-4xl md:overflow-visible md:bg-transparent md:px-4 md:pb-0 md:pt-0 md:text-center md:text-stone-950 md:dark:text-white"
                     >
-                        <div className="inline-flex items-center gap-2 rounded-full border border-orange-500/20 bg-orange-500/5 px-3 py-1 text-xs font-black uppercase tracking-[0.2em] text-orange-600 mb-6">
-                            <span className="relative flex h-2 w-2">
-                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75"></span>
-                                <span className="relative inline-flex h-2 w-2 rounded-full bg-orange-500"></span>
-                            </span>
-                            Availability: Open for Bookings
+                        <div className="absolute inset-0 md:hidden">
+                            <Image
+                                src={backgroundUrl}
+                                alt=""
+                                fill
+                                sizes="100vw"
+                                priority
+                                className="object-cover"
+                                placeholder={pageBackground?.asset?.metadata?.lqip ? 'blur' : 'empty'}
+                                blurDataURL={pageBackground?.asset?.metadata?.lqip}
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/90" />
                         </div>
-                        
-                        <h1 className="hidden md:block text-5xl md:text-8xl font-fitzgerald-bold italic text-stone-950 dark:text-white leading-[1.1] mb-8 pr-4">
-                            {displayTitle}
-                        </h1>
-                        
-                        <p className="hidden md:block text-lg md:text-2xl text-stone-600 dark:text-stone-400 max-w-3xl font-light leading-relaxed mb-10">
-                            {displayIntro}
-                        </p>
 
-                        <div className="flex flex-wrap items-center justify-start gap-4">
-                            <button
-                                onClick={() => setShowBookingWizard(true)}
-                                className={`btn-press px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-[0.2em] transition-all ${
-                                    showBookingWizard 
-                                    ? 'bg-orange-600 text-white shadow-xl shadow-orange-600/20' 
-                                    : 'bg-stone-100 text-stone-400 hover:bg-stone-200 dark:bg-white/5 dark:hover:bg-white/10 dark:text-stone-500'
-                                }`}
-                                aria-pressed={showBookingWizard}
-                            >
-                                Inquiry Wizard
-                            </button>
-                            <button
-                                onClick={() => setShowBookingWizard(false)}
-                                className={`btn-press px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-[0.2em] transition-all ${
-                                    !showBookingWizard 
-                                    ? 'bg-stone-950 text-white dark:bg-white dark:text-stone-950 shadow-xl shadow-black/20' 
-                                    : 'bg-stone-100 text-stone-400 hover:bg-stone-200 dark:bg-white/5 dark:hover:bg-white/10 dark:text-stone-500'
-                                }`}
-                                aria-pressed={!showBookingWizard}
-                            >
-                                Direct Channel
-                            </button>
+                        <div className="relative z-10 flex min-h-[200px] flex-col items-center justify-end md:min-h-0 md:items-center md:justify-start">
+                            <div className="mb-5 inline-flex w-fit items-center gap-2 rounded-full border border-orange-400/30 bg-black/35 px-3 py-1.5 text-[11px] font-black uppercase tracking-[0.18em] text-orange-100 backdrop-blur-xl md:border-orange-500/20 md:bg-orange-500/5 md:text-orange-600">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75"></span>
+                                    <span className="relative inline-flex h-2 w-2 rounded-full bg-orange-500"></span>
+                                </span>
+                                Availability: Open for Bookings
+                            </div>
+
+                             <h1 className="max-w-[15ch] text-center text-4xl font-fitzgerald-bold italic leading-[0.98] text-white md:max-w-none md:text-center md:text-8xl md:leading-[1.1] md:text-stone-950 md:dark:text-white">
+                                 {displayTitle}
+                             </h1>
+
+                            <p className="mt-5 max-w-xl text-sm font-medium leading-relaxed text-white/82 md:mx-auto md:mt-8 md:text-2xl md:font-light md:text-stone-600 md:dark:text-stone-400">
+                                {displayIntro}
+                            </p>
                         </div>
                     </motion.div>
 
-
+                    <div className="sticky top-[calc(var(--mobile-header-height,64px)+var(--safe-area-top,0px))] z-30 flex w-full justify-center border-y border-stone-200/70 bg-stone-50/95 px-4 py-3 backdrop-blur-2xl dark:border-white/10 dark:bg-stone-950/90 md:static md:mb-10 md:border-0 md:bg-transparent md:px-4 md:py-0 md:backdrop-blur-0">
+                        <div className="grid w-full grid-cols-2 rounded-2xl border border-stone-200 bg-white p-1 shadow-sm dark:border-white/10 dark:bg-white/5 md:inline-grid md:w-auto md:gap-2 md:border-0 md:bg-transparent md:p-0 md:shadow-none">
+                            <button
+                                onClick={() => setShowBookingWizard(true)}
+                                className={`btn-press min-h-[46px] rounded-xl px-4 py-3 text-[11px] font-black uppercase tracking-[0.18em] transition-all md:px-8 md:py-4 ${
+                                    showBookingWizard
+                                        ? 'bg-orange-600 text-white shadow-lg shadow-orange-600/20'
+                                        : 'text-stone-500 hover:bg-stone-100 hover:text-stone-950 dark:text-stone-400 dark:hover:bg-white/10 dark:hover:text-white'
+                                }`}
+                                aria-pressed={showBookingWizard}
+                            >
+                                Inquiry
+                            </button>
+                            <button
+                                onClick={() => setShowBookingWizard(false)}
+                                className={`btn-press min-h-[46px] rounded-xl px-4 py-3 text-[11px] font-black uppercase tracking-[0.18em] transition-all md:px-8 md:py-4 ${
+                                    !showBookingWizard
+                                        ? 'bg-stone-950 text-white shadow-lg shadow-black/15 dark:bg-white dark:text-stone-950'
+                                        : 'text-stone-500 hover:bg-stone-100 hover:text-stone-950 dark:text-stone-400 dark:hover:bg-white/10 dark:hover:text-white'
+                                }`}
+                                aria-pressed={!showBookingWizard}
+                            >
+                                Direct
+                            </button>
+                        </div>
+                    </div>
 
                     {showBookingWizard ? (
                         <motion.div
-                            initial={{ opacity: 0, y: 30 }}
+                            initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                            className="w-full max-w-5xl"
+                            transition={{ duration: 0.6, ease: "easeOut" }}
+                            className="mx-auto w-full md:max-w-5xl md:px-4"
                         >
-                            <div className="bg-white/5 dark:bg-stone-900/60 backdrop-blur-3xl border border-stone-200/50 dark:border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl relative min-h-[600px] max-h-[85dvh] mb-12">
+                            <div className="relative overflow-visible border-y border-stone-200 bg-white shadow-none dark:border-white/10 dark:bg-stone-900 md:min-h-[640px] md:overflow-hidden md:rounded-[2.5rem] md:border md:shadow-2xl">
                                 <BookingWizard onClose={() => setShowBookingWizard(false)} isEmbedded={true} />
                             </div>
                         </motion.div>
                     ) : (
                         <motion.div
-                            initial={{ opacity: 0, y: 30 }}
+                            initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                            className="w-full max-w-5xl mb-12"
+                            transition={{ duration: 0.6, ease: "easeOut" }}
+                            className="mx-auto w-full px-4 pt-4 md:max-w-5xl md:pt-0"
                         >
-                            <div className="relative overflow-hidden rounded-[2.5rem] border border-stone-200 bg-white/95 backdrop-blur-3xl shadow-2xl dark:border-white/10 dark:bg-stone-900/40">
-                                <div className="relative grid gap-6 p-6 md:grid-cols-3 md:p-12">
-                                    <div className="rounded-[2rem] border border-stone-100 bg-stone-50/50 p-8 dark:border-white/5 dark:bg-white/5">
-                                        <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-600 text-white shadow-lg shadow-orange-600/20">
-                                            <Mail className="h-5 w-5" />
-                                        </div>
-                                        <p className="mb-2 text-xs font-black uppercase tracking-[0.3em] text-stone-400">
-                                            {emailLabel || 'Communication'}
-                                        </p>
-                                        <a
-                                            href={email ? `mailto:${email}` : 'mailto:Abajo.Del.Cieloo@gmail.com'}
-                                            className="block break-words text-lg font-bold text-stone-950 transition-colors hover:text-orange-600 dark:text-white"
-                                        >
-                                            {email || 'Abajo.Del.Cieloo@gmail.com'}
-                                        </a>
-                                    </div>
+                            <div className="relative overflow-hidden rounded-3xl border border-stone-200 bg-white shadow-xl shadow-stone-950/5 dark:border-white/10 dark:bg-stone-900/80 md:rounded-[2.5rem] md:shadow-2xl">
+                                <div className="grid gap-3 p-3 md:grid-cols-3 md:gap-6 md:p-10">
+                                    {directRows.map(({ id, Icon, label, value, href, accent }) => {
+                                        const content = (
+                                            <>
+                                                <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${accent}`}>
+                                                    <Icon className="h-5 w-5" />
+                                                </div>
+                                                <div className="min-w-0 flex-1">
+                                                    <p className="text-[10px] font-black uppercase tracking-[0.24em] text-stone-400">
+                                                        {label}
+                                                    </p>
+                                                    <p className="mt-1 break-words text-sm font-black uppercase tracking-tight text-stone-950 dark:text-white md:text-lg">
+                                                        {value}
+                                                    </p>
+                                                </div>
+                                            </>
+                                        );
 
-                                    <div className="rounded-[2rem] border border-stone-100 bg-stone-50/50 p-8 dark:border-white/5 dark:bg-white/5">
-                                        <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-stone-950 text-white dark:bg-white dark:text-stone-950">
-                                            <MapPin className="h-5 w-5" />
-                                        </div>
-                                        <p className="mb-2 text-xs font-black uppercase tracking-[0.3em] text-stone-400">
-                                            {studioLabel || 'Presence'}
-                                        </p>
-                                        <p className="text-lg font-bold text-stone-950 dark:text-white uppercase tracking-tight">
-                                            {location || 'Southern California'}
-                                        </p>
-                                    </div>
-
-                                    <div className="rounded-[2rem] border border-stone-100 bg-stone-50/50 p-8 dark:border-white/5 dark:bg-white/5">
-                                        <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-stone-100 text-stone-900">
-                                            <Clock className="h-5 w-5" />
-                                        </div>
-                                        <p className="mb-2 text-xs font-black uppercase tracking-[0.3em] text-stone-400">
-                                            Response
-                                        </p>
-                                        <p className="text-lg font-bold text-stone-950 dark:text-white uppercase tracking-tight">
-                                            24-48 Hours
-                                        </p>
-                                    </div>
+                                        return href ? (
+                                            <a
+                                                key={id}
+                                                href={href}
+                                                className="flex min-h-[74px] items-center gap-4 rounded-2xl border border-stone-100 bg-stone-50/70 p-4 transition-colors hover:border-orange-500/30 hover:bg-orange-50 dark:border-white/5 dark:bg-white/5 dark:hover:bg-white/10 md:min-h-[180px] md:flex-col md:items-start md:justify-start md:p-8"
+                                            >
+                                                {content}
+                                            </a>
+                                        ) : (
+                                            <div
+                                                key={id}
+                                                className="flex min-h-[74px] items-center gap-4 rounded-2xl border border-stone-100 bg-stone-50/70 p-4 dark:border-white/5 dark:bg-white/5 md:min-h-[180px] md:flex-col md:items-start md:justify-start md:p-8"
+                                            >
+                                                {content}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
 
-                                <div className="relative border-t border-stone-100 dark:border-white/5 px-6 py-10 md:px-12">
-                                    <div className="flex flex-col gap-10 md:flex-row md:items-center md:justify-between">
-                                        <div className="max-w-xl">
-                                            <h2 className="text-2xl md:text-3xl font-archivo font-black uppercase tracking-tighter text-stone-950 dark:text-white mb-4">
-                                                Digital Footprint
-                                            </h2>
-                                            <div className="flex flex-wrap gap-5 pt-4">
-                                                {links.map(({ id, url, Icon, label }) => (
-                                                    <motion.a
-                                                        key={id}
-                                                        href={url}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        whileHover={{ y: -5, scale: 1.05 }}
-                                                        whileTap={{ scale: 0.95 }}
-                                                        className="group relative flex h-14 w-14 items-center justify-center rounded-2xl border border-stone-200 bg-white text-stone-900 transition-all hover:bg-orange-600 hover:text-white hover:border-orange-600 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-orange-600 dark:hover:text-white shadow-sm hover:shadow-xl hover:shadow-orange-600/20"
-                                                        aria-label={`Visit my ${label}`}
-                                                    >
-                                                        <Icon className="h-5 w-5" />
-                                                        <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
-                                                            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-stone-500 whitespace-nowrap">
-                                                                {label}
-                                                            </span>
-                                                        </div>
-                                                    </motion.a>
-                                                ))}
-                                            </div>
-                                        </div>
+                                <div className="border-t border-stone-100 px-5 py-6 dark:border-white/5 md:px-10 md:py-10">
+                                    <h2 className="font-archivo text-xl font-black uppercase tracking-tight text-stone-950 dark:text-white md:text-3xl">
+                                        {followMeLabel || 'Digital Footprint'}
+                                    </h2>
+                                    <div className="mt-5 flex gap-3 overflow-x-auto pb-2 scrollbar-hide md:flex-wrap md:gap-5 md:overflow-visible md:pb-0">
+                                        {links.map(({ id, url, Icon, label }) => (
+                                            <motion.a
+                                                key={id}
+                                                href={url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                whileHover={{ y: -3 }}
+                                                whileTap={{ scale: 0.95 }}
+                                                className="group flex min-h-[54px] min-w-[54px] items-center justify-center rounded-2xl border border-stone-200 bg-white text-stone-900 shadow-sm transition-all hover:border-orange-600 hover:bg-orange-600 hover:text-white dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-orange-600"
+                                                aria-label={`Visit my ${label}`}
+                                            >
+                                                <Icon className="h-5 w-5" />
+                                            </motion.a>
+                                        ))}
                                     </div>
                                 </div>
                             </div>
                         </motion.div>
                     )}
-
                 </div>
             </div>
         </section>

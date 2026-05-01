@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, ChevronLeft, Check, Loader2, PartyPopper, Sparkles } from 'lucide-react';
+import { AlertCircle, ChevronRight, ChevronLeft, Check, Loader2, Sparkles } from 'lucide-react';
 import VisionStep from './wizard-steps/VisionStep';
 import TimelineStep from './wizard-steps/TimelineStep';
 import CanvasStep from './wizard-steps/CanvasStep';
@@ -51,6 +51,14 @@ export default function BookingWizard({ onClose, isEmbedded = false }: BookingWi
 
     const targetEmail = process.env.NEXT_PUBLIC_FORM_SUBMIT_EMAIL || 'Abajo.Del.Cieloo@gmail.com';
     const totalSteps = 4;
+    const stepTitles = ['The Vision', 'The Timeline', 'The Canvas', 'The Connection'];
+    const selectedSummary = (() => {
+        if (isSuccess) return 'Inquiry received';
+        if (step === 1) return formData.services.length ? `${formData.services.length} selected` : 'Choose at least one path';
+        if (step === 2) return formData.isFlexible ? (formData.month || 'Flexible timing') : (formData.date ? formData.date.toLocaleDateString() : 'Pick a date');
+        if (step === 3) return formData.vibe.length ? `${formData.vibe.length} vibes selected` : 'Location, vibe, budget';
+        return formData.name && formData.email ? 'Ready to submit' : 'Name and email required';
+    })();
 
     const handleNext = () => {
         if (step < totalSteps) {
@@ -137,33 +145,43 @@ export default function BookingWizard({ onClose, isEmbedded = false }: BookingWi
     };
 
     return (
-        <div className="flex h-full min-h-0 flex-col bg-white dark:bg-stone-900 overflow-hidden relative">
-            {/* Minimal Progress Line */}
-            <div className="absolute top-0 left-0 right-0 h-[3px] bg-stone-100 dark:bg-white/5 overflow-hidden z-20">
-                <motion.div
-                    className="h-full bg-orange-600 shadow-[0_0_12px_rgba(234,88,12,0.6)]"
-                    animate={{ width: `${(step / totalSteps) * 100}%` }}
-                    transition={{ duration: 0.8, ease: "circOut" }}
-                />
-            </div>
+        <div className="relative flex min-h-[640px] flex-col overflow-visible bg-white dark:bg-stone-900 md:h-full md:min-h-0 md:overflow-hidden">
+            <div className="sticky top-[calc(var(--mobile-header-height,64px)+var(--safe-area-top,0px)+73px)] z-20 shrink-0 border-b border-stone-100 bg-white/95 px-5 py-4 backdrop-blur-2xl dark:border-white/5 dark:bg-stone-900/95 md:static md:px-12 md:pb-5 md:pt-8">
+                <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0">
+                        <span className="text-[11px] font-black uppercase tracking-[0.22em] text-orange-600">
+                            Step {step} of {totalSteps}
+                        </span>
+                        <h2 className="mt-1 font-archivo text-2xl font-black uppercase leading-none tracking-tight text-stone-950 dark:text-white md:text-3xl">
+                            {stepTitles[step - 1]}
+                        </h2>
+                        <p className="mt-2 truncate text-xs font-bold uppercase tracking-[0.16em] text-stone-400">
+                            {selectedSummary}
+                        </p>
+                    </div>
 
-            {/* Header Content */}
-            <div className="relative shrink-0 pt-8 px-6 md:px-12 pb-4">
-                <div className="flex flex-col">
-                    <span className="text-xs font-black text-orange-500 uppercase tracking-[0.4em] mb-2">
-                        Phase 0{step} <span className="text-stone-300 dark:text-stone-700 mx-2">/</span> 0{totalSteps}
-                    </span>
-                    <h2 className="text-2xl md:text-3xl font-archivo font-black text-stone-950 dark:text-white uppercase tracking-tighter leading-none">
-                        {step === 1 && "The Vision"}
-                        {step === 2 && "The Timeline"}
-                        {step === 3 && "The Canvas"}
-                        {step === 4 && "The Connection"}
-                    </h2>
+                    <div className="flex shrink-0 items-center gap-1.5 pt-1" aria-hidden="true">
+                        {Array.from({ length: totalSteps }).map((_, index) => (
+                            <motion.span
+                                key={index}
+                                className={`h-2 rounded-full ${index + 1 <= step ? 'bg-orange-600' : 'bg-stone-200 dark:bg-white/10'}`}
+                                animate={{ width: index + 1 === step ? 24 : 8 }}
+                                transition={{ duration: 0.25 }}
+                            />
+                        ))}
+                    </div>
+                </div>
+
+                <div className="mt-4 h-1 overflow-hidden rounded-full bg-stone-100 dark:bg-white/5">
+                    <motion.div
+                        className="h-full rounded-full bg-orange-600 shadow-[0_0_12px_rgba(234,88,12,0.45)]"
+                        animate={{ width: `${(step / totalSteps) * 100}%` }}
+                        transition={{ duration: 0.55, ease: "circOut" }}
+                    />
                 </div>
             </div>
 
-            {/* Content Area */}
-            <div className="relative flex-1 min-h-0 overflow-y-auto overflow-x-hidden px-6 md:px-12 pb-12 scroll-smooth">
+            <div className="relative min-h-0 flex-1 overflow-visible px-5 pb-28 pt-5 md:overflow-y-auto md:overflow-x-hidden md:px-12 md:pb-12 md:pt-6">
                 <AnimatePresence initial={false} custom={direction} mode="wait">
                     <motion.div
                         key={step}
@@ -179,31 +197,31 @@ export default function BookingWizard({ onClose, isEmbedded = false }: BookingWi
                             <motion.div
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="flex flex-col items-center justify-center h-full text-center py-12"
+                                className="flex min-h-[440px] flex-col items-center justify-center py-12 text-center"
                             >
-                                <div className="w-24 h-24 bg-orange-600/10 rounded-full flex items-center justify-center mb-10 relative">
-                                    <Sparkles className="w-10 h-10 text-orange-600 animate-pulse" />
-                                    <motion.div 
+                                <div className="relative mb-8 flex h-20 w-20 items-center justify-center rounded-full bg-orange-600/10 md:mb-10 md:h-24 md:w-24">
+                                    <Sparkles className="h-9 w-9 animate-pulse text-orange-600 md:h-10 md:w-10" />
+                                    <motion.div
                                         className="absolute inset-0 rounded-full border-2 border-orange-600/20"
                                         animate={{ scale: [1, 1.3, 1], opacity: [0.6, 0, 0.6] }}
                                         transition={{ duration: 2.5, repeat: Infinity }}
                                     />
                                 </div>
-                                <h3 className="text-4xl md:text-6xl font-pattaya text-stone-950 dark:text-white mb-6">
+                                <h3 className="mb-5 text-4xl font-pattaya text-stone-950 dark:text-white md:text-6xl">
                                     Inquiry Received
                                 </h3>
-                                <p className="text-lg text-stone-600 dark:text-stone-400 max-w-sm mb-12 leading-relaxed font-medium">
+                                <p className="mb-10 max-w-sm text-base font-medium leading-relaxed text-stone-600 dark:text-stone-400 md:mb-12 md:text-lg">
                                     Your story is being processed. I&apos;ll reach out personally within 24-48 hours.
                                 </p>
                                 <button
                                     onClick={onClose}
-                                    className="btn-press px-12 py-5 bg-stone-950 text-white dark:bg-white dark:text-stone-950 rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-2xl"
+                                    className="btn-press min-h-[52px] rounded-full bg-stone-950 px-8 py-4 text-xs font-black uppercase tracking-[0.22em] text-white shadow-2xl dark:bg-white dark:text-stone-950 md:px-12 md:py-5"
                                 >
-                                    Return Home
+                                    View Contact Info
                                 </button>
                             </motion.div>
                         ) : (
-                            <div className="py-2"> 
+                            <div>
                                 {step === 1 && <VisionStep formData={formData} updateFormData={updateFormData} />}
                                 {step === 2 && <TimelineStep formData={formData} updateFormData={updateFormData} />}
                                 {step === 3 && <CanvasStep formData={formData} updateFormData={updateFormData} />}
@@ -214,32 +232,35 @@ export default function BookingWizard({ onClose, isEmbedded = false }: BookingWi
                 </AnimatePresence>
             </div>
 
-            {/* Premium Footer Navigation */}
             {!isSuccess && (
-                <div className="shrink-0 px-6 md:px-12 py-6 bg-white/95 dark:bg-stone-900/95 flex justify-between items-center gap-4 backdrop-blur-3xl border-t border-stone-100 dark:border-white/5">
-                    {step > 1 ? (
-                        <button
-                            onClick={handleBack}
-                            disabled={isSubmitting}
-                            className="btn-press flex items-center gap-3 text-stone-400 hover:text-stone-950 dark:hover:text-white text-xs font-black uppercase tracking-[0.3em] transition-all disabled:opacity-20"
-                        >
-                            <ChevronLeft className="w-4 h-4" />
-                            Back
-                        </button>
-                    ) : (
-                        <div /> 
+                <div className="sticky bottom-[calc(var(--mobile-nav-height,64px)+var(--safe-area-bottom,0px)+12px)] z-30 shrink-0 border-t border-stone-100 bg-white/95 px-5 py-4 backdrop-blur-2xl dark:border-white/5 dark:bg-stone-900/95 md:static md:px-12 md:py-6">
+                    {error && (
+                        <div className="mb-3 flex items-start gap-2 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-xs font-bold text-red-700 dark:border-red-500/20 dark:bg-red-500/10 dark:text-red-300">
+                            <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                            <span>{error}</span>
+                        </div>
                     )}
 
-                    <div className="flex flex-col items-end gap-3">
-                        {error && <span className="text-xs font-bold text-red-500 uppercase tracking-widest">{error}</span>}
+                    <div className="flex items-center gap-3">
+                        {step > 1 && (
+                            <button
+                                onClick={handleBack}
+                                disabled={isSubmitting}
+                                className="btn-press flex min-h-[52px] shrink-0 items-center gap-2 rounded-full border border-stone-200 px-4 text-xs font-black uppercase tracking-[0.16em] text-stone-500 transition-all hover:border-stone-300 hover:text-stone-950 disabled:opacity-30 dark:border-white/10 dark:text-stone-400 dark:hover:text-white"
+                            >
+                                <ChevronLeft className="h-4 w-4" />
+                                Back
+                            </button>
+                        )}
+
                         {step < totalSteps && (
                             <button
                                 onClick={handleNext}
                                 disabled={isNextDisabled()}
-                                className="btn-press group flex items-center gap-4 px-10 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.25em] transition-all disabled:opacity-20 disabled:cursor-not-allowed shadow-xl shadow-orange-600/10"
+                                className="btn-press group flex min-h-[52px] flex-1 items-center justify-center gap-3 rounded-full bg-orange-600 px-6 text-xs font-black uppercase tracking-[0.2em] text-white shadow-xl shadow-orange-600/10 transition-all disabled:cursor-not-allowed disabled:opacity-30"
                             >
                                 Continue
-                                <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                                <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                             </button>
                         )}
 
@@ -247,17 +268,17 @@ export default function BookingWizard({ onClose, isEmbedded = false }: BookingWi
                             <button
                                 onClick={handleSubmit}
                                 disabled={isSubmitting || !formData.name || !formData.email}
-                                className="btn-press flex items-center gap-4 px-10 py-5 bg-stone-950 text-white dark:bg-white dark:text-stone-950 rounded-full font-black text-xs uppercase tracking-[0.3em] shadow-2xl disabled:opacity-20 min-w-[200px] justify-center"
+                                className="btn-press flex min-h-[52px] flex-1 items-center justify-center gap-3 rounded-full bg-stone-950 px-6 text-xs font-black uppercase tracking-[0.2em] text-white shadow-2xl transition-all disabled:cursor-not-allowed disabled:opacity-30 dark:bg-white dark:text-stone-950"
                             >
                                 {isSubmitting ? (
                                     <>
-                                        <Loader2 className="w-4 h-4 animate-spin" />
-                                        Sending...
+                                        <Loader2 className="h-4 w-4 animate-spin" />
+                                        Sending
                                     </>
                                 ) : (
                                     <>
                                         Sign Vision
-                                        <Check className="w-4 h-4" />
+                                        <Check className="h-4 w-4" />
                                     </>
                                 )}
                             </button>
