@@ -61,62 +61,85 @@ const VisionStep = ({ formData, updateFormData }: StepProps) => {
                             key={service.id}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1 }}
+                            whileHover={!isSelected ? { y: -4, scale: 1.01 } : {}}
+                            whileTap={{ scale: 0.98 }}
+                            transition={{ 
+                                delay: index * 0.05,
+                                type: "spring",
+                                stiffness: 300,
+                                damping: 20
+                            }}
                             onClick={() => toggleService(service.id)}
                             className={cn(
-                                "relative flex flex-col items-start p-6 rounded-3xl border transition-all text-left group",
+                                "relative flex flex-col items-start p-6 rounded-3xl border transition-all duration-300 text-left group overflow-hidden",
                                 isSelected 
-                                    ? "bg-stone-950 border-stone-950 text-white shadow-2xl dark:bg-white dark:border-white dark:text-black dark:shadow-white/10" 
-                                    : "bg-white border-stone-200 text-stone-950 hover:border-stone-300 dark:bg-white/5 dark:border-white/10 dark:text-white dark:hover:border-white/20"
+                                    ? "bg-brand-950 border-brand-950 text-white shadow-2xl dark:bg-white dark:border-white dark:text-black dark:shadow-white/10" 
+                                    : "bg-white border-brand-100 text-brand-950 hover:bg-brand-50/50 hover:border-brand-200 hover:shadow-xl dark:bg-white/5 dark:border-white/10 dark:text-white dark:hover:bg-white/[0.08] dark:hover:border-white/20"
                             )}
                         >
+                            {/* Decorative background element for hover */}
+                            {!isSelected && (
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-orange-500/5 blur-3xl rounded-full translate-x-1/2 -translate-y-1/2 group-hover:bg-orange-500/10 transition-colors" />
+                            )}
+
                             <div className={cn(
-                                "w-12 h-12 rounded-2xl flex items-center justify-center mb-6 transition-colors",
-                                isSelected ? "bg-white text-stone-950 dark:bg-black dark:text-white" : "bg-stone-100 text-orange-500 group-hover:bg-stone-200 dark:bg-white/10 dark:group-hover:bg-white/20"
+                                "w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-all duration-300",
+                                isSelected 
+                                    ? "bg-white text-brand-950 dark:bg-black dark:text-white shadow-lg" 
+                                    : "bg-brand-50 text-orange-500 group-hover:bg-orange-100 group-hover:scale-110 dark:bg-white/10 dark:group-hover:bg-white/20"
                             )}>
                                 <Icon className="w-6 h-6" />
                             </div>
 
-                            <h3 className="text-xl font-inter font-black uppercase tracking-tight mb-2">
+                            <h3 className={cn(
+                                "text-xl font-sans font-bold tracking-tight mb-2 transition-colors",
+                                isSelected ? "text-white dark:text-brand-950" : "text-brand-950 dark:text-white"
+                            )}>
                                 {service.title}
                             </h3>
+                            
                             <p className={cn(
-                                "text-sm leading-relaxed mb-4",
-                                isSelected ? "text-stone-300 dark:text-stone-600" : "text-stone-600 dark:text-stone-400"
+                                "text-sm leading-relaxed mb-4 transition-colors",
+                                isSelected ? "text-brand-300 dark:text-brand-600" : "text-brand-500 dark:text-brand-400"
                             )}>
                                 {service.description}
                             </p>
 
-                            <div className="flex items-center justify-between w-full mt-auto">
+                            <div className="flex items-center justify-between w-full mt-auto pt-4 border-t border-brand-100/10">
                                 <span className={cn(
-                                    "text-[10px] font-bold uppercase tracking-widest",
-                                    isSelected ? "text-orange-600" : "text-stone-500"
+                                    "text-[11px] font-bold uppercase tracking-[0.2em] transition-colors",
+                                    isSelected ? "text-orange-500" : "text-brand-400 dark:text-brand-500 group-hover:text-brand-600 dark:group-hover:text-brand-300"
                                 )}>
                                     {service.vibe}
                                 </span>
-                                {isSelected && (
+                                
+                                {isSelected ? (
                                     <motion.div 
-                                        initial={{ scale: 0 }}
-                                        animate={{ scale: 1 }}
-                                        className="w-6 h-6 bg-white text-stone-950 dark:bg-black dark:text-white rounded-full flex items-center justify-center"
+                                        initial={{ scale: 0, rotate: -45 }}
+                                        animate={{ scale: 1, rotate: 0 }}
+                                        className="w-7 h-7 bg-white text-brand-950 dark:bg-black dark:text-white rounded-full flex items-center justify-center shadow-md"
                                     >
-                                        <Check className="w-4 h-4" />
+                                        <Check className="w-4 h-4 stroke-[3px]" />
                                     </motion.div>
+                                ) : (
+                                    <div className="w-7 h-7 rounded-full border border-brand-200 dark:border-brand-800 flex items-center justify-center group-hover:border-orange-500/50 transition-colors">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-transparent group-hover:bg-orange-500 transition-colors" />
+                                    </div>
                                 )}
                             </div>
-
-                            {/* Magnetic hover effect placeholder */}
-                            {!isSelected && (
-                                <div className="absolute inset-0 bg-stone-100 opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl pointer-events-none dark:bg-white/5" />
-                            )}
                         </motion.button>
                     );
                 })}
             </div>
             
-            <p className="text-stone-500 text-xs text-center font-medium uppercase tracking-[0.2em]">
-                Select one or more categories to start your story
-            </p>
+            <motion.p 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="text-brand-400 text-xs text-center font-bold uppercase tracking-[0.3em]"
+            >
+                Select your path to continue
+            </motion.p>
         </div>
     );
 };

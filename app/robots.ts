@@ -2,11 +2,19 @@ import type { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
     return {
-        rules: {
-            userAgent: '*',
-            allow: '/',
-            disallow: ['/studio/', '/api/'],
-        },
-        sitemap: 'https://cielitosworld.com/sitemap.xml',
+        rules: [
+            {
+                userAgent: '*',
+                allow: '/',
+                disallow: ['/studio/', '/api/'],
+            },
+            { userAgent: 'GPTBot', allow: '/' },
+            { userAgent: 'PerplexityBot', allow: '/' },
+            { userAgent: 'ClaudeBot', allow: '/' },
+            { userAgent: 'Google-Extended', allow: '/' },
+            { userAgent: 'anthropic-ai', allow: '/' },
+            { userAgent: 'Applebot-Extended', allow: '/' },
+        ],
+        sitemap: 'https://cielitoswrld.com/sitemap.xml',
     };
 }

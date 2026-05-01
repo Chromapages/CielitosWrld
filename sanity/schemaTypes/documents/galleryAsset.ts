@@ -53,7 +53,7 @@ export default defineType({
     defineField({
       name: 'videoStats',
       title: 'Video Statistics',
-      type: 'object',
+      type: 'object' as const,
       hidden: ({ document }) => document?.mediaType !== 'video',
       fields: [
         defineField({

@@ -24,6 +24,8 @@ const config: Config = {
       pattaya: ['var(--font-pattaya)', 'cursive'],
       inter: ['var(--font-inter)', 'sans-serif'],
       archivo: ['var(--font-archivo)', 'sans-serif'],
+      fitzgerald: ['var(--font-pattaya)', 'cursive'],
+      'fitzgerald-bold': ['var(--font-pattaya)', 'cursive'],
     },
     extend: {
       // Premium Typography System

@@ -416,6 +416,53 @@ export const CONTACT_PAGE_QUERY = `
   }
 `
 
+export const ABOUT_PAGE_QUERY = `
+  *[_type == "homeAbout"][0] {
+    eyebrow,
+    heading,
+    bio,
+    testimonial,
+    profileImage {
+      asset-> {
+        _id,
+        url,
+        metadata {
+          dimensions,
+          lqip
+        }
+      },
+      alt
+    },
+    backgroundImage {
+      asset-> {
+        _id,
+        url,
+        metadata {
+          dimensions,
+          lqip
+        }
+      },
+      alt
+    },
+    quickFacts[] {
+      label,
+      icon
+    },
+    features[] {
+      title,
+      icon
+    },
+    ctaPrimary {
+      label,
+      link
+    },
+    ctaSecondary {
+      label,
+      link
+    }
+  }
+`
+
 // --- Work Queries ---
 
 export const ALL_WORKS_QUERY = `
@@ -447,6 +494,7 @@ export const WORK_BY_SLUG_QUERY = `
 export const POST_BY_SLUG_QUERY = `
   *[_type == "post" && slug.current == $slug][0] {
     _id,
+    _updatedAt,
     title,
     slug,
     excerpt,
@@ -480,12 +528,31 @@ export const ALL_POSTS_QUERY = `
   }
 `
 
+export const POSTS_BY_TAG_QUERY = `
+  *[_type == "post" && $tag in tags] | order(publishedAt desc) {
+    _id,
+    title,
+    slug,
+    publishedAt,
+    excerpt,
+    coverImage { asset->{ _id, url, metadata { dimensions, lqip } } },
+    "tags": tags,
+    body,
+    postType,
+    photos,
+    quoteText,
+    quoteSource,
+    linkUrl
+  }
+`
+
 export const SERVICES_PAGE_QUERY = `
   {
     "page": *[_type == "servicesPage"][0] {
       heroHeading,
       heroSubhead,
       heroTrustText,
+      heroBackgroundImage { asset->{ _id, url, metadata { dimensions, lqip } } },
       processSteps,
       processGallery,
       faqs,

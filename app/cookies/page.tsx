@@ -6,12 +6,12 @@ export const metadata: Metadata = {
     title: 'Cookie Policy - Cielito\'s World',
     description: 'Understand how Cielito\'s World uses cookies and similar technologies. Manage your preferences and learn about our data tracking policies.',
     alternates: {
-        canonical: 'https://cielitosworld.com/cookies',
+        canonical: 'https://cielitoswrld.com/cookies',
     },
     openGraph: {
         title: 'Cookie Policy | Cielito\'s World',
         description: 'Information about how we use cookies and similar technologies.',
-        url: 'https://cielitosworld.com/cookies',
+        url: 'https://cielitoswrld.com/cookies',
         type: 'website',
     },
     twitter: {
@@ -35,10 +35,10 @@ export default function CookiesPage() {
         '@type': 'WebPage',
         name: 'Cookie Policy - Cielito\'s World',
         description: 'Cookie Policy detailing cookie usage and user preferences.',
-        url: 'https://cielitosworld.com/cookies',
+        url: 'https://cielitoswrld.com/cookies',
         mainEntityOfPage: {
             '@type': 'WebPage',
-            '@id': 'https://cielitosworld.com/cookies',
+            '@id': 'https://cielitoswrld.com/cookies',
         },
     };
 

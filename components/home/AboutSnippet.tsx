@@ -97,9 +97,9 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
   };
 
   return (
-    <MobileSection className="bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 overflow-hidden !py-20 md:!py-32">
-      <div className="container mx-auto max-w-7xl relative z-10">
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
+    <MobileSection className="bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 overflow-hidden" hasGutter={false}>
+      <div className="relative z-10">
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center px-4 sm:px-8 md:px-0">
           {/* LEFT COLUMN: IMAGE */}
           <div className="w-full lg:w-1/2 relative group px-4 sm:px-0">
             {/* Decorative Elements */}

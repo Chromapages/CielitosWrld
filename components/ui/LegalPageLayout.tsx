@@ -21,20 +21,13 @@ interface LegalPageLayoutProps {
 export const LegalPageLayout = ({ title, lastUpdated, toc, children }: LegalPageLayoutProps) => {
     return (
         <main className="min-h-screen relative bg-stone-50 dark:bg-stone-950">
-            <div className="container mx-auto px-6 max-w-7xl">
-                <Link
-                    href="/"
-                    className="inline-flex items-center gap-2 text-stone-500 hover:text-orange-600 transition-colors py-8 group"
-                >
-                    <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
-                    <span className="text-sm font-medium">Back to Home</span>
-                </Link>
+            <div className="container mx-auto px-6 max-w-7xl pt-16">
 
                 <header className="mb-16 border-b border-stone-200 dark:border-stone-800 pb-12">
-                    <h1 className="font-pattaya text-5xl md:text-7xl text-stone-900 dark:text-stone-50 mb-6">
+                    <h1 className="hidden md:block font-pattaya text-5xl md:text-7xl text-stone-900 dark:text-stone-50 mb-6">
                         {title}
                     </h1>
-                    <p className="text-stone-500 dark:text-stone-400 text-sm uppercase tracking-widest font-medium">
+                    <p className="hidden md:block text-stone-500 dark:text-stone-400 text-sm uppercase tracking-widest font-medium">
                         Last Updated: {lastUpdated}
                     </p>
                 </header>

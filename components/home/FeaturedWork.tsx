@@ -4,7 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, ArrowUpRight, Sparkles } from 'lucide-react';
 import useEmblaCarousel from 'embla-carousel-react';
+import { useState, useEffect, useCallback } from 'react';
 import { urlFor, sanityLoader } from '@/sanity/lib/image';
+import { cn } from '@/lib/utils';
 import { MobileSection, MobileSectionHeader } from '../layout/MobileSection';
 
 interface FeaturedWorkProps {
@@ -49,15 +51,25 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
     const gridProjects = hasProjects ? projects.slice(1, 5) : [];
 
     // Embla Carousel for Mobile
-    const [emblaRef] = useEmblaCarousel({
+    const [emblaRef, emblaApi] = useEmblaCarousel({
         loop: true,
         align: 'start',
         containScroll: 'trimSnaps'
     });
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const onSelect = useCallback(() => {
+        if (!emblaApi) return;
+        setSelectedIndex(emblaApi.selectedScrollSnap());
+    }, [emblaApi]);
+    useEffect(() => {
+        if (!emblaApi) return;
+        emblaApi.on('select', onSelect);
+        return () => { emblaApi.off('select', onSelect); };
+    }, [emblaApi, onSelect]);
 
     return (
-        <MobileSection className="bg-stone-50 dark:bg-stone-950 overflow-hidden !py-20 md:!py-32">
-            <div className="container mx-auto max-w-[1600px]">
+        <MobileSection className="bg-stone-50 dark:bg-stone-950 overflow-hidden">
+            <div className="relative z-10">
 
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 gap-8 px-4 sm:px-8 md:px-0">
@@ -84,7 +96,7 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                             <p className="text-stone-500 dark:text-stone-400 mb-6">
                                 Head to Sanity Studio and add some &quot;Work&quot; items with the &quot;Featured&quot; toggle enabled to populate this section.
                             </p>
-                            <Link href="/studio" target="_blank" className="btn-press inline-flex items-center px-6 py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-bold text-sm hover:scale-105 transition-transform">
+                            <Link href="/studio" target="_blank" className="btn-press inline-flex items-center px-6 py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-bold text-sm hover:scale-105 transition-transform duration-300">
                                 Go to Studio
                             </Link>
                         </div>
@@ -173,7 +185,7 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                         </div>
 
                         {/* MOBILE CAROUSEL */}
-                        <div className="md:hidden overflow-hidden" ref={emblaRef}>
+                        <div className="md:hidden overflow-hidden" ref={emblaRef} data-carousel>
                             <div className="flex touch-pan-y pl-[var(--mobile-gutter)]">
                                 {projects.map((project) => (
                                     <div
@@ -196,7 +208,7 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                                                 suppressHydrationWarning
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-6 text-left">
-                                                <p className="text-orange-400 text-[10px] font-bold tracking-[0.2em] uppercase mb-1">
+                                                <p className="text-orange-400 text-xs font-bold tracking-[0.2em] uppercase mb-1">
                                                     {project.category}
                                                 </p>
                                                 <h3 className="text-2xl font-bold font-archivo text-white leading-tight">
@@ -207,6 +219,21 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                                     </div>
                                 ))}
                             </div>
+                        </div>
+
+                        {/* Mobile dot indicators */}
+                        <div className="flex justify-center gap-2 mt-4 md:hidden">
+                            {projects.map((_, i) => (
+                                <button
+                                    key={i}
+                                    onClick={() => emblaApi?.scrollTo(i)}
+                                    aria-label={`Go to slide ${i + 1}`}
+                                    className={cn(
+                                        'h-2 rounded-full transition-all',
+                                        i === selectedIndex ? 'w-6 bg-orange-500' : 'w-2 bg-stone-300 dark:bg-stone-600'
+                                    )}
+                                />
+                            ))}
                         </div>
 
                         {/* Mobile Bottom CTA */}

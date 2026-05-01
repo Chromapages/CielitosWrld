@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { client } from '@/sanity/lib/client';
 import { urlFor } from '@/sanity/lib/image';
 import { SITE_SETTINGS_QUERY, BLOG_PAGE_QUERY, BLOG_POSTS_QUERY } from '@/sanity/lib/queries';
@@ -10,7 +11,29 @@ import { MusicProvider } from '@/components/blog/MusicContext';
 import { MobilePageShell } from '@/components/layout/MobilePageShell';
 import { MobileSection } from '@/components/layout/MobileSection';
 
-export const revalidate = 60; // Revalidate every 60 seconds
+export const revalidate = 60;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const blogPage = await client.fetch(BLOG_PAGE_QUERY, {}, { next: { revalidate: 60 } });
+  const title = blogPage?.title || 'Blog — Photography Stories';
+  const description = blogPage?.subtitle || 'Visual stories, behind-the-scenes, and creative process from Cielito.';
+  return {
+    title,
+    description,
+    alternates: { canonical: 'https://cielitoswrld.com/blog' },
+    openGraph: {
+      title,
+      description,
+      url: 'https://cielitoswrld.com/blog',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+  };
+}
 
 export default async function BlogPage() {
   // 1. Fetch Blog Page Settings & Site Settings first
@@ -68,7 +91,7 @@ export default async function BlogPage() {
         {backgroundImage ? (
           <PageBackground
             image={backgroundImage}
-            overlayClassName="bg-white/40 dark:bg-black/40 backdrop-blur-[2px]"
+            overlayClassName="bg-white/70 dark:bg-black/80 backdrop-blur-md"
           />
         ) : (
           <div className="fixed inset-0 z-0 bg-stone-50 dark:bg-stone-950" />
@@ -78,16 +101,16 @@ export default async function BlogPage() {
         <SonicAura tags={posts[0]?.tags || []} />
 
         {/* Main Feed Section */}
-        <MobileSection className="relative z-10 pt-12 md:pt-24 min-h-[50vh]" hasGutter={false}>
-          <div className="container mx-auto max-w-[1600px] flex justify-center gap-16 px-0 sm:px-8">
+        <MobileSection className="relative z-10 pt-32 md:pt-48 min-h-[50vh]" hasGutter={true}>
+          <div className="flex flex-col lg:flex-row justify-center gap-16 lg:gap-24 w-full">
             {/* Main Feed */}
-            <main className="w-full max-w-[640px] px-[var(--mobile-gutter)] sm:px-0">
+            <main className="w-full max-w-[768px]">
               {/* Header */}
-              <header className="mb-12 text-center sm:text-left">
-                <h1 className="font-pattaya text-4xl md:text-7xl font-bold text-stone-900 dark:text-stone-50 mb-3 tracking-tight">
+              <header className="mb-8 text-left">
+                <h1 className="hidden md:block font-pattaya text-4xl md:text-7xl font-bold text-stone-900 dark:text-stone-50 mb-3 tracking-tight">
                   {title || "Late Night Thoughts"}
                 </h1>
-                <p className="text-lg md:text-xl text-stone-600 dark:text-stone-400 font-light max-w-lg mx-auto sm:mx-0">
+                <p className="hidden md:block text-lg md:text-xl text-stone-600 dark:text-stone-400 font-light max-w-2xl">
                   {subtitle || "Visual stories & editorial fragments."}
                 </p>
               </header>

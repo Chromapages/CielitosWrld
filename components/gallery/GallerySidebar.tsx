@@ -118,7 +118,7 @@ export default function GallerySidebar({ filters, onFilterChange, onClear, count
                     <button
                         onClick={() => onMediaTypeChange('photo')}
                         className={cn(
-                            "flex-1 py-2 text-sm font-medium rounded-md transition-all",
+                            "flex-1 py-2 text-sm font-medium rounded-md transition-all duration-200",
                             mediaType === 'photo'
                                 ? "bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
                                 : "text-stone-500 hover:text-stone-900 dark:hover:text-stone-300"
@@ -129,7 +129,7 @@ export default function GallerySidebar({ filters, onFilterChange, onClear, count
                     <button
                         onClick={() => onMediaTypeChange('video')}
                         className={cn(
-                            "flex-1 py-2 text-sm font-medium rounded-md transition-all",
+                            "flex-1 py-2 text-sm font-medium rounded-md transition-all duration-200",
                             mediaType === 'video'
                                 ? "bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
                                 : "text-stone-500 hover:text-stone-900 dark:hover:text-stone-300"
@@ -147,7 +147,7 @@ export default function GallerySidebar({ filters, onFilterChange, onClear, count
                     {hasActiveFilters && (
                         <button
                             onClick={onClear}
-                            className="text-xs text-orange-600 hover:text-orange-700 font-medium flex items-center gap-1"
+                            className="text-xs text-orange-600 hover:text-orange-700 font-medium flex items-center gap-1 transition-colors duration-200"
                         >
                             Clear all
                             <X className="w-3 h-3" />

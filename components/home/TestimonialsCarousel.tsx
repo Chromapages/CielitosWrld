@@ -85,7 +85,7 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
   };
 
   return (
-    <MobileSection className="bg-stone-50 dark:bg-stone-950 overflow-hidden border-t border-stone-200 dark:border-stone-900 !py-20 md:!py-32">
+    <MobileSection className="bg-stone-50 dark:bg-stone-950 overflow-hidden border-t border-stone-200 dark:border-stone-900">
       {/* Background Image (Optional) */}
       {data?.backgroundImage && (
         <div className="absolute inset-0 z-0">
@@ -102,7 +102,7 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
         </div>
       )}
 
-      <div className="container mx-auto max-w-[1600px] relative z-10">
+        <div className="relative z-10">
         {/* Header & Controls */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8 px-4 sm:px-8 md:px-0">
           <div className="max-w-xl">
@@ -116,7 +116,7 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
             <div>
               <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
                 <DialogTrigger asChild>
-                  <button className="btn-press mt-8 inline-flex items-center gap-2 px-6 py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full text-sm font-bold hover:scale-105 transition-transform shadow-lg">
+                  <button className="mt-8 inline-flex items-center gap-2 px-6 py-3 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full text-sm font-semibold active:scale-95 transition-transform">
                     <Plus className="w-4 h-4" suppressHydrationWarning />
                     Leave a Review
                   </button>
@@ -138,17 +138,17 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
           <div className="hidden md:flex gap-3">
             <button
               onClick={scrollPrev}
-              className="btn-press w-14 h-14 rounded-full border border-stone-200 dark:border-stone-800 flex items-center justify-center text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-900 transition-colors"
+              className="w-11 h-11 rounded-full bg-stone-100 dark:bg-stone-900 flex items-center justify-center text-stone-900 dark:text-stone-100 active:scale-95 transition-transform"
               aria-label="Previous testimonial"
             >
-              <ArrowLeft className="w-6 h-6" suppressHydrationWarning />
+              <ArrowLeft className="w-5 h-5" suppressHydrationWarning />
             </button>
             <button
               onClick={scrollNext}
-              className="btn-press w-14 h-14 rounded-full bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 flex items-center justify-center hover:bg-stone-800 dark:hover:bg-stone-200 transition-colors shadow-md"
+              className="w-11 h-11 rounded-full bg-stone-100 dark:bg-stone-900 flex items-center justify-center text-stone-900 dark:text-stone-100 active:scale-95 transition-transform"
               aria-label="Next testimonial"
             >
-              <ArrowRight className="w-6 h-6" suppressHydrationWarning />
+              <ArrowRight className="w-5 h-5" suppressHydrationWarning />
             </button>
           </div>
         </div>
@@ -161,27 +161,23 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
                 key={i}
                 className="flex-[0_0_100%] md:flex-[0_0_50%] xl:flex-[0_0_33.333%] pl-6 min-w-0"
               >
-                <div className="bg-white dark:bg-stone-900 p-8 rounded-[2rem] border border-stone-100 dark:border-stone-800 hover:border-orange-200 dark:hover:border-orange-900/50 transition-colors shadow-sm flex flex-col h-full group relative">
-
-                  {/* Quote Icon Background */}
-                  <Quote className="absolute top-6 right-6 w-12 h-12 text-stone-100 dark:text-stone-800 -z-0 transition-transform group-hover:scale-110 duration-500" suppressHydrationWarning />
-
+                <div className="bg-white dark:bg-stone-900 p-8 rounded-[18px] border border-stone-100 dark:border-stone-800/60 transition-colors flex flex-col h-full group relative overflow-hidden active:scale-[0.98] transition-transform duration-200">
                   <div className="relative z-10 flex flex-col h-full">
                     {/* Stars */}
                     <div className="flex gap-1 mb-6">
                       {[...Array(t.rating || 5)].map((_, stars) => (
-                        <Star key={stars} className="w-4 h-4 text-orange-400 fill-orange-400" suppressHydrationWarning />
+                        <Star key={stars} className="w-3.5 h-3.5 text-orange-400 fill-orange-400" suppressHydrationWarning />
                       ))}
                     </div>
 
                     {/* Quote */}
-                    <blockquote className="text-lg md:text-xl font-bold font-sans text-stone-900 dark:text-stone-100 leading-relaxed mb-6 flex-grow">
+                    <blockquote className="text-[21px] font-semibold leading-[1.19] tracking-[0.231px] text-stone-900 dark:text-stone-100 mb-6 flex-grow">
                       &ldquo;{t.quote}&rdquo;
                     </blockquote>
 
                     {/* Author */}
-                    <div className="mt-auto pt-8 border-t border-stone-100 dark:border-stone-800 flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full overflow-hidden bg-stone-200 relative shrink-0 border border-white dark:border-stone-800 shadow-sm">
+                    <div className="mt-auto pt-6 flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-full overflow-hidden bg-stone-100 dark:bg-stone-800 relative shrink-0">
                         {t.avatar ? (
                           <Image
                             loader={sanityLoader}
@@ -194,19 +190,19 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
                             suppressHydrationWarning
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-orange-100 text-orange-600 font-bold text-sm">
+                          <div className="w-full h-full flex items-center justify-center bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 font-bold text-xs uppercase">
                             {t.name.charAt(0)}
                           </div>
                         )}
                       </div>
-                      <div>
-                        <div className="font-bold text-stone-900 dark:text-stone-100 text-base">
+                      <div className="flex flex-col">
+                        <span className="text-[17px] font-semibold tracking-[-0.374px] text-stone-900 dark:text-stone-100 leading-tight">
                           {t.name}
-                        </div>
+                        </span>
                         {(t.role || t.company) && (
-                          <div className="text-sm text-stone-500 dark:text-stone-400 uppercase tracking-wide font-medium">
-                            {t.role} {t.role && t.company && '•'} {t.company}
-                          </div>
+                          <span className="text-[14px] font-normal tracking-[-0.224px] text-stone-500 dark:text-stone-400 leading-tight mt-0.5">
+                            {t.role}{t.role && t.company ? ' • ' : ''}{t.company}
+                          </span>
                         )}
                       </div>
                     </div>
@@ -223,10 +219,10 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
             <button
               key={index}
               className={cn(
-                "w-2 h-2 rounded-full transition-all duration-300",
+                "rounded-full transition-all duration-300",
                 index === selectedIndex
-                  ? "bg-stone-900 w-8 dark:bg-stone-100"
-                  : "bg-stone-300 dark:bg-stone-700"
+                  ? "w-8 h-3 bg-stone-900 dark:bg-stone-100"
+                  : "w-3 h-3 bg-stone-300 dark:bg-stone-700"
               )}
               onClick={() => scrollTo(index)}
               aria-label={`Go to testimonial ${index + 1}`}

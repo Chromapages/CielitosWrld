@@ -71,6 +71,7 @@ export interface HomeHero {
 
 export interface SanityPost {
   _id: string;
+  _updatedAt?: string;
   title: string;
   slug: string;
   excerpt?: string;

@@ -13,7 +13,17 @@ I have generated a series of visual assets to illustrate the app-style mobile tr
 **Gallery & Blog Index**: Visualization of the sticky filter bar behavior and vertical card feed optimized for content consumption.
 <!-- slide -->
 ![Booking Wizard Wireframe](/Users/mimac/.gemini/antigravity/brain/f5aa514b-2184-4e21-9f3b-6339dec0269e/booking_wizard_wireframe_1776282423515.png)
-**Booking Wizard**: A lo-fi wireframe of the step-by-step wizard flow, featuring a clear progress indicator and sticky footer actions.
+**Booking Wizard**: A lo-fi wireframe of the step-by-step wizard flow, featuring a clear progress- **Standardized Section Spacing**:
+    - **Global Standard**: Updated the `MobileSection` component to use `py-16` (64px) for mobile and `lg:py-32` (128px) for desktop. This automatically updated the Home page and other core sections.
+    - **Services Page Alignment**: Manually updated `PricingCards`, `ComparisonTable`, `ProcessSection`, `FAQAccordion`, and `FinalCTA` to match this rhythmic standard.
+    - **Layout Fixes**: Removed redundant negative margins and top margins (`mt-24`, `md:-mt-16`) to ensure a clean, predictable flow between sections.
+
+#### **2. Design Decisions**
+- **Rhythmic Consistency**: By using a single vertical padding standard, the site feels more deliberate and high-end, reducing "layout noise."
+- **Premium Breathability**: Increased the standard padding to allow content more room to breathe, which is a hallmark of boutique digital design.
+
+#### **3. Build & Technical Stability**
+- **Verification**: Successfully completed a production build (`npm run build`) with no styling regressions or errors.
 ````
 
 ## Design Key Takeaways

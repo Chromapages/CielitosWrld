@@ -76,7 +76,7 @@ export default function CommentForm({ postId, parentId, onCancel, onSuccess, com
                         disabled={isPending}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="flex-1 flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-heading font-semibold rounded-xl hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm"
+                        className="flex-1 flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-archivo font-semibold rounded-xl hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all text-sm"
                     >
                         {isPending ? (
                             <>
@@ -115,7 +115,7 @@ export default function CommentForm({ postId, parentId, onCancel, onSuccess, com
             </div>
 
             <div className="space-y-2">
-                <label htmlFor="name" className="text-caption font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
+                <label htmlFor="name" className="text-caption font-archivo font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
                     Name <span className="text-orange-500">*</span>
                 </label>
                 <div className="relative">
@@ -133,7 +133,7 @@ export default function CommentForm({ postId, parentId, onCancel, onSuccess, com
             </div>
 
             <div className="space-y-2">
-                <label htmlFor="comment" className="text-caption font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
+                <label htmlFor="comment" className="text-caption font-archivo font-semibold text-zinc-700 dark:text-zinc-300 uppercase tracking-wider">
                     Comment <span className="text-orange-500">*</span>
                 </label>
                 <textarea
@@ -163,7 +163,7 @@ export default function CommentForm({ postId, parentId, onCancel, onSuccess, com
                     disabled={isPending}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-heading font-bold rounded-xl hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                    className="flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-orange-500 to-pink-500 text-white font-archivo font-bold rounded-xl hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
                     {isPending ? (
                         <>

@@ -100,7 +100,7 @@ export default function TableOfContents({ content, className }: TableOfContentsP
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: 'smooth'
+        behavior: 'auto'
       });
     }
   };

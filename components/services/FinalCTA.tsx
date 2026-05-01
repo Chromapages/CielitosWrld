@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { HeartHandshake, ArrowRight } from "lucide-react";
+import { MobileSection } from "../layout/MobileSection";
 
 interface FinalCTAProps {
     heading?: string;
@@ -12,7 +13,7 @@ export default function FinalCTA({ heading, text }: FinalCTAProps) {
     const resolvedText = text || "Let's chat about your vision and see if we're a good fit. No pressure, just a conversation.";
 
     return (
-        <section className="py-24 bg-brand-900 text-white text-center overflow-hidden relative">
+        <MobileSection className="bg-brand-900 text-white text-center overflow-hidden relative">
             {/* Background gradient animation */}
             <div className="absolute inset-0 bg-gradient-to-br from-orange-600/10 via-transparent to-purple-600/10 animate-pulse" />
 
@@ -41,6 +42,6 @@ export default function FinalCTA({ heading, text }: FinalCTAProps) {
                     Free consultation • No commitment required
                 </p>
             </div>
-        </section>
+        </MobileSection>
     );
 }

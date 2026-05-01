@@ -110,7 +110,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
 
           {/* Column 2: Explore Navigation - Hidden on mobile because it's in the bottom nav */}
           <div className="stagger-2 hidden md:block">
-            <h3 className="text-stone-100 font-bold uppercase tracking-widest text-xs mb-6">
+            <h3 className="text-stone-100 font-bold font-archivo uppercase tracking-widest text-xs mb-6">
               Explore
             </h3>
             <ul className="space-y-3">
@@ -129,7 +129,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
 
           {/* Column 3: Contact Info */}
           <div className="stagger-3">
-            <h3 className="text-stone-100 font-bold uppercase tracking-widest text-xs mb-6">
+            <h3 className="text-stone-100 font-bold font-archivo uppercase tracking-widest text-xs mb-6">
               Contact
             </h3>
             <ul className="space-y-4">
@@ -159,7 +159,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
 
           {/* Column 4: CTA */}
           <div className="lg:pl-8 stagger-4">
-            <h3 className="text-stone-100 font-bold uppercase tracking-widest text-xs mb-6">
+            <h3 className="text-stone-100 font-bold font-archivo uppercase tracking-widest text-xs mb-6">
               Let's Create
             </h3>
             <p className="text-xs text-stone-400 mb-6 font-light">
@@ -182,7 +182,7 @@ export default function Footer({ contactInfo }: { contactInfo?: ContactInfo }) {
         {/* Mobile Edge Gradient - For smooth transition behind floating nav */}
         <div className="md:hidden absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-stone-950 to-transparent pointer-events-none z-20" />
 
-        <div className="max-w-[1600px] mx-auto px-6 md:px-12 py-10 md:py-6 pb-[calc(6.5rem+env(safe-area-inset-bottom))] md:pb-6 relative z-10">
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 py-10 md:py-6 pb-[calc(5rem+env(safe-area-inset-bottom))] md:pb-6 relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 text-center md:text-left">
             <div className="order-2 md:order-1 space-y-2">
               <p className="text-[10px] md:text-xs text-stone-600 font-medium uppercase tracking-widest">

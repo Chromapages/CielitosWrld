@@ -76,7 +76,7 @@ function CommentItem({ comment, postId, level = 0 }: { comment: Comment; postId:
                         {/* Header */}
                         <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
-                                <span className="font-heading font-semibold text-zinc-900 dark:text-white">
+                                <span className="font-archivo font-semibold text-zinc-900 dark:text-white">
                                     {comment.name}
                                 </span>
                                 <span className="text-xs text-zinc-400 dark:text-zinc-500">
@@ -160,7 +160,7 @@ export default function CommentList({ comments, postId }: CommentListProps) {
                 <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-orange-100 to-pink-100 dark:from-orange-900/30 dark:to-pink-900/30 flex items-center justify-center mx-auto mb-4">
                     <MessageSquare className="w-8 h-8 text-orange-500 dark:text-orange-400" />
                 </div>
-                <h3 className="text-h4 text-zinc-900 dark:text-white font-heading mb-2">
+                <h3 className="text-h4 text-zinc-900 dark:text-white font-pattaya italic mb-2">
                     No comments yet
                 </h3>
                 <p className="text-body-sm text-zinc-500 dark:text-zinc-400">

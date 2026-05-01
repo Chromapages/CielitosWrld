@@ -77,7 +77,7 @@ export default function ReviewForm({ onCancel, onSuccess }: ReviewFormProps) {
                         placeholder="john@example.com"
                         className="w-full px-4 py-3 bg-stone-50 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all font-sans text-stone-900 dark:text-stone-100 placeholder:text-stone-400"
                     />
-                    <p className="text-[10px] text-stone-400">Kept private.</p>
+                    <p className="text-xs text-stone-400">Kept private.</p>
                     {state.errors?.email && <p className="text-xs text-red-500 font-medium">{state.errors.email[0]}</p>}
                 </div>
             </div>

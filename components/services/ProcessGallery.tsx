@@ -6,6 +6,7 @@ import { ArrowLeft, ArrowRight, Camera } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
 import { urlFor } from '@/sanity/lib/image';
+import { MobileSection } from "../layout/MobileSection";
 
 interface GalleryItem {
     _key: string;
@@ -61,9 +62,9 @@ export default function ProcessGallery({ items }: ProcessGalleryProps) {
     return (
         <div className="w-full relative">
             {/* Controls Header */}
-            <div className="flex items-center justify-between mb-8 px-6 md:px-0 container mx-auto max-w-5xl">
+            <MobileSection className="flex-row items-center justify-between mb-8 py-0 lg:py-0" hasGutter={true}>
                 <div className="flex items-center gap-2 text-stone-900 dark:text-white">
-                    <h3 className="text-xl font-bold font-display">Work in Action</h3>
+                    <h3 className="text-xl md:text-2xl font-bold font-archivo uppercase tracking-tight text-brand-900 dark:text-white">Work in Action</h3>
                     <span className="text-xs font-mono text-stone-500 uppercase tracking-wider hidden md:inline-block border-l border-stone-200 dark:border-stone-800 pl-3 ml-1">
                         From Raw to Polished
                     </span>
@@ -97,11 +98,11 @@ export default function ProcessGallery({ items }: ProcessGalleryProps) {
                         <ArrowRight className="w-4 h-4" />
                     </button>
                 </div>
-            </div>
+            </MobileSection>
 
             {/* Carousel Track */}
             <div className="overflow-hidden cursor-grab active:cursor-grabbing pb-12" ref={emblaRef}>
-                <div className="flex touch-pan-y" style={{ marginLeft: "calc(max((100vw - 1024px) / 2, 24px))" /* Centers start on desktop, padded on mobile */ }}>
+                <div className="flex touch-pan-y" style={{ marginLeft: "var(--mobile-gutter)" }}>
                     {items.map((item, index) => (
                         <div
                             key={item._key}

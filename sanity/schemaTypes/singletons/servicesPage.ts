@@ -24,6 +24,12 @@ export default defineType({
             type: 'string',
             description: 'e.g. "Trusted by 100+ clients"',
         }),
+        defineField({
+            name: 'heroBackgroundImage',
+            title: 'Hero Background Image',
+            type: 'image',
+            options: { hotspot: true },
+        }),
 
         // Process Section
         defineField({

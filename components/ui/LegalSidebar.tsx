@@ -49,7 +49,7 @@ export const LegalSidebar = ({ items }: LegalSidebarProps) => {
 
             window.scrollTo({
                 top: offsetPosition,
-                behavior: 'smooth',
+                behavior: 'auto',
             });
         }
     };

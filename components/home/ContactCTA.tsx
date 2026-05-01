@@ -35,23 +35,22 @@ export default function ContactCTA({ data }: ContactCTAProps) {
   const buttonLink = data?.buttonLink || "/contact";
 
   return (
-    <MobileSection className="relative !py-20 md:!py-32 overflow-hidden text-white" hasGutter={false}>
-      {/* Background image with overlay */}
+    <MobileSection className="relative overflow-hidden text-white" hasGutter={false}>
       <div
-        className="absolute inset-0 bg-cover bg-center bg-fixed transform scale-105"
+        className="absolute inset-0 bg-cover bg-center transform scale-105"
         style={{
-          backgroundImage: 'url(/images/contactsheets/CONTACT2.png)',
+          backgroundImage: 'url(/images/contact/bg_cta.png)',
         }}
         suppressHydrationWarning
       >
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#2c3325] to-[#1a1e14] opacity-90"></div>
+        {/* Sage green overlay */}
+        <div className="absolute inset-0 bg-[#2c3325]/85 backdrop-blur-[1px]"></div>
       </div>
 
-      <div className="container mx-auto max-w-5xl relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-[var(--mobile-gutter)] md:px-0">
+      <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 items-center px-[var(--mobile-gutter)] md:px-0">
         {/* Left column: Text content */}
-        <div className="space-y-6">
-          <div className="inline-block px-4 py-1.5 bg-[#822c01] bg-opacity-60 backdrop-blur-sm rounded-full text-[10px] font-bold tracking-[0.2em] uppercase text-[#f8f3e9]">
+        <div className="space-y-4">
+          <div className="inline-block px-4 py-1.5 bg-[#822c01] bg-opacity-60 backdrop-blur-sm rounded-full text-xs font-bold tracking-[0.2em] uppercase text-[#f8f3e9]">
             PHOTOGRAPHY SERVICES
           </div>
 
@@ -65,7 +64,7 @@ export default function ContactCTA({ data }: ContactCTAProps) {
             {text}
           </p>
 
-          <ul className="space-y-4 font-inter text-sm">
+          <ul className="space-y-3 font-inter text-sm">
             {[
               "Professional editing included",
               "Quick turnaround times",
@@ -82,7 +81,7 @@ export default function ContactCTA({ data }: ContactCTAProps) {
         </div>
 
         {/* Right column: CTA card */}
-        <div className="bg-[#1a1e14]/80 backdrop-blur-md p-8 rounded-[2.5rem] border border-white/10 shadow-2xl">
+        <div className="bg-[#1a1e14]/80 backdrop-blur-md p-6 rounded-[18px] border border-white/10 shadow-2xl">
           <h3 className="font-pattaya text-2xl mb-6 text-center text-white">Get In Touch</h3>
 
           <div className="space-y-4">
@@ -97,20 +96,20 @@ export default function ContactCTA({ data }: ContactCTAProps) {
                 </svg>
               </div>
               <span className="text-sm text-white/90 font-bold truncate max-w-[150px] sm:max-w-none">{data?.email || 'Abajo.Del.Cieloo@gmail.com'}</span>
-              <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[10px] font-bold text-[#822c01] group-hover:opacity-100 opacity-0 transition-opacity uppercase tracking-widest">
+              <span className="absolute right-4 top-1/2 transform -translate-y-1/2 text-xs font-bold text-[#822c01] group-hover:opacity-100 opacity-0 transition-opacity uppercase tracking-widest">
                 {copied === 'email' ? 'COPIED!' : 'COPY'}
               </span>
             </button>
           </div>
 
-          <div className="mt-8">
+          <div className="mt-6">
             <Link
               href={buttonLink}
               className="btn-press block w-full text-center bg-[#822c01] hover:bg-[#9d3501] text-white font-bold text-lg py-4 px-6 rounded-2xl transition-all duration-300 shadow-lg transform active:scale-95"
             >
               {buttonText}
             </Link>
-            <p className="text-[10px] text-center mt-4 text-white/40 tracking-[0.2em] uppercase font-bold">Usually responds within 24 hours</p>
+            <p className="text-xs text-center mt-4 text-white/40 tracking-[0.2em] uppercase font-bold">Usually responds within 24 hours</p>
           </div>
         </div>
       </div>

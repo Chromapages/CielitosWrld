@@ -5,11 +5,13 @@ import Lenis from 'lenis';
 
 export default function LenisProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
+    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
     const lenis = new Lenis({
       duration: 1.1,
-      smoothWheel: true,
+      smoothWheel: !isTouchDevice,
       wheelMultiplier: 0.9,
-      touchMultiplier: 1,
+      touchMultiplier: isTouchDevice ? 0 : 1,
     });
 
     // Make lenis accessible globally for blocking

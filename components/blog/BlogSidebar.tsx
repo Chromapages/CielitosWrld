@@ -63,7 +63,7 @@ export default function BlogSidebar({
                     )}
                 </div>
                 <div className="text-center">
-                    <h3 className="font-bold text-2xl text-brand-900 dark:text-brand-100 italic">
+                    <h3 className="font-bold text-3xl font-pattaya text-brand-900 dark:text-brand-100 italic">
                         {name || title || "Cielito's Wrld"}
                     </h3>
                     <p className="text-sm text-brand-600 dark:text-brand-300 leading-relaxed mt-2">

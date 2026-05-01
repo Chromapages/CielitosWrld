@@ -60,7 +60,7 @@ export default async function Comments({ postId }: CommentsProps) {
           <MessageCircle className="w-5 h-5 text-white" />
         </div>
         <div>
-          <h2 className="text-h3 text-zinc-900 dark:text-white font-heading">
+          <h2 className="text-h3 text-zinc-900 dark:text-white font-pattaya italic">
             Discussion
           </h2>
           <p className="text-caption text-zinc-500 dark:text-zinc-400">

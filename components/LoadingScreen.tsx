@@ -67,7 +67,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
 
     const exitAnimation = prefersReducedMotion 
         ? { opacity: 0 } 
-        : { opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } };
+        : { opacity: 0, transition: { duration: 0.8, ease: "easeInOut" as const } };
 
     return (
         <AnimatePresence>

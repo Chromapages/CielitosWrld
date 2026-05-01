@@ -1,6 +1,7 @@
 import { MessageSquare, Phone, Camera, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ProcessStep } from "@/types/services";
+import { MobileSection } from "../layout/MobileSection";
 
 interface ProcessSectionProps {
     steps: ProcessStep[];
@@ -8,9 +9,8 @@ interface ProcessSectionProps {
 
 export default function ProcessSection({ steps }: ProcessSectionProps) {
     return (
-        <section className="py-20 lg:py-32 bg-brand-50 dark:bg-brand-950 border-t border-brand-100 dark:border-brand-800">
-            <div className="container mx-auto px-6 max-w-7xl">
-                <div className="lg:flex lg:gap-16">
+        <MobileSection className="bg-brand-50 dark:bg-brand-950 border-t border-brand-100 dark:border-brand-800" hasGutter={true}>
+            <div className="lg:flex lg:gap-16">
 
                     {/* Left Column - Sticky Title & Progress */}
                     <div className="lg:w-[33%] lg:sticky lg:top-32 lg:self-start mb-12 lg:mb-0">
@@ -18,7 +18,7 @@ export default function ProcessSection({ steps }: ProcessSectionProps) {
                             <span className="inline-block px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 text-xs font-bold uppercase tracking-widest rounded-full mb-4">
                                 The Process
                             </span>
-                            <h2 className="text-4xl lg:text-5xl font-bold font-archivo mb-4 text-brand-900 dark:text-white">
+                            <h2 className="text-4xl lg:text-5xl font-pattaya italic mb-4 text-brand-900 dark:text-white">
                                 How It Works
                             </h2>
                             <p className="text-brand-500 dark:text-brand-400 text-lg mb-8 max-w-sm">
@@ -66,7 +66,7 @@ export default function ProcessSection({ steps }: ProcessSectionProps) {
                                         )}
                                     >
                                         {/* Step Number Badge - Desktop */}
-                                        <div className="hidden lg:flex absolute left-0 top-0 w-16 h-16 rounded-2xl bg-white dark:bg-brand-900 border border-brand-200 dark:border-brand-800 items-center justify-center shadow-lg z-10">
+                                        <div className="hidden lg:flex absolute left-0 top-7 w-16 h-16 rounded-2xl bg-white dark:bg-brand-900 border border-brand-200 dark:border-brand-800 items-center justify-center shadow-lg z-10">
                                             <span className="text-2xl font-bold text-brand-300 dark:text-brand-600 font-archivo">
                                                 {stepNumber}
                                             </span>
@@ -102,7 +102,6 @@ export default function ProcessSection({ steps }: ProcessSectionProps) {
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+        </MobileSection>
     );
 }

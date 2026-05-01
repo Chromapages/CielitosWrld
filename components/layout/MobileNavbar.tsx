@@ -2,19 +2,19 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Camera, FileText, Mail, Briefcase } from 'lucide-react';
+import { Home, Camera, Mail, Briefcase, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { NAV_ITEMS } from '@/lib/constants';
 
 // For mobile, we pick the most essential 5 items to maintain a balanced grid
-const MOBILE_NAV_ITEMS = NAV_ITEMS.filter(item => 
-  ['Home', 'Gallery', 'Services', 'Blog', 'Contact'].includes(item.label)
+const MOBILE_NAV_ITEMS = NAV_ITEMS.filter(item =>
+  ['Home', 'Gallery', 'Services', 'About', 'Contact'].includes(item.label)
 ).map(item => ({
   ...item,
-  icon: item.label === 'Home' ? Home : 
-        item.label === 'Gallery' ? Camera : 
+  icon: item.label === 'Home' ? Home :
+        item.label === 'Gallery' ? Camera :
         item.label === 'Services' ? Briefcase :
-        item.label === 'Blog' ? FileText : Mail
+        item.label === 'About' ? User : Mail
 }));
 
 import { motion, AnimatePresence } from 'framer-motion';
@@ -30,7 +30,7 @@ export default function MobileNavbar() {
 
     if (isActive) {
       e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'auto' });
     }
   };
 

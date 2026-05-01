@@ -60,7 +60,7 @@ export default function MobileHeader() {
   return (
     <header
       className={cn(
-        "md:hidden fixed top-0 left-0 right-0 z-50 flex flex-col justify-end transition-all duration-500",
+        "md:hidden fixed top-0 left-0 right-0 z-40 flex flex-col justify-end transition-all duration-500",
         scrolled
           ? "bg-white/90 dark:bg-stone-950/90 backdrop-blur-2xl border-b border-stone-200/50 dark:border-white/5 shadow-lg"
           : "bg-white dark:bg-stone-950 border-b border-transparent"
@@ -97,11 +97,11 @@ export default function MobileHeader() {
           )}
             <span className={cn(
                "font-black tracking-tight transition-all duration-300 shrink",
-               isHome 
-                ? "text-2xl font-pattaya italic text-stone-900 dark:text-white pr-2" 
-                : "text-base font-archivo uppercase tracking-widest text-stone-800 dark:text-stone-200 truncate max-w-[180px] xs:max-w-[220px]"
-            )}>
-              {getDisplayTitle()}
+                isHome 
+                 ? "text-2xl font-pattaya italic text-stone-900 dark:text-white pr-2" 
+                 : "text-xl font-pattaya text-stone-900 dark:text-white truncate max-w-[180px] xs:max-w-[220px]"
+             )}>
+               {getDisplayTitle()}
             </span>
           </Link>
         </div>

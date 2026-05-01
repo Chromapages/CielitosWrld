@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { urlFor } from '@/sanity/lib/image';
 import { GalleryItem } from '@/app/gallery/page';
 import { 
-  X, ChevronLeft, ChevronRight, Share2, 
+  X, ChevronLeft, ChevronRight,
   Info, Camera, Aperture, Clock, MapPin, Calendar,
   ZoomIn, ZoomOut, Maximize2, Sparkles, Eye
 } from 'lucide-react';
@@ -31,7 +31,6 @@ export default function GalleryLightbox({
   const [showInfo, setShowInfo] = useState(false);
   const [zoom, setZoom] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const [shareFeedback, setShareFeedback] = useState(false);
 
   const currentItem = items[currentIndex];
   if (!currentItem || !isOpen) return null;
@@ -39,16 +38,7 @@ export default function GalleryLightbox({
   const isVideo = currentItem.mediaType === 'video';
   const imageAsset = isVideo ? currentItem.videoThumbnail : currentItem.image;
 
-  const handleShare = async () => {
-    const url = window.location.href;
-    try {
-      await navigator.clipboard.writeText(url);
-      setShareFeedback(true);
-      setTimeout(() => setShareFeedback(false), 2000);
-    } catch (err) {
-      console.error('Failed to copy:', err);
-    }
-  };
+
 
 
 
@@ -156,22 +146,7 @@ export default function GalleryLightbox({
               </button>
 
               {/* Share */}
-              <button
-                onClick={handleShare}
-                className="p-2 hover:bg-white/10 rounded-full transition-colors relative"
-              >
-                <Share2 className="w-5 h-5" />
-                {shareFeedback && (
-                  <motion.span 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    className="absolute -bottom-8 left-1/2 -translate-x-1/2 text-xs bg-white text-black px-2 py-1 rounded whitespace-nowrap"
-                  >
-                    Copied!
-                  </motion.span>
-                )}
-              </button>
+
 
 
 

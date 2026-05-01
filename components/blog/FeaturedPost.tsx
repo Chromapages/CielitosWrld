@@ -1,16 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-import Image from 'next/image';
-import { urlFor } from '@/sanity/lib/image';
-import { ArrowRight, Clock, Calendar } from 'lucide-react';
-
-interface FeaturedPostProps {
-  post: any;
-}
-
-'use client';
-
 import BlogPost from './BlogPost';
 
 interface FeaturedPostProps {
@@ -32,7 +21,7 @@ export default function FeaturedPost({ post, avatar, username }: FeaturedPostPro
         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-orange-500/50 to-transparent" />
       </div>
 
-      <div className="scale-[1.05] transition-transform duration-500 hover:scale-[1.07]">
+      <div className="transition-transform duration-500 ease-out hover:scale-[1.02]">
         <BlogPost post={post} avatar={avatar} username={username} />
       </div>
     </div>

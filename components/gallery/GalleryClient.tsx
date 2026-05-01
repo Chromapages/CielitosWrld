@@ -131,13 +131,13 @@ export default function GalleryClient({ initialItems, pageData }: GalleryClientP
 
             <div className="relative z-10">
                 {/* Header (Hidden on Mobile as it's in the stickyer header) */}
-                <div className="container mx-auto max-w-[1600px] px-4 sm:px-8 py-12 md:py-20">
-                    <h1 className="font-pattaya text-3xl sm:text-4xl md:text-8xl font-bold text-stone-900 dark:text-stone-50 mb-6 drop-shadow-sm">
+                <div className="container mx-auto max-w-7xl px-6 py-12 md:py-20">
+                    <h1 className="hidden md:block font-pattaya text-3xl sm:text-4xl md:text-8xl font-bold text-stone-900 dark:text-stone-50 mb-6 drop-shadow-sm">
                         {pageData?.title || 'Visual Stories'}
                     </h1>
                     
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                        <p className="text-stone-600 dark:text-stone-400 text-lg md:text-2xl max-w-3xl font-light leading-relaxed">
+                        <p className="hidden md:block text-stone-600 dark:text-stone-400 text-lg md:text-2xl max-w-3xl font-light leading-relaxed">
                             {pageData?.subtitle || 'A curated collection of moments, captured in time.'}
                         </p>
                         

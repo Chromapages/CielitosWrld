@@ -1,8 +1,10 @@
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import { PortableText } from '@portabletext/react'
 import { client } from '@/sanity/lib/client'
 import { WORK_BY_SLUG_QUERY } from '@/sanity/lib/queries'
 import { urlFor } from '@/sanity/lib/image'
+import { BreadcrumbListSchema, CreativeWorkSchema } from '@/components/seo/JsonLd'
 
 export const revalidate = 60
 
@@ -24,13 +26,58 @@ export async function generateStaticParams() {
   return works.map((w) => ({ slug: w.slug }))
 }
 
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const work: Work = await client.fetch(WORK_BY_SLUG_QUERY, { slug: params.slug }, { next: { revalidate: 60 } })
+  if (!work) return { title: 'Project Not Found' }
+
+  const coverUrl = work.coverImage
+    ? urlFor(work.coverImage).width(1200).height(630).fit('max').url()
+    : undefined
+
+  return {
+    title: work.title,
+    description: work.excerpt || `Photography project: ${work.title} by Cielito.`,
+    alternates: { canonical: `https://cielitoswrld.com/work/${params.slug}` },
+    openGraph: {
+      title: work.title,
+      description: work.excerpt || `Photography project: ${work.title} by Cielito.`,
+      url: `https://cielitoswrld.com/work/${params.slug}`,
+      type: 'article',
+      images: coverUrl ? [{ url: coverUrl, width: 1200, height: 630, alt: work.title }] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: work.title,
+      description: work.excerpt || `Photography project: ${work.title} by Cielito.`,
+      images: coverUrl ? [coverUrl] : undefined,
+    },
+  }
+}
+
 export default async function WorkPage({ params }: { params: { slug: string } }) {
   const work: Work = await client.fetch(WORK_BY_SLUG_QUERY, { slug: params.slug })
 
   if (!work) return null
 
+  const coverUrl = work.coverImage
+    ? urlFor(work.coverImage).width(1200).fit('max').url()
+    : undefined
+
   return (
     <article className="mx-auto max-w-3xl px-6 py-16">
+      <BreadcrumbListSchema items={[
+        { name: 'Home', url: 'https://cielitoswrld.com' },
+        { name: 'Work', url: 'https://cielitoswrld.com/work' },
+        { name: work.title, url: `https://cielitoswrld.com/work/${params.slug}` },
+      ]} />
+      <CreativeWorkSchema
+        title={work.title}
+        description={work.excerpt}
+        image={coverUrl}
+        url={`https://cielitoswrld.com/work/${params.slug}`}
+        dateCreated={work.year ? `${work.year}-01-01` : undefined}
+      />
+
       <h1 className="text-3xl font-bold">{work.title}</h1>
 
       {work.coverImage && (
@@ -42,6 +89,7 @@ export default async function WorkPage({ params }: { params: { slug: string } })
           className="mt-6 rounded-2xl object-cover"
           placeholder={work.coverImage?.asset?.metadata?.lqip ? 'blur' : 'empty'}
           blurDataURL={work.coverImage?.asset?.metadata?.lqip}
+          priority
         />
       )}
 
@@ -57,7 +105,7 @@ export default async function WorkPage({ params }: { params: { slug: string } })
             <Image
               key={i}
               src={urlFor(img).width(1200).fit('max').url()}
-              alt={`${work.title} #${i + 1}`}
+              alt={`${work.title} — image ${i + 1}`}
               width={1200}
               height={800}
               className="rounded-xl object-cover"

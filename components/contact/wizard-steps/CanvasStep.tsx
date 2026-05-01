@@ -27,71 +27,83 @@ const CanvasStep = ({ formData, updateFormData }: StepProps) => {
     };
 
     return (
-        <div className="space-y-10">
+        <div className="space-y-12">
             {/* Location Section */}
-            <div className="space-y-4">
+            <div className="space-y-6">
                 <div className="flex items-center gap-3 text-orange-500">
                     <MapPin className="w-5 h-5" />
-                    <span className="text-xs font-black uppercase tracking-[0.2em]">The Location</span>
+                    <span className="text-xs font-black uppercase tracking-[0.3em]">The Location</span>
                 </div>
-                <input
-                    type="text"
-                    placeholder="e.g. Joshua Tree, Sunset Blvd, or Studio"
-                    value={formData.location}
-                    onChange={(e) => updateFormData({ location: e.target.value })}
-                    className="w-full bg-white border border-stone-200 rounded-2xl px-6 py-5 text-stone-950 placeholder:text-stone-500 outline-none focus:border-orange-500/50 transition-all font-medium dark:bg-white/5 dark:border-white/10 dark:text-white dark:placeholder:text-stone-600"
-                />
+                <motion.div whileHover={{ scale: 1.01 }} className="relative">
+                    <input
+                        type="text"
+                        placeholder="e.g. Joshua Tree, Sunset Blvd, or Studio"
+                        value={formData.location}
+                        onChange={(e) => updateFormData({ location: e.target.value })}
+                        className="w-full bg-white border border-brand-100 rounded-2xl px-8 py-6 text-brand-950 placeholder:text-brand-300 outline-none focus:border-orange-500/50 transition-all font-medium text-base shadow-sm dark:bg-white/5 dark:border-white/10 dark:text-white dark:placeholder:text-brand-700"
+                    />
+                </motion.div>
             </div>
 
             {/* Vibe Selection */}
-            <div className="space-y-4">
+            <div className="space-y-6">
                 <div className="flex items-center gap-3 text-orange-500">
                     <Palette className="w-5 h-5" />
-                    <span className="text-xs font-black uppercase tracking-[0.2em]">The Vibe (Select Multiple)</span>
+                    <span className="text-xs font-black uppercase tracking-[0.3em]">The Vibe (Select Multiple)</span>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                    {VIBES.map((vibe) => {
+                <div className="flex flex-wrap gap-3">
+                    {VIBES.map((vibe, idx) => {
                         const isSelected = formData.vibe.includes(vibe);
                         return (
-                            <button
+                            <motion.button
                                 key={vibe}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: idx * 0.03 }}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
                                 onClick={() => toggleVibe(vibe)}
                                 className={cn(
-                                    "px-6 py-3 rounded-full border text-xs font-bold uppercase tracking-widest transition-all",
+                                    "px-8 py-4 rounded-full border text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300",
                                     isSelected
-                                        ? "bg-orange-600 border-orange-600 text-white shadow-lg shadow-orange-600/20"
-                                        : "bg-white border-stone-200 text-stone-600 hover:border-stone-300 hover:text-stone-950 dark:bg-white/5 dark:border-white/10 dark:text-stone-400 dark:hover:border-white/20 dark:hover:text-white"
+                                        ? "bg-orange-600 border-orange-600 text-white shadow-xl shadow-orange-600/20"
+                                        : "bg-white border-brand-100 text-brand-500 hover:border-brand-300 hover:text-brand-950 hover:bg-brand-50 dark:bg-white/5 dark:border-white/10 dark:text-brand-400 dark:hover:border-white/20 dark:hover:text-white"
                                 )}
                             >
                                 {vibe}
-                            </button>
+                            </motion.button>
                         );
                     })}
                 </div>
             </div>
 
             {/* Investment Range */}
-            <div className="space-y-4">
+            <div className="space-y-6">
                 <div className="flex items-center gap-3 text-orange-500">
                     <DollarSign className="w-5 h-5" />
-                    <span className="text-xs font-black uppercase tracking-[0.2em]">Investment Range</span>
+                    <span className="text-xs font-black uppercase tracking-[0.3em]">Investment Range</span>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {INVESTMENT_RANGES.map((range) => {
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {INVESTMENT_RANGES.map((range, idx) => {
                         const isSelected = formData.investment === range;
                         return (
-                            <button
+                            <motion.button
                                 key={range}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: idx * 0.05 }}
+                                whileHover={!isSelected ? { scale: 1.02, y: -2 } : {}}
+                                whileTap={{ scale: 0.98 }}
                                 onClick={() => updateFormData({ investment: range })}
                                 className={cn(
-                                    "px-4 py-4 rounded-xl border text-[10px] font-black uppercase tracking-widest transition-all",
+                                    "px-6 py-5 rounded-2xl border text-xs font-black uppercase tracking-[0.2em] transition-all duration-300 text-center",
                                     isSelected
-                                        ? "bg-stone-950 border-stone-950 text-white shadow-xl dark:bg-white dark:border-white dark:text-black"
-                                        : "bg-white border-stone-200 text-stone-500 hover:border-stone-300 hover:text-stone-950 dark:bg-white/5 dark:border-white/10 dark:hover:border-white/20 dark:hover:text-white"
+                                        ? "bg-brand-950 border-brand-950 text-white shadow-2xl dark:bg-white dark:border-white dark:text-black"
+                                        : "bg-white border-brand-100 text-brand-400 hover:border-brand-300 hover:text-brand-950 hover:bg-brand-50 dark:bg-white/5 dark:border-white/10 dark:hover:border-white/20 dark:hover:text-white"
                                 )}
                             >
                                 {range}
-                            </button>
+                            </motion.button>
                         );
                     })}
                 </div>

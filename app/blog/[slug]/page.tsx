@@ -48,19 +48,21 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   return {
     title: post.title,
     description: post.excerpt ?? undefined,
+    alternates: { canonical: `https://cielitoswrld.com/blog/${slug}` },
     openGraph: {
       title: post.title,
       description: post.excerpt ?? undefined,
+      url: `https://cielitoswrld.com/blog/${slug}`,
+      type: 'article',
       images: coverUrl
-        ? [
-          {
-            url: coverUrl,
-            width: 1200,
-            height: 630,
-            alt: post.title,
-          },
-        ]
+        ? [{ url: coverUrl, width: 1200, height: 630, alt: post.title }]
         : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt ?? undefined,
+      images: coverUrl ? [coverUrl] : undefined,
     },
   };
 }
@@ -80,24 +82,24 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   const formattedDate = formatDate(post.publishedAt || new Date().toISOString());
 
-  // Fetch related posts
+  // Fetch related posts by shared tags
+  const postTags: string[] = post.tags || [];
   const relatedPosts = await client.fetch(
-    `*[_type == "post" && category == $category && slug.current != $slug][0...4]{
+    `*[_type == "post" && slug.current != $slug && count((tags[])[@ in $tags]) > 0] | order(publishedAt desc) [0...4]{
       _id,
       title,
       slug,
       excerpt,
       coverImage,
       publishedAt,
-      category,
-      estimatedReadingTime
+      "tags": tags
     }`,
-    { category: (post as any).category || 'general', slug },
+    { slug, tags: postTags.length > 0 ? postTags : ['__none__'] },
     { next: { revalidate: 60 } }
   );
 
   const coverUrl = post.coverImage ? urlFor(post.coverImage).width(1200).height(630).fit('max').url() : undefined;
-  const canonicalUrl = `https://cielitosworld.com/blog/${slug}`;
+  const canonicalUrl = `https://cielitoswrld.com/blog/${slug}`;
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-stone-950 pb-20">
@@ -105,6 +107,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         title={post.title}
         description={post.excerpt || `Read ${post.title} on Cielitos Wrld.`}
         datePublished={post.publishedAt || new Date().toISOString()}
+        dateModified={post._updatedAt || post.publishedAt || new Date().toISOString()}
         image={coverUrl}
         url={canonicalUrl}
       />
@@ -113,33 +116,23 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <HeroSection
         title={post.title}
         coverImage={post.coverImage}
-        category={(post as any).category}
         formattedDate={formattedDate}
         author={(post as any).author}
       />
 
       {/* Main Content Container with Overlap */}
-      <div className="relative -mt-24 md:-mt-32 lg:-mt-48 z-10 px-4 sm:px-6 lg:px-8">
+      <div className="relative -mt-16 md:-mt-32 lg:-mt-48 z-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           {/* Article Card */}
           <article className="bg-white dark:bg-stone-900 rounded-2xl md:rounded-3xl shadow-elevation-4 overflow-hidden">
 
             {/* Header / Meta Section inside the card */}
-            <div className="px-6 py-10 md:p-16 lg:p-20 text-center border-b border-zinc-100 dark:border-zinc-800">
-              {(post as any).category && (
-                <Link
-                  href={`/blog/category/${(post as any).category.toLowerCase()}`}
-                  className="inline-block px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-[#EC4899] mb-8"
-                >
-                  {(post as any).category}
-                </Link>
-              )}
-
-              <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-zinc-900 dark:text-white leading-[1.1] mb-8 tracking-tight">
+            <div className="px-6 py-10 md:p-16 lg:p-20 text-left border-b border-zinc-100 dark:border-zinc-800">
+                <h1 className="font-pattaya text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-zinc-900 dark:text-white leading-[1.1] mb-8 tracking-tight italic">
                 {post.title}
               </h1>
 
-              <div className="flex items-center justify-center gap-6 mt-8">
+              <div className="flex items-center justify-start gap-6 mt-8">
                 <div className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
                   <span className="italic mr-1 text-zinc-400">Written by</span> {(post as any).author || "Cielito"}
                 </div>
@@ -155,7 +148,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               <div className="max-w-prose mx-auto">
                 {/* Excerpt as a Lead paragraph */}
                 {post.excerpt && (
-                  <p className="font-heading text-xl md:text-2xl text-zinc-700 dark:text-zinc-300 leading-relaxed mb-12 italic border-l-4 border-[#EC4899] pl-6 py-2">
+                  <p className="font-heading text-lg md:text-xl text-zinc-700 dark:text-zinc-300 leading-relaxed mb-12 italic border-l-4 border-[#EC4899] pl-6 py-2">
                     {post.excerpt}
                   </p>
                 )}

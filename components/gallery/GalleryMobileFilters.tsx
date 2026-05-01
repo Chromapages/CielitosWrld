@@ -94,7 +94,7 @@ export default function GalleryMobileFilters({
                 <button
                     onClick={() => setIsOpen(true)}
                     className={cn(
-                        "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all flex-shrink-0 shadow-sm border",
+                        "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 flex-shrink-0 shadow-sm border",
                         activeCount > 0
                             ? "bg-stone-900 text-white border-stone-900 dark:bg-stone-100 dark:text-stone-900 dark:border-stone-100"
                             : "bg-white text-stone-700 border-stone-200 dark:bg-stone-900 dark:text-stone-300 dark:border-stone-800"
@@ -117,7 +117,7 @@ export default function GalleryMobileFilters({
                             key={filter.label}
                             onClick={() => handleQuickFilter(filter.type, filter.value)}
                             className={cn(
-                                "px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all flex-shrink-0 shadow-sm border",
+                                "px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 flex-shrink-0 shadow-sm border",
                                 active
                                     ? "bg-stone-900 text-white border-stone-900 dark:bg-stone-100 dark:text-stone-900 dark:border-stone-100"
                                     : "bg-white text-stone-600 border-stone-200 dark:bg-stone-900 dark:text-stone-400 dark:border-stone-800"
@@ -129,7 +129,7 @@ export default function GalleryMobileFilters({
                 })}
                 </div>
                 {/* Horizontal scroll fade indicators */}
-                <div className="absolute right-0 top-0 bottom-1 w-12 bg-gradient-to-l from-white dark:from-stone-950 to-transparent pointer-events-none opacity-0 group-hover/filters:opacity-100 transition-opacity md:hidden" />
+                <div className="absolute right-0 top-0 bottom-1 w-12 bg-gradient-to-l from-white dark:from-stone-950 to-transparent pointer-events-none opacity-100 md:hidden" />
             </div>
 
             {/* Secondary Row: Extra Active Filters (Location, etc.) */}
@@ -180,7 +180,7 @@ export default function GalleryMobileFilters({
                                     <button
                                         onClick={() => onMediaTypeChange('photo')}
                                         className={cn(
-                                            "flex-1 py-3 text-sm font-bold rounded-lg transition-all",
+                                            "flex-1 py-3 text-sm font-bold rounded-lg transition-all duration-200",
                                             mediaType === 'photo'
                                                 ? "bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
                                                 : "text-stone-500 hover:text-stone-900 dark:hover:text-stone-300"
@@ -191,7 +191,7 @@ export default function GalleryMobileFilters({
                                     <button
                                         onClick={() => onMediaTypeChange('video')}
                                         className={cn(
-                                            "flex-1 py-3 text-sm font-bold rounded-lg transition-all",
+                                            "flex-1 py-3 text-sm font-bold rounded-lg transition-all duration-200",
                                             mediaType === 'video'
                                                 ? "bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
                                                 : "text-stone-500 hover:text-stone-900 dark:hover:text-stone-300"
@@ -215,7 +215,7 @@ export default function GalleryMobileFilters({
                                             key={option.value}
                                             onClick={() => onSortChange(option.value as any)}
                                             className={cn(
-                                                "w-full py-3 px-4 text-left text-sm font-medium rounded-xl border transition-all flex items-center justify-between",
+                                                "w-full py-3 px-4 text-left text-sm font-medium rounded-xl border transition-all duration-200 flex items-center justify-between",
                                                 sortBy === option.value
                                                     ? "bg-orange-50 dark:bg-orange-900/20 border-orange-500 text-orange-900 dark:text-orange-100"
                                                     : "bg-white dark:bg-stone-900 border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-400"
@@ -235,7 +235,7 @@ export default function GalleryMobileFilters({
                                     <button
                                         onClick={() => onViewModeChange('masonry')}
                                         className={cn(
-                                            "flex-1 py-3 text-sm font-bold rounded-lg transition-all",
+                                            "flex-1 py-3 text-sm font-bold rounded-lg transition-all duration-200",
                                             viewMode === 'masonry'
                                                 ? "bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
                                                 : "text-stone-500 hover:text-stone-900 dark:hover:text-stone-300"
@@ -246,7 +246,7 @@ export default function GalleryMobileFilters({
                                     <button
                                         onClick={() => onViewModeChange('grid')}
                                         className={cn(
-                                            "flex-1 py-3 text-sm font-bold rounded-lg transition-all",
+                                            "flex-1 py-3 text-sm font-bold rounded-lg transition-all duration-200",
                                             viewMode === 'grid'
                                                 ? "bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
                                                 : "text-stone-500 hover:text-stone-900 dark:hover:text-stone-300"
@@ -318,7 +318,7 @@ function MobileFilterGroup({ title, options, selected, onChange }: { title: stri
                         key={option}
                         onClick={() => onChange(option)}
                         className={cn(
-                            "px-4 py-2 rounded-full text-sm border transition-all",
+                            "px-4 py-2 rounded-full text-sm border transition-all duration-200",
                             selected.includes(option)
                                 ? "bg-stone-900 text-white border-stone-900 dark:bg-stone-100 dark:text-stone-900 dark:border-stone-100"
                                 : "bg-white text-stone-600 border-stone-200 dark:bg-stone-900 dark:text-stone-400 dark:border-stone-800"

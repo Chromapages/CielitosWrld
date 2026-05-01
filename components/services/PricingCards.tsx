@@ -1,21 +1,33 @@
 'use client';
 
-import React from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from "next/link";
 import { Users, Check, ArrowRight } from "lucide-react";
 import useEmblaCarousel from 'embla-carousel-react';
 import { ServicePackage } from "@/types/services";
+import { cn } from '@/lib/utils';
+import { MobileSection } from "../layout/MobileSection";
 
 interface PricingCardsProps {
     packages: ServicePackage[];
 }
 
 export default function PricingCards({ packages }: PricingCardsProps) {
-    const [emblaRef] = useEmblaCarousel({
+    const [emblaRef, emblaApi] = useEmblaCarousel({
         loop: false,
         align: 'start',
         containScroll: 'trimSnaps'
     });
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const onSelect = useCallback(() => {
+        if (!emblaApi) return;
+        setSelectedIndex(emblaApi.selectedScrollSnap());
+    }, [emblaApi]);
+    useEffect(() => {
+        if (!emblaApi) return;
+        emblaApi.on('select', onSelect);
+        return () => { emblaApi.off('select', onSelect); };
+    }, [emblaApi, onSelect]);
 
     const renderCard = (pkg: ServicePackage, index: number, isMobile: boolean = false) => (
         <div
@@ -88,8 +100,10 @@ export default function PricingCards({ packages }: PricingCardsProps) {
 
 
     return (
-        <section className="-mt-16 pb-24 relative z-20 px-4">
-            <div className="container mx-auto max-w-[1400px]">
+        <MobileSection id="pricing" className="pt-16 lg:pt-32 pb-16 lg:pb-32 relative z-20">
+            <h2 className="text-center text-4xl md:text-5xl font-archivo font-bold tracking-tight mb-20 text-brand-950 dark:text-white">
+                Choose Your Experience
+            </h2>
 
                 {/* DESKTOP GRID */}
                 <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -98,14 +112,28 @@ export default function PricingCards({ packages }: PricingCardsProps) {
                 </div>
 
                 {/* MOBILE CAROUSEL */}
-                <div className="md:hidden overflow-hidden -mx-4" ref={emblaRef}>
+                <div className="md:hidden overflow-hidden" ref={emblaRef} data-carousel>
                     <div className="flex touch-pan-y py-4">
                         {packages.map((pkg, index) => renderCard(pkg, index, true))}
                         {packages.length < 4 && renderCustomQuote(true)}
                     </div>
                 </div>
 
-            </div>
-        </section>
+                {/* Mobile dot indicators */}
+                <div className="flex justify-center gap-2 mt-4 md:hidden">
+                    {packages.map((_, i) => (
+                        <button
+                            key={i}
+                            onClick={() => emblaApi?.scrollTo(i)}
+                            aria-label={`Go to slide ${i + 1}`}
+                            className={cn(
+                                'h-2 rounded-full transition-all',
+                                i === selectedIndex ? 'w-6 bg-orange-500' : 'w-2 bg-stone-300 dark:bg-stone-600'
+                            )}
+                        />
+                    ))}
+                </div>
+
+        </MobileSection>
     );
 }

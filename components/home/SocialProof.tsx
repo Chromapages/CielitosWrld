@@ -36,7 +36,7 @@ export default function SocialProof({ data }: SocialProofProps) {
   return (
     <MobileSection 
       aria-labelledby="collaborations-title" 
-      className="relative !py-12 md:!py-16 bg-neutral-200 dark:bg-stone-900 border-t border-neutral-300 dark:border-stone-800"
+      className="relative bg-neutral-200 dark:bg-stone-900 border-t border-neutral-300 dark:border-stone-800"
     >
       {/* Optional Background Image */}
       {data?.backgroundImage && (
@@ -63,12 +63,17 @@ export default function SocialProof({ data }: SocialProofProps) {
         .logos-marquee {
           animation: marquee 20s linear infinite;
         }
+        @media (prefers-reduced-motion: reduce) {
+          .logos-marquee {
+            animation: none;
+          }
+        }
       `}</style>
 
-      <div className="max-w-5xl mx-auto relative z-10 px-4 md:px-0">
+      <div className="relative z-10 px-4 md:px-0">
         <h2
           id="collaborations-title"
-          className="text-center text-xl md:text-2xl font-bold tracking-tight text-neutral-800 dark:text-stone-200 mb-10 uppercase font-archivo"
+          className="text-center text-3xl md:text-5xl font-pattaya italic text-neutral-800 dark:text-stone-200 mb-12"
         >
           {displayData.heading}
         </h2>

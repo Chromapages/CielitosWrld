@@ -6,6 +6,7 @@ import ContactStage from '@/components/contact/ContactStage';
 export const metadata: Metadata = {
   title: 'Contact - Cielito\'s World',
   description: 'Start your creative project. Book photography sessions for events, portraits, or brand collaborations.',
+  alternates: { canonical: 'https://cielitoswrld.com/contact' },
 };
 
 export const revalidate = 60;
@@ -18,8 +19,6 @@ export default async function Contact() {
   return (
     <MobilePageShell immersive={true}>
       <ContactStage
-        title={data?.title}
-        introText={data?.introText}
         socialLinks={data?.socialLinks}
         email={data?.email}
         location={data?.location}

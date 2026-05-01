@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { sanityFetch } from "@/sanity/lib/client";
 import { SERVICES_PAGE_QUERY } from "@/sanity/lib/queries";
 import ServicesHero from "@/components/services/ServicesHero";
@@ -7,6 +8,7 @@ import ProcessSection from "@/components/services/ProcessSection";
 import ProcessGallery from "@/components/services/ProcessGallery";
 import FAQAccordion from "@/components/services/FAQAccordion";
 import FinalCTA from "@/components/services/FinalCTA";
+import { FAQPageSchema, ProfessionalServiceSchema } from "@/components/seo/JsonLd";
 import { ServicePackage, ProcessStep, FAQ } from "@/types/services";
 
 interface ServicesPageData {
@@ -14,6 +16,7 @@ interface ServicesPageData {
         heroHeading?: string;
         heroSubhead?: string;
         heroTrustText?: string;
+        heroBackgroundImage?: any;
         processSteps?: ProcessStep[];
         faqs?: FAQ[];
         finalCtaHeading?: string;
@@ -27,7 +30,30 @@ interface ServicesPageData {
     packages: ServicePackage[];
 }
 
-export const revalidate = 60; // Revalidate every 60 seconds
+export const revalidate = 60;
+
+export async function generateMetadata(): Promise<Metadata> {
+    const data = await sanityFetch<ServicesPageData>({ query: SERVICES_PAGE_QUERY });
+    const seo = data?.page?.seo;
+    const title = seo?.title || 'Photography Services & Pricing — Book a Session';
+    const description = seo?.description || 'Editorial portraits, events, and commercial photography. Three packages starting at $350. Serving Los Angeles, Inland Empire, and San Diego.';
+    return {
+        title,
+        description,
+        alternates: { canonical: 'https://cielitoswrld.com/services' },
+        openGraph: {
+            title,
+            description,
+            url: 'https://cielitoswrld.com/services',
+            type: 'website',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title,
+            description,
+        },
+    };
+}
 
 export default async function ServicesPage() {
     const data = await sanityFetch<ServicesPageData>({
@@ -139,22 +165,28 @@ export default async function ServicesPage() {
         }
     ];
 
-    // Fallbacks
     const heroHeading = page?.heroHeading || "Simple, Transparent Pricing";
     const heroSubhead = page?.heroSubhead || "Choose the perfect package for your needs. No hidden fees, just beautiful results.";
     const heroTrustText = page?.heroTrustText || "Trusted by 100+ clients across California";
 
     return (
         <main className="bg-brand-50 dark:bg-brand-950 min-h-screen">
+            <ProfessionalServiceSchema
+                packages={packages.map(p => ({ name: p.name, price: p.price }))}
+            />
+            {page?.faqs && page.faqs.length > 0 && (
+                <FAQPageSchema faqs={page.faqs.map((f: FAQ) => ({ question: f.question, answer: f.answer }))} />
+            )}
             <ServicesHero
                 heading={heroHeading}
                 subhead={heroSubhead}
                 trustText={heroTrustText}
+                backgroundImage={page?.heroBackgroundImage}
             />
             <PricingCards packages={packages} />
             <ComparisonTable packages={packages} />
             <ProcessSection steps={steps} />
-            <section className="py-16 bg-white dark:bg-brand-900 overflow-hidden">
+            <section className="py-16 lg:py-32 bg-white dark:bg-brand-900 overflow-hidden">
                 <ProcessGallery items={page?.processGallery || placeholderGalleryItems} />
             </section>
             {page?.faqs && page.faqs.length > 0 && <FAQAccordion faqs={page.faqs} />}

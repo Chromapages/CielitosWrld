@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import React from 'react';
 import { ContactFormEmail } from '@/lib/emails/ContactFormEmail';
+import { contactFormSchema } from '@/lib/validations/contact';
+import { contactRateLimit } from '@/lib/ratelimit';
 
 /**
  * Initialize Resend client lazily to avoid build-time errors
@@ -18,36 +20,47 @@ function getResendClient() {
 // Email address to receive contact form submissions
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'Abajo.Del.Cieloo@gmail.com';
 
-interface ContactFormData {
-  name: string;
-  email: string;
-  budget?: string;
-  message: string;
-}
-
 export async function POST(request: NextRequest) {
   try {
-    const body: ContactFormData = await request.json();
-    const { name, email, budget, message } = body;
+    // 1. Rate Limiting
+    const ip = (request as any).ip ?? request.headers.get('x-forwarded-for') ?? '127.0.0.1';
+    
+    // Only apply rate limit if env vars are present (prevents breaking dev if not configured)
+    if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+      const { success, limit, reset, remaining } = await contactRateLimit.limit(ip);
+      
+      if (!success) {
+        return NextResponse.json(
+          { error: 'Too many requests. Please try again later.' },
+          { 
+            status: 429,
+            headers: {
+              'X-RateLimit-Limit': limit.toString(),
+              'X-RateLimit-Remaining': remaining.toString(),
+              'X-RateLimit-Reset': reset.toString(),
+            }
+          }
+        );
+      }
+    }
 
-    // Validate required fields
-    if (!name || !email || !message) {
+    // 2. Validation
+    const body = await request.json();
+    const result = contactFormSchema.safeParse(body);
+
+    if (!result.success) {
       return NextResponse.json(
-        { error: 'Name, email, and message are required' },
+        { 
+          error: 'Validation failed', 
+          details: result.error.flatten().fieldErrors 
+        },
         { status: 400 }
       );
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: 'Invalid email format' },
-        { status: 400 }
-      );
-    }
+    const { name, email, budget, message } = result.data;
 
-    // Send email using Resend
+    // 4. Send email using Resend
     let resend;
     try {
       resend = getResendClient();
@@ -64,7 +77,7 @@ export async function POST(request: NextRequest) {
       to: [CONTACT_EMAIL],
       replyTo: email,
       subject: `New Contact: ${name} - ${budget || 'No budget specified'}`,
-      react: ContactFormEmail({ name, email, budget: budget || '', message }) as React.ReactElement,
+      react: <ContactFormEmail name={name} email={email} budget={budget || ''} message={message} />,
     });
 
     if (error) {
@@ -74,8 +87,6 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
-
-    console.log('Email sent successfully:', data);
 
     return NextResponse.json(
       { message: 'Message sent successfully', id: data?.id },

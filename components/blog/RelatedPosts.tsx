@@ -43,7 +43,7 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
           transition={{ duration: 0.5 }}
           className="mb-10 md:mb-14"
         >
-          <h2 className="font-heading text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-3">
+          <h2 className="font-pattaya text-2xl md:text-3xl font-bold text-zinc-900 dark:text-white mb-3 italic">
             More Stories
           </h2>
           <p className="text-zinc-600 dark:text-zinc-400">
@@ -87,7 +87,7 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
                           {post.category}
                         </span>
                       )}
-                      <h3 className="font-heading text-lg font-bold text-white leading-tight line-clamp-3 group-hover:text-[#EC4899] transition-colors">
+                      <h3 className="font-pattaya text-lg font-bold text-white leading-tight line-clamp-3 group-hover:text-[#EC4899] transition-colors italic">
                         {post.title}
                       </h3>
                       <div className="flex items-center gap-2 mt-3 text-xs text-white/70">
@@ -146,7 +146,7 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
                             {post.category}
                           </span>
                         )}
-                        <h3 className="font-heading text-base font-bold text-white leading-snug line-clamp-3">
+                        <h3 className="font-pattaya text-base font-bold text-white leading-snug line-clamp-3 italic">
                           {post.title}
                         </h3>
                         <div className="flex items-center gap-2 mt-2 text-xs text-white/70">

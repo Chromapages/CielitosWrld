@@ -6,12 +6,12 @@ export const metadata: Metadata = {
     title: 'Privacy Policy - Cielito\'s World',
     description: 'Learn how Cielito\'s World collects, uses, and protects your personal data. Our commitment to your privacy and data security.',
     alternates: {
-        canonical: 'https://cielitosworld.com/privacy',
+        canonical: 'https://cielitoswrld.com/privacy',
     },
     openGraph: {
         title: 'Privacy Policy | Cielito\'s World',
         description: 'Our commitment to protecting your personal data and privacy.',
-        url: 'https://cielitosworld.com/privacy',
+        url: 'https://cielitoswrld.com/privacy',
         type: 'website',
     },
     twitter: {
@@ -36,10 +36,10 @@ export default function PrivacyPage() {
         '@type': 'WebPage',
         name: 'Privacy Policy - Cielito\'s World',
         description: 'Privacy Policy detailing data collection and protection practices.',
-        url: 'https://cielitosworld.com/privacy',
+        url: 'https://cielitoswrld.com/privacy',
         mainEntityOfPage: {
             '@type': 'WebPage',
-            '@id': 'https://cielitosworld.com/privacy',
+            '@id': 'https://cielitoswrld.com/privacy',
         },
     };
 

@@ -10,11 +10,9 @@ import RouteTransitionProvider from '@/components/providers/RouteTransitionProvi
  */
 export function AnimationProvider({ children }: { children: React.ReactNode }) {
   return (
-    <LenisProvider>
-      <PullToRefreshProvider>
-        <RouteTransitionProvider>{children}</RouteTransitionProvider>
-      </PullToRefreshProvider>
-    </LenisProvider>
+    <PullToRefreshProvider>
+      <RouteTransitionProvider>{children}</RouteTransitionProvider>
+    </PullToRefreshProvider>
   );
 }
 

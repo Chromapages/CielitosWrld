@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { client } from '@/sanity/lib/client';
 import { GALLERY_QUERY, GALLERY_PAGE_QUERY } from '@/sanity/lib/queries';
 import GalleryClient from '@/components/gallery/GalleryClient';
@@ -5,6 +6,28 @@ import { ImageGallerySchema } from '@/components/seo/JsonLd';
 import { urlFor } from '@/sanity/lib/image';
 
 export const revalidate = 60;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const galleryPage = await client.fetch(GALLERY_PAGE_QUERY, {}, { next: { revalidate: 60 } });
+  const title = galleryPage?.title || 'Gallery — Photography Portfolio';
+  const description = galleryPage?.subtitle || 'Browse portraits, events, brands, and film photography from Cielito. Editorial and commercial sessions across Los Angeles, Inland Empire, and San Diego.';
+  return {
+    title,
+    description,
+    alternates: { canonical: 'https://cielitoswrld.com/gallery' },
+    openGraph: {
+      title,
+      description,
+      url: 'https://cielitoswrld.com/gallery',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+  };
+}
 
 export interface GalleryItem {
   _id: string;
@@ -72,7 +95,7 @@ export default async function GalleryPage() {
       <ImageGallerySchema
         name={galleryPage?.title || 'Cielitos Wrld Gallery'}
         description={galleryPage?.subtitle || 'A curated image and video gallery from Cielitos Wrld.'}
-        url="https://cielitosworld.com/gallery"
+        url="https://cielitoswrld.com/gallery"
         images={schemaImages}
       />
       <GalleryClient initialItems={galleryItems} pageData={galleryPage} />

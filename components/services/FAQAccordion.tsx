@@ -4,6 +4,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
+import { MobileSection } from "../layout/MobileSection";
 import { FAQ } from "@/types/services";
 
 interface FAQAccordionProps {
@@ -12,8 +13,8 @@ interface FAQAccordionProps {
 
 export default function FAQAccordion({ faqs }: FAQAccordionProps) {
     return (
-        <section className="py-24 bg-brand-50 dark:bg-brand-950 border-t border-brand-200 dark:border-brand-800">
-            <div className="container mx-auto px-6 max-w-3xl">
+        <MobileSection className="bg-brand-50 dark:bg-brand-950 border-t border-brand-200 dark:border-brand-800">
+            <div className="max-w-3xl mx-auto w-full">
                 <div className="text-center mb-12">
                     <h2 className="text-3xl font-bold font-archivo mb-4">Frequently Asked Questions</h2>
                 </div>
@@ -42,6 +43,6 @@ export default function FAQAccordion({ faqs }: FAQAccordionProps) {
                     ))}
                 </Accordion>
             </div>
-        </section>
+        </MobileSection>
     );
 }

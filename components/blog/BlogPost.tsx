@@ -105,7 +105,7 @@ function PostHeader({
             )}
           </div>
           <div className="text-[11px] text-brand-500 dark:text-brand-500 flex items-center gap-1.5">
-            <time>{getRelativeTime(publishedAt)}</time>
+            <time suppressHydrationWarning>{getRelativeTime(publishedAt)}</time>
           </div>
         </div>
       </div>
@@ -185,7 +185,7 @@ function PostFooter({
           {showShareMenu && (
             <>
               <div className="fixed inset-0 z-40" onClick={() => setShowShareMenu(false)} />
-              <div className="absolute left-0 bottom-full mb-2 w-48 glass-heavy rounded-xl shadow-elevation-3 overflow-hidden z-50">
+              <div className="absolute right-0 bottom-full mb-2 w-48 glass-heavy rounded-xl shadow-elevation-3 overflow-hidden z-50">
                 <button onClick={() => handleShare('copy')} className="w-full flex items-center gap-3 px-4 py-3 text-sm text-brand-700 dark:text-brand-200 hover:bg-orange-500/10 transition-colors">
                   {copied ? <><Check className="w-4 h-4 text-green-500" /><span className="text-green-600">Copied!</span></>
                     : <><Link2 className="w-4 h-4" />Copy Link</>}
@@ -225,7 +225,7 @@ function InlineTags({ tags }: { tags?: string[] }) {
         <Link
           key={tag}
           href={`/blog/tags/${tag}`}
-          className="text-[13px] text-brand-400 dark:text-brand-500 hover:text-orange-600 dark:hover:text-orange-400 transition-colors"
+          className="text-[13px] text-brand-400 dark:text-brand-500 hover:text-orange-600 dark:hover:text-orange-400 transition-colors py-1 px-2 -my-1 -mx-2"
         >
           #{tag}
         </Link>
@@ -253,13 +253,14 @@ export default function BlogPost({ post, avatar, username }: BlogPostProps) {
   const postType = post.postType || 'text';
   const accentGradient = getAccentGradient(postType);
 
-  // Mock notes counts
-  const notes = Math.floor(Math.random() * 50) + 5;
-  const likes = Math.floor(Math.random() * 30) + 2;
-  const reblogs = Math.floor(Math.random() * 20) + 1;
+  // Stable deterministic mock data based on post ID to prevent hydration mismatch
+  const seed = post._id ? post._id.split('').reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0) : 0;
+  const notes = (seed % 50) + 5;
+  const likes = (seed % 30) + 2;
+  const reblogs = (seed % 20) + 1;
 
   return (
-    <article className="tumblr-post-card group hover-lift mx-auto max-w-2xl w-full relative">
+    <article className="tumblr-post-card group hover-lift w-full relative">
       {/* Invisible Overlay Link for entire card */}
       <Link
         href={`/blog/${slug.current}`}
@@ -322,7 +323,7 @@ export default function BlogPost({ post, avatar, username }: BlogPostProps) {
             <Quote className="absolute -left-4 -top-4 w-32 h-32 text-purple-500/10 rotate-12" />
             <div className="relative z-10">
               <Quote className="w-8 h-8 text-purple-400 mx-auto mb-6" />
-              <blockquote className="text-h2 leading-tight text-brand-900 dark:text-brand-100 mb-6 italic font-serif">
+              <blockquote className="text-h2 leading-tight text-brand-900 dark:text-brand-100 mb-6 italic font-pattaya">
                 "{quoteText}"
               </blockquote>
               {quoteSource && (
@@ -387,7 +388,7 @@ export default function BlogPost({ post, avatar, username }: BlogPostProps) {
       <div className="px-6 pb-2 pt-0 relative z-10">
         {postType === 'text' && title && (
           <div className="mb-3">
-            <h2 className="text-h3 text-brand-900 dark:text-brand-100 group-hover:text-orange-600 transition-colors leading-tight">
+            <h2 className="text-h3 text-brand-900 dark:text-brand-100 group-hover:text-orange-600 transition-colors leading-tight font-pattaya">
               {title}
             </h2>
           </div>

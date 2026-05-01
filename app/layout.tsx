@@ -1,5 +1,5 @@
 import './globals.css';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 
 import { Analytics } from '@vercel/analytics/react';
 import { OrganizationSchema, WebsiteSchema } from '@/components/seo/JsonLd';
@@ -10,6 +10,7 @@ import Footer from '@/components/layout/Footer';
 import { ScrollToTop } from '@/components/layout/ScrollToTop';
 import AnimationProvider from '@/components/providers/AnimationProvider';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
+import ImageProtection from '@/components/providers/ImageProtection';
 import LoadingScreen from '@/components/LoadingScreen';
 import PageTransition from '@/components/PageTransition';
 import { client } from '@/sanity/lib/client';
@@ -63,6 +64,13 @@ async function getSiteSettings() {
   }
 }
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  interactiveWidget: 'resizes-content',
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
 
@@ -77,19 +85,20 @@ export async function generateMetadata(): Promise<Metadata> {
   const ogImageAlt = settings?.seo?.ogImage?.alt || siteTitle;
 
   return {
-    metadataBase: new URL('https://cielitosworld.com'),
+    metadataBase: new URL('https://cielitoswrld.com'),
     title: {
       default: metaTitle,
       template: `%s | ${siteTitle}`,
     },
     description: metaDescription,
+    alternates: { canonical: 'https://cielitoswrld.com' },
     keywords: ['photography', 'visual stories', 'portraits', 'landscape', 'art', 'creative'],
     authors: [{ name: 'Cielito' }],
     creator: 'Cielito',
     openGraph: {
       type: 'website',
       locale: 'en_US',
-      url: 'https://cielitos-wrld.com',
+      url: 'https://cielitoswrld.com',
       siteName: siteTitle,
       title: metaTitle,
       description: metaDescription,
@@ -167,6 +176,7 @@ export default async function RootLayout({
           <OrganizationSchema />
           <WebsiteSchema />
           <Analytics />
+          <ImageProtection />
           <AnimationProvider>
             <LoadingScreen />
             <div className="flex flex-col min-h-screen" suppressHydrationWarning>
@@ -175,7 +185,7 @@ export default async function RootLayout({
               <MobileHeader />
               <MobileNavbar />
               <main 
-                className="flex-1 md:pt-24 pb-0"
+                className="flex-1 md:pt-16 pb-0"
               >
                 <PageTransition>
                   {children}

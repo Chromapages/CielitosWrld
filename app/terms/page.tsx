@@ -6,12 +6,12 @@ export const metadata: Metadata = {
     title: 'Terms of Service - Cielito\'s World',
     description: 'Read the terms and conditions for using the Cielito\'s World website and services. Information on booking, payments, and image licensing.',
     alternates: {
-        canonical: 'https://cielitosworld.com/terms',
+        canonical: 'https://cielitoswrld.com/terms',
     },
     openGraph: {
         title: 'Terms of Service | Cielito\'s World',
         description: 'Terms and conditions for using the Cielito\'s World website and services.',
-        url: 'https://cielitosworld.com/terms',
+        url: 'https://cielitoswrld.com/terms',
         type: 'website',
     },
     twitter: {
@@ -36,10 +36,10 @@ export default function TermsPage() {
         '@type': 'WebPage',
         name: 'Terms of Service - Cielito\'s World',
         description: 'Terms and conditions for using the Cielito\'s World website and services.',
-        url: 'https://cielitosworld.com/terms',
+        url: 'https://cielitoswrld.com/terms',
         mainEntityOfPage: {
             '@type': 'WebPage',
-            '@id': 'https://cielitosworld.com/terms',
+            '@id': 'https://cielitoswrld.com/terms',
         },
     };
 

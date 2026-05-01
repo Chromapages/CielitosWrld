@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
       postType
     }`;
 
-    const posts = await client.fetch(searchQuery, { query });
+    const posts = await client.fetch<any[]>(searchQuery, { query } as any);
 
     return NextResponse.json({ posts });
   } catch (error) {

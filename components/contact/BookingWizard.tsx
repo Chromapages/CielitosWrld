@@ -103,6 +103,19 @@ export default function BookingWizard({ onClose, isEmbedded = false }: BookingWi
         }
     };
 
+    const isNextDisabled = () => {
+        switch (step) {
+            case 1:
+                return formData.services.length === 0;
+            case 2:
+                return formData.isFlexible ? !formData.month : !formData.date;
+            case 3:
+                return !formData.location || formData.vibe.length === 0 || !formData.investment;
+            default:
+                return false;
+        }
+    };
+
     const variants = {
         enter: (direction: number) => ({
             x: direction > 0 ? 50 : -50,
@@ -135,9 +148,9 @@ export default function BookingWizard({ onClose, isEmbedded = false }: BookingWi
             </div>
 
             {/* Header Content */}
-            <div className="relative shrink-0 pt-10 px-6 md:px-12 pb-4">
+            <div className="relative shrink-0 pt-8 px-6 md:px-12 pb-4">
                 <div className="flex flex-col">
-                    <span className="text-[10px] font-black text-orange-500 uppercase tracking-[0.4em] mb-2">
+                    <span className="text-xs font-black text-orange-500 uppercase tracking-[0.4em] mb-2">
                         Phase 0{step} <span className="text-stone-300 dark:text-stone-700 mx-2">/</span> 0{totalSteps}
                     </span>
                     <h2 className="text-2xl md:text-3xl font-archivo font-black text-stone-950 dark:text-white uppercase tracking-tighter leading-none">
@@ -150,7 +163,7 @@ export default function BookingWizard({ onClose, isEmbedded = false }: BookingWi
             </div>
 
             {/* Content Area */}
-            <div className="relative flex-1 min-h-0 overflow-y-auto overflow-x-hidden px-6 md:px-12 pb-6 scroll-smooth">
+            <div className="relative flex-1 min-h-0 overflow-y-auto overflow-x-hidden px-6 md:px-12 pb-12 scroll-smooth">
                 <AnimatePresence initial={false} custom={direction} mode="wait">
                     <motion.div
                         key={step}
@@ -160,7 +173,7 @@ export default function BookingWizard({ onClose, isEmbedded = false }: BookingWi
                         animate="center"
                         exit="exit"
                         transition={{ type: "spring", duration: 0.6, bounce: 0 }}
-                        className="w-full h-full"
+                        className="w-full"
                     >
                         {isSuccess ? (
                             <motion.div
@@ -203,12 +216,12 @@ export default function BookingWizard({ onClose, isEmbedded = false }: BookingWi
 
             {/* Premium Footer Navigation */}
             {!isSuccess && (
-                <div className="shrink-0 px-6 md:px-12 py-8 bg-white/95 dark:bg-stone-900/95 flex justify-between items-center gap-4 backdrop-blur-3xl border-t border-stone-100 dark:border-white/5">
+                <div className="shrink-0 px-6 md:px-12 py-6 bg-white/95 dark:bg-stone-900/95 flex justify-between items-center gap-4 backdrop-blur-3xl border-t border-stone-100 dark:border-white/5">
                     {step > 1 ? (
                         <button
                             onClick={handleBack}
                             disabled={isSubmitting}
-                            className="btn-press flex items-center gap-3 text-stone-400 hover:text-stone-950 dark:hover:text-white text-[10px] font-black uppercase tracking-[0.3em] transition-all disabled:opacity-20"
+                            className="btn-press flex items-center gap-3 text-stone-400 hover:text-stone-950 dark:hover:text-white text-xs font-black uppercase tracking-[0.3em] transition-all disabled:opacity-20"
                         >
                             <ChevronLeft className="w-4 h-4" />
                             Back
@@ -218,12 +231,12 @@ export default function BookingWizard({ onClose, isEmbedded = false }: BookingWi
                     )}
 
                     <div className="flex flex-col items-end gap-3">
-                        {error && <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest">{error}</span>}
+                        {error && <span className="text-xs font-bold text-red-500 uppercase tracking-widest">{error}</span>}
                         {step < totalSteps && (
                             <button
                                 onClick={handleNext}
-                                disabled={(step === 1 && formData.services.length === 0)}
-                                className="btn-press group flex items-center gap-4 px-10 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.25em] transition-all disabled:opacity-20 shadow-xl shadow-orange-600/10"
+                                disabled={isNextDisabled()}
+                                className="btn-press group flex items-center gap-4 px-10 py-5 bg-orange-600 text-white rounded-full font-black text-xs uppercase tracking-[0.25em] transition-all disabled:opacity-20 disabled:cursor-not-allowed shadow-xl shadow-orange-600/10"
                             >
                                 Continue
                                 <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

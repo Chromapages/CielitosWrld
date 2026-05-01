@@ -4,6 +4,7 @@ export const NAV_ITEMS: NavItem[] = [
   { label: 'Home', href: '/', icon: 'Home' },
   { label: 'Gallery', href: '/gallery', icon: 'Camera' },
   { label: 'Services', href: '/services', icon: 'Briefcase' },
+  { label: 'About', href: '/about', icon: 'User' },
   { label: 'Blog', href: '/blog', icon: 'FileText' },
   { label: 'Contact', href: '/contact', icon: 'Mail' },
 ];

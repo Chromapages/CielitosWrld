@@ -27,12 +27,17 @@ export const MobileSection = ({
     <section 
       id={id}
       className={cn(
-        "w-full py-10 md:py-20", // Standard vertical rhythm
-        hasGutter && "px-[var(--mobile-gutter,24px)] md:px-0",
+        "w-full py-16 lg:py-32", // Standard vertical rhythm
+        "flex flex-col items-center", // Ensure children are centered within the max-width
         className
       )}
     >
-      {children}
+      <div className={cn(
+        "w-full max-w-[1600px] mx-auto",
+        hasGutter && "px-[var(--mobile-gutter,24px)] md:px-0"
+      )}>
+        {children}
+      </div>
     </section>
   );
 };
@@ -56,15 +61,15 @@ export const MobileSectionHeader = ({
   return (
     <div className={cn("mb-8 space-y-2", className)}>
       {eyebrow && (
-        <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-orange-600 dark:text-orange-500">
+        <span className="text-[13px] font-semibold uppercase tracking-[0.2em] text-orange-600 dark:text-orange-500">
           {eyebrow}
         </span>
       )}
-      <h2 className="text-3xl font-bold tracking-tight text-brand-900 dark:text-white">
+      <h2 className="text-4xl md:text-6xl font-semibold tracking-tight text-brand-900 dark:text-white leading-[1.1]">
         {title}
       </h2>
       {description && (
-        <p className="text-base text-brand-600 dark:text-stone-400 leading-relaxed max-w-xl">
+        <p className="hidden md:block text-lg md:text-xl text-brand-600 dark:text-stone-400 leading-relaxed max-w-2xl">
           {description}
         </p>
       )}

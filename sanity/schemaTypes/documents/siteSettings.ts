@@ -58,7 +58,7 @@ export default defineType({
     defineField({
       name: 'social',
       title: 'Social Links',
-      type: 'object',
+      type: 'object' as const,
       fields: [
         { name: 'instagram', type: 'url', title: 'Instagram' },
         { name: 'youtube', type: 'url', title: 'YouTube' },

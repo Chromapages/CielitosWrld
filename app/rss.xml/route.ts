@@ -17,7 +17,7 @@ async function getPosts() {
 export async function GET() {
   const posts = await getPosts();
   
-  const siteUrl = 'https://cielitosworld.com';
+  const siteUrl = 'https://cielitoswrld.com';
   
   const rss = `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">

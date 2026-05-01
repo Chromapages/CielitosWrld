@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import BookingWizard from './BookingWizard';
-import { Instagram, Twitter, Linkedin, Mail, MapPin, Clock, Youtube, ArrowDownRight, ArrowRight } from 'lucide-react';
+import { Instagram, Twitter, Linkedin, Mail, MapPin, Clock, Youtube } from 'lucide-react';
 
 interface SocialLinks {
     instagram?: string;
@@ -55,109 +55,87 @@ export default function ContactStage({
     followMeLabel,
     pageBackground
 }: ContactStageProps) {
+    const displayTitle = title || "Let's Inscribe Something Pure.";
+    const displayIntro = introText || "I thrive on capturing raw emotion and cinematic moments. Share your vision below and let's craft something timeless.";
+    
     const [showBookingWizard, setShowBookingWizard] = useState(true);
-    const wizardRef = useRef<HTMLDivElement | null>(null);
 
     // Map Sanity object to an array for rendering
     const links = [
-        { id: 'email', url: email ? `mailto:${email}` : undefined, Icon: Mail, label: 'Email' },
-        { id: 'instagram', url: socialLinks?.instagram, Icon: Instagram, label: 'Instagram' },
-        { id: 'youtube', url: socialLinks?.youtube, Icon: Youtube, label: 'YouTube' },
+        { id: 'instagram', url: socialLinks?.instagram || 'https://instagram.com/cielitosworld', Icon: Instagram, label: 'Instagram' },
+        { id: 'youtube', url: socialLinks?.youtube || 'https://youtube.com/@abajodelcielo', Icon: Youtube, label: 'YouTube' },
+        { id: 'threads', url: socialLinks?.threads || 'https://www.threads.net/@cielitosworld', Icon: ThreadsIcon, label: 'Threads' },
         { id: 'tiktok', url: socialLinks?.tiktok, Icon: TikTokIcon, label: 'TikTok' },
-        { id: 'threads', url: socialLinks?.threads, Icon: ThreadsIcon, label: 'Threads' },
         { id: 'linkedin', url: socialLinks?.linkedin, Icon: Linkedin, label: 'LinkedIn' },
         { id: 'twitter', url: socialLinks?.twitter, Icon: Twitter, label: 'Twitter' },
     ].filter(link => !!link.url);
 
-    const handleScrollToWizard = () => {
-        wizardRef.current?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start',
-        });
-    };
+
 
     return (
-        <section className="relative w-full overflow-hidden flex flex-col items-center py-12 px-[var(--mobile-gutter)] sm:px-8">
+        <section className="relative w-full overflow-hidden flex flex-col items-start py-16 px-6">
             <div className="container max-w-7xl relative z-10 mx-auto w-full">
-                <div className="flex flex-col gap-10 items-center">
-                    
-                    {/* Top Header Section */}
+                <div className="flex flex-col items-start">
+                    {/* Minimal Premium Header */}
                     <motion.div 
-                        initial={{ opacity: 0, y: -20 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
-                        className="w-full max-w-3xl flex flex-col items-center text-center pt-8"
+                        className="flex flex-col items-start text-left max-w-3xl mb-16 px-4 sm:px-0"
                     >
-                        {showBookingWizard && (
-                            <span className="inline-block mb-3 text-xs font-bold uppercase tracking-[0.3em] text-orange-500">
-                                Status: Accepting New Projects
+                        <div className="inline-flex items-center gap-2 rounded-full border border-orange-500/20 bg-orange-500/5 px-3 py-1 text-xs font-black uppercase tracking-[0.2em] text-orange-600 mb-6">
+                            <span className="relative flex h-2 w-2">
+                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-orange-400 opacity-75"></span>
+                                <span className="relative inline-flex h-2 w-2 rounded-full bg-orange-500"></span>
                             </span>
-                        )}
-
-                        <h1 className="text-5xl md:text-8xl font-archivo font-black text-stone-950 dark:text-white tracking-tighter mb-6 leading-[0.9] uppercase">
-                            {showBookingWizard ? (
-                                <>
-                                    Let&apos;s Inscribe <br className="hidden md:block"/>
-                                    <span className="text-transparent border-stone-950 dark:border-white [-webkit-text-stroke:1px_var(--tw-content)] font-outline">Something</span> <span className="text-orange-600">Pure.</span>
-                                </>
-                            ) : (
-                                <>
-                                    The <span className="text-orange-600">Connection</span>
-                                </>
-                            )}
+                            Availability: Open for Bookings
+                        </div>
+                        
+                        <h1 className="hidden md:block text-5xl md:text-8xl font-fitzgerald-bold italic text-stone-950 dark:text-white leading-[1.1] mb-8 pr-4">
+                            {displayTitle}
                         </h1>
-
-                        <p className="text-lg md:text-xl font-medium text-stone-600 dark:text-stone-300 max-w-2xl leading-relaxed mb-10">
-                            {showBookingWizard
-                                ? "I thrive on capturing raw emotion and cinematic moments. Share your vision below and let's craft something timeless."
-                                : "Thank you for reaching out. I personally review every inquiry and will respond within 24-48 hours. In the meantime, feel free to dive deeper into my world."}
+                        
+                        <p className="hidden md:block text-lg md:text-2xl text-stone-600 dark:text-stone-400 max-w-3xl font-light leading-relaxed mb-10">
+                            {displayIntro}
                         </p>
 
-                        {showBookingWizard && (
-                            <div className="mb-8 flex w-full flex-col items-center justify-center gap-4 sm:flex-row">
-                                <button
-                                    onClick={handleScrollToWizard}
-                                    className="btn-press inline-flex min-w-[240px] items-center justify-center gap-3 rounded-full bg-orange-600 px-8 py-4 text-xs font-black uppercase tracking-[0.2em] text-white shadow-xl shadow-orange-600/20"
-                                >
-                                    Start The Inquiry
-                                    <ArrowDownRight className="h-4 w-4" />
-                                </button>
-                                <button
-                                    onClick={() => setShowBookingWizard(false)}
-                                    className="btn-press inline-flex min-w-[240px] items-center justify-center gap-3 rounded-full border-2 border-stone-200 bg-white px-8 py-4 text-xs font-black uppercase tracking-[0.2em] text-stone-950 dark:border-white/10 dark:bg-stone-900 dark:text-white"
-                                >
-                                    Direct Contact
-                                    <ArrowRight className="h-4 w-4" />
-                                </button>
-                            </div>
-                        )}
-
-                        {!showBookingWizard && (
-                            <div className="w-full flex flex-col sm:flex-row justify-center items-center gap-8 md:gap-16 mt-4">
-                                {email && (
-                                    <div className="flex flex-col items-center">
-                                        <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-stone-400 mb-3">Direct Channel</h3>
-                                        <a href={`mailto:${email}`} className="text-xl md:text-2xl font-bold text-stone-950 hover:text-orange-600 transition-colors dark:text-white">
-                                            {email}
-                                        </a>
-                                    </div>
-                                )}
-                            </div>
-                        )}
+                        <div className="flex flex-wrap items-center justify-start gap-4">
+                            <button
+                                onClick={() => setShowBookingWizard(true)}
+                                className={`btn-press px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-[0.2em] transition-all ${
+                                    showBookingWizard 
+                                    ? 'bg-orange-600 text-white shadow-xl shadow-orange-600/20' 
+                                    : 'bg-stone-100 text-stone-400 hover:bg-stone-200 dark:bg-white/5 dark:hover:bg-white/10 dark:text-stone-500'
+                                }`}
+                                aria-pressed={showBookingWizard}
+                            >
+                                Inquiry Wizard
+                            </button>
+                            <button
+                                onClick={() => setShowBookingWizard(false)}
+                                className={`btn-press px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-[0.2em] transition-all ${
+                                    !showBookingWizard 
+                                    ? 'bg-stone-950 text-white dark:bg-white dark:text-stone-950 shadow-xl shadow-black/20' 
+                                    : 'bg-stone-100 text-stone-400 hover:bg-stone-200 dark:bg-white/5 dark:hover:bg-white/10 dark:text-stone-500'
+                                }`}
+                                aria-pressed={!showBookingWizard}
+                            >
+                                Direct Channel
+                            </button>
+                        </div>
                     </motion.div>
+
+
 
                     {showBookingWizard ? (
                         <motion.div
-                            ref={wizardRef}
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
                             className="w-full max-w-5xl"
                         >
-                            <div className="bg-white/5 dark:bg-stone-900/60 backdrop-blur-3xl border border-stone-200/50 dark:border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl relative h-[780px] md:h-[900px] flex flex-col mb-12">
-                                <div className="flex-1 w-full relative z-10">
-                                    <BookingWizard onClose={() => setShowBookingWizard(false)} isEmbedded={true} />
-                                </div>
+                            <div className="bg-white/5 dark:bg-stone-900/60 backdrop-blur-3xl border border-stone-200/50 dark:border-white/10 rounded-[2.5rem] overflow-hidden shadow-2xl relative min-h-[600px] max-h-[85dvh] mb-12">
+                                <BookingWizard onClose={() => setShowBookingWizard(false)} isEmbedded={true} />
                             </div>
                         </motion.div>
                     ) : (
@@ -173,7 +151,7 @@ export default function ContactStage({
                                         <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-600 text-white shadow-lg shadow-orange-600/20">
                                             <Mail className="h-5 w-5" />
                                         </div>
-                                        <p className="mb-2 text-[10px] font-black uppercase tracking-[0.3em] text-stone-400">
+                                        <p className="mb-2 text-xs font-black uppercase tracking-[0.3em] text-stone-400">
                                             {emailLabel || 'Communication'}
                                         </p>
                                         <a
@@ -188,7 +166,7 @@ export default function ContactStage({
                                         <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-stone-950 text-white dark:bg-white dark:text-stone-950">
                                             <MapPin className="h-5 w-5" />
                                         </div>
-                                        <p className="mb-2 text-[10px] font-black uppercase tracking-[0.3em] text-stone-400">
+                                        <p className="mb-2 text-xs font-black uppercase tracking-[0.3em] text-stone-400">
                                             {studioLabel || 'Presence'}
                                         </p>
                                         <p className="text-lg font-bold text-stone-950 dark:text-white uppercase tracking-tight">
@@ -200,7 +178,7 @@ export default function ContactStage({
                                         <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-stone-100 text-stone-900">
                                             <Clock className="h-5 w-5" />
                                         </div>
-                                        <p className="mb-2 text-[10px] font-black uppercase tracking-[0.3em] text-stone-400">
+                                        <p className="mb-2 text-xs font-black uppercase tracking-[0.3em] text-stone-400">
                                             Response
                                         </p>
                                         <p className="text-lg font-bold text-stone-950 dark:text-white uppercase tracking-tight">
@@ -215,19 +193,25 @@ export default function ContactStage({
                                             <h2 className="text-2xl md:text-3xl font-archivo font-black uppercase tracking-tighter text-stone-950 dark:text-white mb-4">
                                                 Digital Footprint
                                             </h2>
-                                            <div className="flex flex-wrap gap-3">
+                                            <div className="flex flex-wrap gap-5 pt-4">
                                                 {links.map(({ id, url, Icon, label }) => (
-                                                    <a
+                                                    <motion.a
                                                         key={id}
                                                         href={url}
-                                                        target={id !== 'email' ? "_blank" : undefined}
-                                                        rel={id !== 'email' ? "noopener noreferrer" : undefined}
-                                                        className="btn-press inline-flex items-center gap-3 rounded-full border border-stone-200 bg-white px-5 py-3 text-xs font-bold text-stone-900 transition-all dark:border-white/10 dark:bg-stone-800 dark:text-white"
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        whileHover={{ y: -5, scale: 1.05 }}
+                                                        whileTap={{ scale: 0.95 }}
+                                                        className="group relative flex h-14 w-14 items-center justify-center rounded-2xl border border-stone-200 bg-white text-stone-900 transition-all hover:bg-orange-600 hover:text-white hover:border-orange-600 dark:border-white/10 dark:bg-white/5 dark:text-white dark:hover:bg-orange-600 dark:hover:text-white shadow-sm hover:shadow-xl hover:shadow-orange-600/20"
                                                         aria-label={`Visit my ${label}`}
                                                     >
-                                                        <Icon className="h-4 w-4" />
-                                                        {label}
-                                                    </a>
+                                                        <Icon className="h-5 w-5" />
+                                                        <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
+                                                            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-stone-500 whitespace-nowrap">
+                                                                {label}
+                                                            </span>
+                                                        </div>
+                                                    </motion.a>
                                                 ))}
                                             </div>
                                         </div>

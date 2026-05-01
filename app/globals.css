@@ -2,8 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Prevent image downloading */
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+}
+
+/* Remove default mobile tap flash */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Carousels: contain horizontal scroll, allow vertical page scroll */
+[data-carousel] {
+  touch-action: pan-y;
+  overscroll-behavior-x: contain;
+}
+
+/* Dynamic viewport height — respects mobile browser chrome */
+.h-dvh { height: 100dvh; }
+.min-h-dvh { min-height: 100dvh; }
+
 @layer base {
   :root {
+    /* Mobile layout variables */
+    --mobile-header-height: 64px;
+    --mobile-nav-height: 64px;
+    --mobile-gutter: 24px;
+    --safe-area-top: env(safe-area-inset-top, 0px);
+    --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-area-left: env(safe-area-inset-left, 0px);
+    --safe-area-right: env(safe-area-inset-right, 0px);
+
     /* Color variables */
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
@@ -154,9 +185,9 @@ body.studio-hide-chrome main {
   background-color: theme('colors.brand.500');
 }
 
-/* Smooth scroll behavior */
+/* Smooth scroll behavior - Removed as per user request */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
 }
 
 /* Focus styles for accessibility */
@@ -1038,12 +1069,6 @@ html {
   transition: opacity 300ms ease-in;
 }
 
-/* Smooth page load */
-html {
-  scroll-behavior: smooth;
-}
-
-
 /* Spin slow animation for Currently widget */
 .animate-spin-slow {
   animation: spin 8s linear infinite;
@@ -1309,11 +1334,6 @@ html {
 
 .font-body {
   font-family: var(--font-inter), 'Inter', sans-serif;
-}
-
-/* Smooth scroll */
-html {
-  scroll-behavior: smooth;
 }
 
 /* Focus visible */

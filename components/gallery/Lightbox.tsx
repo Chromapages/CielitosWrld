@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
-import { X, ChevronLeft, ChevronRight, Share2, Info, Eye, MapPin, Camera, Sparkles } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Info, Eye, MapPin, Camera, Sparkles } from 'lucide-react';
 import { GalleryItem } from '@/app/gallery/page';
 import { urlFor, sanityLoader } from '@/sanity/lib/image';
 import useEmblaCarousel from 'embla-carousel-react';
@@ -168,7 +168,6 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
 
   const [showControls, setShowControls] = useState(true);
   const [showInfo, setShowInfo] = useState(false);
-  const [shareFeedback, setShareFeedback] = useState(false);
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     startIndex: initialIndex,
@@ -265,42 +264,7 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
 
   const currentItem = items[currentIndex];
 
-  const handleShare = useCallback(async () => {
-    const url = window.location.href;
-    
-    // Modern Clipboard API
-    if (navigator.clipboard && window.isSecureContext) {
-      try {
-        await navigator.clipboard.writeText(url);
-        setShareFeedback(true);
-        setTimeout(() => setShareFeedback(false), 2000);
-        return;
-      } catch (err) {
-        console.warn('Clipboard API failed, trying fallback:', err);
-      }
-    }
 
-    // Legacy Fallback
-    try {
-      const textArea = document.createElement("textarea");
-      textArea.value = url;
-      textArea.style.position = "fixed";
-      textArea.style.left = "-9999px";
-      textArea.style.top = "0";
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-      const successful = document.execCommand('copy');
-      document.body.removeChild(textArea);
-      
-      if (successful) {
-        setShareFeedback(true);
-        setTimeout(() => setShareFeedback(false), 2000);
-      }
-    } catch (err) {
-      console.error('Final fallback copy failed:', err);
-    }
-  }, []);
 
 
 
@@ -364,18 +328,7 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
 
         <div className="flex items-center gap-2">
 
-          <button
-            onClick={(e) => { e.stopPropagation(); handleShare(); }}
-            className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors relative"
-            title="Share Link"
-          >
-            <Share2 size={18} className="md:w-5 md:h-5" />
-            {shareFeedback && (
-              <span className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-brand-500 text-white text-[10px] px-2 py-1 rounded whitespace-nowrap">
-                Copied!
-              </span>
-            )}
-          </button>
+
           <button
             onClick={(e) => { e.stopPropagation(); setShowInfo(!showInfo); }}
             className={cn(
@@ -401,21 +354,21 @@ export default function Lightbox({ items, initialIndex, onClose }: LightboxProps
         className="flex-1 relative flex items-center justify-center cursor-default bg-black/40"
         onClick={() => setShowControls(!showControls)}
       >
-        {/* Desktop Navigation */}
+        {/* Navigation — mobile: small edge buttons; desktop: large centered */}
         <button
           onClick={handlePrev}
-          className="absolute left-6 z-40 p-4 rounded-full bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-all hidden md:block"
+          className="absolute left-2 md:left-6 z-40 p-2 md:p-4 rounded-full bg-black/30 md:bg-white/5 hover:bg-black/50 md:hover:bg-white/10 text-white/70 hover:text-white transition-all"
           aria-label="Previous"
         >
-          <ChevronLeft size={36} />
+          <ChevronLeft size={20} className="md:w-9 md:h-9" />
         </button>
 
         <button
           onClick={handleNext}
-          className="absolute right-6 z-40 p-4 rounded-full bg-white/5 hover:bg-white/10 text-white/50 hover:text-white transition-all hidden md:block"
+          className="absolute right-2 md:right-6 z-40 p-2 md:p-4 rounded-full bg-black/30 md:bg-white/5 hover:bg-black/50 md:hover:bg-white/10 text-white/70 hover:text-white transition-all"
           aria-label="Next"
         >
-          <ChevronRight size={36} />
+          <ChevronRight size={20} className="md:w-9 md:h-9" />
         </button>
 
         {/* Carousel */}

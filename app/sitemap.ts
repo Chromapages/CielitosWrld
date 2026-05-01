@@ -2,7 +2,7 @@ import { client } from '@/sanity/lib/client';
 import type { MetadataRoute } from 'next';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = 'https://cielitosworld.com';
+    const baseUrl = 'https://cielitoswrld.com';
 
     // Fetch dynamic routes from Sanity
     const [blogPosts, works, galleryItems] = await Promise.all([
