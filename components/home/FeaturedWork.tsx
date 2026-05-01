@@ -72,7 +72,7 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
             <div className="relative z-10">
 
                 {/* Header */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 gap-8 px-4 sm:px-8 md:px-0">
+                <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 gap-8 md:px-8 lg:px-12">
                     <MobileSectionHeader 
                         eyebrow="Selected Works"
                         title={data?.title || 'Recent Sessions'}
@@ -104,7 +104,7 @@ export default function FeaturedWork({ data }: FeaturedWorkProps) {
                 ) : (
                     <div>
                         {/* LAYOUT: Hero Left, Grid Right (Desktop Only) */}
-                        <div className="hidden md:flex flex-col xl:flex-row gap-6 md:gap-8 px-8 md:px-0">
+                        <div className="hidden md:flex flex-col xl:flex-row gap-6 md:gap-8 md:px-8 lg:px-12">
                             {heroProject && (
                                 <div className="w-full xl:w-1/2">
                                     <Link

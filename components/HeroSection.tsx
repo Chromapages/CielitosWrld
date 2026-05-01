@@ -22,9 +22,20 @@ function getOriginalAssetUrl(asset?: SanityImageWithAsset) {
   return asset?.asset?.url || null;
 }
 
+function isGifAsset(asset?: SanityImageWithAsset) {
+  const url = asset?.asset?.url?.split('?')[0].toLowerCase();
+  const id = asset?.asset?._id?.toLowerCase();
+
+  return Boolean(url?.endsWith('.gif') || id?.endsWith('-gif'));
+}
+
 function getPosterUrl(asset: SanityImageWithAsset | undefined, width: number) {
   if (!asset) {
     return null;
+  }
+
+  if (isGifAsset(asset)) {
+    return getOriginalAssetUrl(asset);
   }
 
   try {
@@ -36,6 +47,10 @@ function getPosterUrl(asset: SanityImageWithAsset | undefined, width: number) {
 
 function getPosterSourceSet(asset: SanityImageWithAsset | undefined, widths: number[]) {
   if (!asset) {
+    return '';
+  }
+
+  if (isGifAsset(asset)) {
     return '';
   }
 

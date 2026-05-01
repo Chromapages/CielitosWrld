@@ -87,8 +87,8 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
       icon: feature.icon
     })) || [],
     ctaPrimary: {
-      label: data?.ctaPrimary?.label || 'View My Work',
-      link: data?.ctaPrimary?.link || '/work'
+      label: data?.ctaPrimary?.label || 'Learn More',
+      link: data?.ctaPrimary?.link || '/about'
     },
     ctaSecondary: {
       label: data?.ctaSecondary?.label || "Let's Create Together",
@@ -99,9 +99,10 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
   return (
     <MobileSection className="bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 overflow-hidden" hasGutter={false}>
       <div className="relative z-10">
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center px-4 sm:px-8 md:px-0">
+        <div className="max-w-7xl mx-auto w-full px-6 md:px-8 lg:px-12">
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
           {/* LEFT COLUMN: IMAGE */}
-          <div className="w-full lg:w-1/2 relative group px-4 sm:px-0">
+          <div className="w-full lg:w-1/2 relative group">
             {/* Decorative Elements */}
             <div className="absolute -bottom-8 -right-8 w-48 h-48 bg-orange-100 dark:bg-orange-900/10 rounded-full blur-3xl -z-10 transition-transform duration-700 group-hover:scale-110" />
             <div className="absolute -top-8 -left-8 w-64 h-64 bg-stone-100 dark:bg-stone-800/50 rounded-full blur-3xl -z-10" />
@@ -125,7 +126,7 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
           </div>
 
           {/* RIGHT COLUMN: CONTENT */}
-          <div className="w-full lg:w-1/2 flex flex-col space-y-10 px-4 sm:px-0">
+          <div className="w-full lg:w-1/2 flex flex-col space-y-10">
             {/* 1. Header Block */}
             <div className="space-y-4 text-center lg:text-left">
               <span className="inline-block text-orange-700 dark:text-orange-500 font-bold tracking-[0.3em] text-[11px] uppercase mb-2">
@@ -183,8 +184,9 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
             </div>
           </div>
         </div>
+        </div>
       </div>
-      
+
       {/* Bottom Carousel strip */}
       <div className="mt-20">
         <AboutCarousel images={data?.carouselImages} />

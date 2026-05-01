@@ -104,7 +104,7 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
 
         <div className="relative z-10">
         {/* Header & Controls */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8 px-4 sm:px-8 md:px-0">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8 md:px-8 lg:px-12">
           <div className="max-w-xl">
             <MobileSectionHeader 
                eyebrow={displayData.badge}

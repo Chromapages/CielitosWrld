@@ -24,21 +24,107 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Clock,
 };
 
+type AboutImage = {
+  asset?: {
+    _id?: string;
+    url?: string;
+    metadata?: {
+      lqip?: string;
+      dimensions?: {
+        width?: number;
+        height?: number;
+      };
+    };
+  };
+  alt?: string;
+};
+
+type AboutPageData = {
+  eyebrow: string;
+  heading: string;
+  bio: string;
+  testimonial?: {
+    quote?: string;
+    author?: string;
+    role?: string;
+  };
+  profileImage?: AboutImage;
+  quickFacts: Array<{
+    label: string;
+    icon: string;
+  }>;
+  features: Array<{
+    title: string;
+    icon: string;
+  }>;
+  ctaPrimary: {
+    label: string;
+    link: string;
+  };
+  ctaSecondary: {
+    label: string;
+    link: string;
+  };
+};
+
+const FALLBACK_ABOUT_DATA: AboutPageData = {
+  eyebrow: 'About Me',
+  heading: 'The Story Behind the Lens',
+  bio: "I’m a Southern California photographer drawn to honest movement, warm light, and the small in-between details that make a moment feel alive.\n\nMy work blends portrait, event, lifestyle, and brand photography with a cinematic eye. Whether we’re documenting an artist, a celebration, or a creative campaign, the goal is simple: make images that feel true to the people in them.",
+  testimonial: {
+    quote: 'Every frame felt intentional, personal, and full of life.',
+    author: 'Creative Client',
+    role: 'Portrait Session',
+  },
+  profileImage: {
+    alt: 'Cielito photographer portrait placeholder',
+  },
+  quickFacts: [
+    { label: 'Southern California', icon: 'MapPin' },
+    { label: 'Portraits & Events', icon: 'Camera' },
+    { label: '24-48h Response', icon: 'Clock' },
+  ],
+  features: [
+    { title: 'Emotion-led storytelling', icon: 'Heart' },
+    { title: 'Creative direction when needed', icon: 'Sparkles' },
+    { title: 'Comfortable, collaborative sessions', icon: 'Users' },
+    { title: 'Polished delivery for web and print', icon: 'Camera' },
+  ],
+  ctaPrimary: {
+    label: 'View My Work',
+    link: '/work',
+  },
+  ctaSecondary: {
+    label: "Let's Create Together",
+    link: '/contact',
+  },
+};
+
+const hasItems = <T,>(items?: T[] | null): items is T[] => Array.isArray(items) && items.length > 0;
+
+const mergeAboutData = (data?: Partial<AboutPageData> | null): AboutPageData => ({
+  eyebrow: data?.eyebrow || FALLBACK_ABOUT_DATA.eyebrow,
+  heading: data?.heading || FALLBACK_ABOUT_DATA.heading,
+  bio: data?.bio || FALLBACK_ABOUT_DATA.bio,
+  testimonial: data?.testimonial?.quote ? data.testimonial : FALLBACK_ABOUT_DATA.testimonial,
+  profileImage: data?.profileImage?.asset ? data.profileImage : FALLBACK_ABOUT_DATA.profileImage,
+  quickFacts: hasItems(data?.quickFacts) ? data.quickFacts : FALLBACK_ABOUT_DATA.quickFacts,
+  features: hasItems(data?.features) ? data.features : FALLBACK_ABOUT_DATA.features,
+  ctaPrimary: {
+    label: data?.ctaPrimary?.label || FALLBACK_ABOUT_DATA.ctaPrimary.label,
+    link: data?.ctaPrimary?.link || FALLBACK_ABOUT_DATA.ctaPrimary.link,
+  },
+  ctaSecondary: {
+    label: data?.ctaSecondary?.label || FALLBACK_ABOUT_DATA.ctaSecondary.label,
+    link: data?.ctaSecondary?.link || FALLBACK_ABOUT_DATA.ctaSecondary.link,
+  },
+});
+
 export default async function AboutPage() {
-  const data = await sanityFetch<any>({
+  const sanityData = await sanityFetch<Partial<AboutPageData> | null>({
     query: ABOUT_PAGE_QUERY,
     tags: ['homeAbout'],
-  });
-
-  if (!data) {
-    return (
-      <MobilePageShell immersive={true}>
-        <div className="min-h-screen flex items-center justify-center">
-          <p className="text-stone-500">Loading about content...</p>
-        </div>
-      </MobilePageShell>
-    );
-  }
+  }).catch(() => null);
 
   const {
     eyebrow,
@@ -50,7 +136,10 @@ export default async function AboutPage() {
     features,
     ctaPrimary,
     ctaSecondary,
-  } = data;
+  } = mergeAboutData(sanityData);
+
+  const profileImageSrc = profileImage?.asset ? urlFor(profileImage).width(800).url() : '/ogimage.jpeg';
+  const profileImageAlt = profileImage?.alt || "Cielo — Southern California Photographer";
 
   return (
     <MobilePageShell immersive={true}>
@@ -68,18 +157,16 @@ export default async function AboutPage() {
               <div className="w-full lg:w-5/12 relative group animate-in fade-in slide-in-from-left-8 duration-700 delay-100 motion-reduce:animate-none">
                 <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-orange-100 dark:bg-orange-900/10 rounded-full blur-2xl -z-10 transition-transform duration-700 group-hover:scale-110" />
                 <div className="relative aspect-[4/5] w-full max-w-md mx-auto rounded-[2rem] overflow-hidden shadow-2xl ring-1 ring-stone-900/5 dark:ring-white/5 bg-stone-200 dark:bg-stone-800">
-                  {profileImage && (
-                    <Image
-                      src={urlFor(profileImage).width(800).url()}
-                      alt={profileImage.alt || "Cielo — Southern California Photographer"}
-                      fill
-                      className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, 42vw"
-                      priority
-                      placeholder="blur"
-                      blurDataURL={profileImage.asset?.metadata?.lqip}
-                    />
-                  )}
+                  <Image
+                    src={profileImageSrc}
+                    alt={profileImageAlt}
+                    fill
+                    className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                    sizes="(max-width: 768px) 100vw, 42vw"
+                    priority
+                    placeholder={profileImage?.asset?.metadata?.lqip ? 'blur' : 'empty'}
+                    blurDataURL={profileImage?.asset?.metadata?.lqip}
+                  />
                   <div className="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-[2rem]" />
                 </div>
               </div>
