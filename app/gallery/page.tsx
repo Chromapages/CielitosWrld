@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { client } from '@/sanity/lib/client';
 import { GALLERY_QUERY, GALLERY_PAGE_QUERY } from '@/sanity/lib/queries';
 import GalleryClient from '@/components/gallery/GalleryClient';
+import ContactCTA from '@/components/home/ContactCTA';
 import { ImageGallerySchema } from '@/components/seo/JsonLd';
 import { urlFor } from '@/sanity/lib/image';
 
@@ -99,6 +100,7 @@ export default async function GalleryPage() {
         images={schemaImages}
       />
       <GalleryClient initialItems={galleryItems} pageData={galleryPage} />
+      <ContactCTA />
     </MobilePageShell>
   );
 }

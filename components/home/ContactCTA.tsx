@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { Check, Mail } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import { MobileSection } from '../layout/MobileSection';
 
 interface ContactCTAProps {
@@ -14,12 +14,6 @@ interface ContactCTAProps {
     email?: string;
   };
 }
-
-const FEATURES = [
-  "Professional editing included",
-  "Quick turnaround times",
-  "Satisfaction guaranteed",
-];
 
 export default function ContactCTA({ data }: ContactCTAProps) {
   const [copied, setCopied] = useState(false);
@@ -41,72 +35,56 @@ export default function ContactCTA({ data }: ContactCTAProps) {
   const email = data?.email || 'Abajo.Del.Cieloo@gmail.com';
 
   return (
-    <MobileSection className="relative overflow-hidden py-16 text-white lg:py-20 xl:py-24" hasGutter={false}>
+    <MobileSection className="relative z-10 overflow-hidden py-10 text-white md:py-12" hasGutter={false}>
       <div
-        className="absolute inset-0 bg-cover bg-center scale-105"
+        className="absolute inset-0 scale-105 bg-cover bg-center"
         style={{ backgroundImage: 'url(/images/contact/bg_cta.png)' }}
         suppressHydrationWarning
       >
-        <div className="absolute inset-0 bg-black/70 backdrop-blur-[1px]" />
-        <div className="absolute inset-0 bg-gradient-to-br from-[#822c01]/45 via-black/35 to-black/85" />
+        {/* Primary Dark Overlay */}
+        <div className="absolute inset-0 bg-black/60" />
+        {/* Depth & Focus Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
       </div>
 
-      <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-12 xl:gap-20 items-center px-6 md:px-12 lg:px-16 max-w-6xl mx-auto w-full">
-        {/* Left column */}
-        <div className="space-y-4">
-          <div className="inline-block px-4 py-1.5 bg-[#822c01]/60 backdrop-blur-sm rounded-full text-xs font-bold tracking-[0.2em] uppercase text-[#f8f3e9]">
-            PHOTOGRAPHY SERVICES
-          </div>
-
-          <h2 className="font-pattaya text-4xl md:text-5xl lg:text-6xl italic text-[#f8f3e9] leading-tight">
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center gap-8 px-6 text-center md:flex-row md:justify-between md:text-left">
+        {/* Left Side: Content */}
+        <div className="flex-1">
+          <span className="mb-2 block text-[13px] font-semibold uppercase tracking-[0.2em] text-orange-600 dark:text-orange-500">
+            Photography Services
+          </span>
+          <h2 className="font-pattaya text-3xl italic leading-tight tracking-tight text-[#f8f3e9] md:text-4xl">
             {title}
           </h2>
-
-          <div className="w-20 h-1 bg-[#822c01] rounded-full" />
-
-          <p className="font-inter text-lg text-[#f8f3e9]/80 max-w-md leading-relaxed font-light">
+          <p className="font-inter mt-2 max-w-xl text-sm leading-relaxed text-white/70 md:text-base">
             {text}
           </p>
-
-          <ul className="space-y-3 font-inter text-sm">
-            {FEATURES.map((feature) => (
-              <li key={feature} className="flex items-center group">
-                <div className="w-6 h-6 rounded-full bg-[#822c01]/30 flex items-center justify-center mr-3 group-hover:bg-[#822c01]/50 transition-colors">
-                  <Check className="w-3.5 h-3.5 text-[#f8f3e9]" />
-                </div>
-                <span className="text-[#f8f3e9]/90 font-medium tracking-wide">{feature}</span>
-              </li>
-            ))}
-          </ul>
         </div>
 
-        {/* Right column */}
-        <div className="bg-[#1a1e14]/80 backdrop-blur-md p-8 rounded-3xl border border-white/10 shadow-2xl xl:max-w-md xl:ml-auto w-full">
-          <h3 className="font-pattaya text-2xl mb-6 text-center text-white">Get In Touch</h3>
-
-          <button
-            className="flex w-full items-center p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-[#822c01]/50 transition-all group relative overflow-hidden"
-            onClick={() => copyToClipboard(email)}
-            aria-label="Click to copy email address"
-          >
-            <div className="w-10 h-10 rounded-xl bg-[#822c01]/20 flex items-center justify-center mr-4 group-hover:bg-[#822c01]/30 transition-colors">
-              <Mail className="w-5 h-5 text-[#822c01]" />
-            </div>
-            <span className="text-sm text-white/90 font-bold truncate">{email}</span>
-            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-[#822c01] group-hover:opacity-100 opacity-0 transition-opacity uppercase tracking-widest">
-              {copied ? 'COPIED!' : 'COPY'}
-            </span>
-          </button>
-
-          <div className="mt-6">
+        {/* Right Side: Actions */}
+        <div className="flex flex-col items-center gap-4 md:items-end">
+          <div className="flex flex-col items-center gap-3 sm:flex-row">
             <Link
               href={buttonLink}
-              className="btn-press block w-full text-center bg-[#822c01] hover:bg-[#9d3501] text-white font-bold text-lg py-4 px-6 rounded-2xl transition-all duration-300 shadow-lg active:scale-95"
+              className="inline-flex items-center justify-center rounded-full bg-[#822c01] px-7 py-3 text-sm font-semibold tracking-wide text-white transition-all duration-200 hover:bg-[#9d3501] active:scale-95"
+              aria-label={`Navigate to ${buttonText}`}
             >
               {buttonText}
             </Link>
-            <p className="text-xs text-center mt-4 text-white/40 tracking-[0.2em] uppercase font-bold">Usually responds within 24 hours</p>
+
+            <button
+              onClick={() => copyToClipboard(email)}
+              className="inline-flex items-center gap-2 rounded-full border border-white/25 px-5 py-3 text-sm text-white/80 transition-all duration-200 hover:border-white/50 hover:text-white active:scale-95"
+              aria-label="Click to copy email address"
+            >
+              <Mail className="h-3.5 w-3.5 shrink-0" />
+              <span className="truncate font-medium">{copied ? 'Copied!' : email}</span>
+            </button>
           </div>
+
+          <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-white/30">
+            Usually responds within 24 hours
+          </p>
         </div>
       </div>
     </MobileSection>

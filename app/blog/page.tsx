@@ -5,6 +5,7 @@ import { SITE_SETTINGS_QUERY, BLOG_PAGE_QUERY, BLOG_POSTS_QUERY } from '@/sanity
 import BlogSidebar from '@/components/blog/BlogSidebar';
 import BlogPost from '@/components/blog/BlogPost';
 import FeaturedPost from '@/components/blog/FeaturedPost';
+import ContactCTA from '@/components/home/ContactCTA';
 import SonicAura from '@/components/blog/SonicAura';
 import PageBackground from '@/components/ui/PageBackground';
 import { MusicProvider } from '@/components/blog/MusicContext';
@@ -163,6 +164,7 @@ export default async function BlogPage() {
             </aside>
           </div>
         </MobileSection>
+        <ContactCTA />
       </MobilePageShell>
     </MusicProvider>
   );
