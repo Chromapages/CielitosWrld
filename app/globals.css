@@ -356,6 +356,12 @@ html {
   display: none !important;
 }
 
+/* Hide navbar when modal/lightbox is open */
+body.navbar-hidden header,
+body.navbar-hidden nav {
+  display: none !important;
+}
+
 @keyframes drawC {
   0% {
     stroke-dashoffset: 220;

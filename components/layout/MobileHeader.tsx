@@ -60,7 +60,7 @@ export default function MobileHeader() {
   return (
     <header
       className={cn(
-        "md:hidden fixed top-0 left-0 right-0 z-40 flex flex-col justify-end transition-all duration-500",
+        "md:hidden fixed top-0 left-0 right-0 z-[100] flex flex-col justify-end transition-all duration-500",
         scrolled
           ? "bg-white/90 dark:bg-stone-950/90 backdrop-blur-2xl border-b border-stone-200/50 dark:border-white/5 shadow-lg"
           : "bg-white dark:bg-stone-950 border-b border-transparent"

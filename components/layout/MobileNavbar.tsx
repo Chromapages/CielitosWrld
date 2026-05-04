@@ -36,7 +36,7 @@ export default function MobileNavbar() {
 
   return (
     <nav
-      className="sm:hidden fixed bottom-1 left-4 right-4 z-50 rounded-2xl border border-stone-200/50 dark:border-white/10 bg-white/70 dark:bg-stone-900/70 shadow-2xl backdrop-blur-2xl motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-full duration-700"
+      className="sm:hidden fixed bottom-1 left-4 right-4 z-[100] rounded-2xl border border-stone-200/50 dark:border-white/10 bg-white/70 dark:bg-stone-900/70 shadow-2xl backdrop-blur-2xl motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-full duration-700"
       style={{ bottom: 'calc(4px + env(safe-area-inset-bottom))' }}
       aria-label="Mobile Navigation"
     >

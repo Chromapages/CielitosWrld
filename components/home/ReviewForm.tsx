@@ -2,7 +2,7 @@
 
 import { useRef, useState, useTransition } from 'react'
 import { createReview, ReviewFormState } from '@/app/actions/reviews'
-import { Loader2, Send, Star } from 'lucide-react'
+import { Loader2, Send, MessageSquareHeart } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 interface ReviewFormProps {
@@ -36,7 +36,7 @@ export default function ReviewForm({ onCancel, onSuccess }: ReviewFormProps) {
         <form ref={formRef} action={action} className="space-y-6">
             <div className="text-center mb-6">
                 <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 mb-3">
-                    <Star className="w-6 h-6 fill-current" suppressHydrationWarning />
+                    <MessageSquareHeart className="w-6 h-6 fill-current" suppressHydrationWarning />
                 </div>
                 <h3 className="text-xl font-bold text-stone-900 dark:text-stone-100">Leave a Review</h3>
                 <p className="text-stone-500 dark:text-stone-400 text-sm mt-1">
@@ -116,7 +116,7 @@ export default function ReviewForm({ onCancel, onSuccess }: ReviewFormProps) {
                     "p-4 rounded-xl text-sm font-medium flex items-center gap-2",
                     state.success ? "bg-green-50 text-green-800 border border-green-100 dark:bg-green-900/20 dark:text-green-300 dark:border-green-900/30" : "bg-red-50 text-red-800 border border-red-100 dark:bg-red-900/20 dark:text-red-300 dark:border-red-900/30"
                 )}>
-                    {state.success && <Star className="w-4 h-4 fill-current" />}
+                    {state.success && <MessageSquareHeart className="w-4 h-4 fill-current" />}
                     {state.message}
                 </div>
             )}

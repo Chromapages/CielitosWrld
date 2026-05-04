@@ -129,7 +129,7 @@ export default function AboutSnippet({ data }: AboutSnippetProps) {
           <div className="w-full lg:w-1/2 flex flex-col space-y-10">
             {/* 1. Header Block */}
             <div className="space-y-4 text-center lg:text-left">
-              <span className="inline-block text-orange-700 dark:text-orange-500 font-bold tracking-[0.3em] text-[11px] uppercase mb-2">
+              <span className="inline-block text-[13px] font-semibold uppercase tracking-[0.2em] text-orange-600 dark:text-orange-500 mb-2">
                 {displayData.eyebrow}
               </span>
               <h2 className="font-pattaya text-5xl md:text-6xl lg:text-7xl font-light text-stone-900 dark:text-stone-50 leading-[1.1]">

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { SlidersHorizontal, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -102,14 +101,14 @@ export default function GalleryMobileFilters({
                     className={cn(
                         "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 flex-shrink-0 shadow-sm border",
                         activeCount > 0
-                            ? "bg-stone-900 text-white border-stone-900 dark:bg-stone-100 dark:text-stone-900 dark:border-stone-100"
+                            ? "bg-[#822c01] text-white border-[#822c01]"
                             : "bg-white text-stone-700 border-stone-200 dark:bg-stone-900 dark:text-stone-300 dark:border-stone-800"
                     )}
                 >
                     <SlidersHorizontal className="w-4 h-4" />
                     Filters
                     {activeCount > 0 && (
-                        <span className="ml-1 bg-white/20 px-1.5 py-0.5 rounded-full text-xs">
+                        <span className="ml-1 bg-white/20 px-1.5 py-0.5 rounded-full text-[10px]">
                             {activeCount}
                         </span>
                     )}
@@ -129,7 +128,7 @@ export default function GalleryMobileFilters({
                             className={cn(
                                 "px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 flex-shrink-0 shadow-sm border",
                                 active
-                                    ? "bg-stone-900 text-white border-stone-900 dark:bg-stone-100 dark:text-stone-900 dark:border-stone-100"
+                                    ? "bg-[#822c01] text-white border-[#822c01]"
                                     : "bg-white text-stone-600 border-stone-200 dark:bg-stone-900 dark:text-stone-400 dark:border-stone-800"
                             )}
                         >
@@ -149,7 +148,7 @@ export default function GalleryMobileFilters({
                         <button
                             key={`${filter.type}-${filter.value}`}
                             onClick={() => onFilterChange(filter.type as any, filter.value)}
-                            className="flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-medium bg-stone-100 text-stone-900 dark:bg-stone-800 dark:text-stone-100 whitespace-nowrap flex-shrink-0"
+                            className="flex items-center gap-1 px-3 py-1.5 rounded-full text-[11px] font-semibold bg-orange-50 text-[#822c01] dark:bg-orange-950/30 dark:text-orange-200 border border-orange-100 dark:border-orange-900/50 whitespace-nowrap flex-shrink-0"
                         >
                             {filter.value}
                             <X className="w-3 h-3" />
@@ -161,7 +160,7 @@ export default function GalleryMobileFilters({
             {/* Filter Sheet / Modal */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 z-50 flex flex-col justify-end bg-black/60 backdrop-blur-sm animate-in fade-in duration-200"
+                    className="fixed inset-0 z-50 flex flex-col justify-end bg-black/60 backdrop-blur-sm animate-in fade-in duration-300"
                     role="dialog"
                     aria-modal="true"
                     aria-labelledby="filter-title"
@@ -171,29 +170,35 @@ export default function GalleryMobileFilters({
                         body { overflow: hidden !important; overscroll-behavior: contain; }
                     `}</style>
 
-                    <div className="bg-white dark:bg-stone-950 rounded-t-3xl overflow-hidden max-h-[90vh] flex flex-col animate-in slide-in-from-bottom-full duration-300 shadow-2xl">
+                    <div className="bg-white dark:bg-stone-950 rounded-t-[2.5rem] overflow-hidden max-h-[92vh] flex flex-col animate-in slide-in-from-bottom-full duration-500 ease-out shadow-2xl">
 
                         {/* Header */}
-                        <div className="flex items-center justify-between px-6 py-5 border-b border-stone-100 dark:border-stone-900">
-                            <h2 id="filter-title" className="text-xl font-bold font-display">Filters</h2>
-                            <button onClick={() => setIsOpen(false)} className="p-2 -mr-2 text-stone-500">
+                        <div className="flex items-center justify-between px-8 py-6 border-b border-stone-100 dark:border-stone-900">
+                            <h2 id="filter-title" className="text-xl font-bold">Filters</h2>
+                            <button onClick={() => setIsOpen(false)} className="p-2 -mr-2 text-stone-400 hover:text-stone-900 transition-colors">
                                 <X className="w-6 h-6" />
                             </button>
                         </div>
 
                         {/* Content */}
-                        <div className="flex-1 overflow-y-auto p-6 space-y-8">
+                        <div className="flex-1 overflow-y-auto p-8 space-y-10 scrollbar-none">
                             {/* Media Type Toggle */}
-                            <div>
-                                <h3 className="font-bold text-stone-900 dark:text-stone-100 mb-3 text-lg uppercase tracking-wider">Show Me</h3>
-                                <div className="flex p-1 bg-stone-100 dark:bg-stone-900 rounded-xl">
+                            <div className="space-y-4">
+                                <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-400 dark:text-stone-500">Show Me</h3>
+                                <div className="relative flex p-1 bg-stone-100 dark:bg-stone-900 rounded-2xl">
+                                    <div 
+                                        className={cn(
+                                            "absolute inset-y-1 w-[calc(50%-4px)] bg-white dark:bg-stone-800 rounded-xl shadow-sm transition-transform duration-300 ease-out",
+                                            mediaType === 'photo' ? "translate-x-0" : "translate-x-full"
+                                        )}
+                                    />
                                     <button
                                         onClick={() => onMediaTypeChange('photo')}
                                         className={cn(
-                                            "flex-1 py-3 text-sm font-bold rounded-lg transition-all duration-200",
+                                            "relative z-10 flex-1 py-3 text-sm font-bold transition-all duration-200",
                                             mediaType === 'photo'
-                                                ? "bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
-                                                : "text-stone-500 hover:text-stone-900 dark:hover:text-stone-300"
+                                                ? "text-stone-900 dark:text-white"
+                                                : "text-stone-500"
                                         )}
                                     >
                                         Photos
@@ -201,10 +206,10 @@ export default function GalleryMobileFilters({
                                     <button
                                         onClick={() => onMediaTypeChange('video')}
                                         className={cn(
-                                            "flex-1 py-3 text-sm font-bold rounded-lg transition-all duration-200",
+                                            "relative z-10 flex-1 py-3 text-sm font-bold transition-all duration-200",
                                             mediaType === 'video'
-                                                ? "bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
-                                                : "text-stone-500 hover:text-stone-900 dark:hover:text-stone-300"
+                                                ? "text-stone-900 dark:text-white"
+                                                : "text-stone-500"
                                         )}
                                     >
                                         Videos
@@ -213,8 +218,8 @@ export default function GalleryMobileFilters({
                             </div>
 
                             {/* Sort Order */}
-                            <div>
-                                <h3 className="font-bold text-stone-900 dark:text-stone-100 mb-3 text-lg uppercase tracking-wider">Sort By</h3>
+                            <div className="space-y-4">
+                                <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-400 dark:text-stone-500">Sort By</h3>
                                 <div className="grid grid-cols-1 gap-2">
                                     {[
                                         { label: 'Newest First', value: 'newest' },
@@ -225,30 +230,36 @@ export default function GalleryMobileFilters({
                                             key={option.value}
                                             onClick={() => onSortChange(option.value as any)}
                                             className={cn(
-                                                "w-full py-3 px-4 text-left text-sm font-medium rounded-xl border transition-all duration-200 flex items-center justify-between",
+                                                "w-full py-4 px-5 text-left text-[15px] font-medium rounded-2xl border transition-all duration-300 flex items-center justify-between",
                                                 sortBy === option.value
-                                                    ? "bg-orange-50 dark:bg-orange-900/20 border-orange-500 text-orange-900 dark:text-orange-100"
-                                                    : "bg-white dark:bg-stone-900 border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-400"
+                                                    ? "bg-orange-50/50 dark:bg-orange-950/20 border-[#822c01] text-[#822c01] dark:text-orange-200"
+                                                    : "bg-white dark:bg-stone-900 border-stone-100 dark:border-stone-800 text-stone-600 dark:text-stone-400 hover:border-stone-200"
                                             )}
                                         >
                                             {option.label}
-                                            {sortBy === option.value && <div className="w-2 h-2 rounded-full bg-orange-500" />}
+                                            {sortBy === option.value && <div className="w-1.5 h-1.5 rounded-full bg-[#822c01] shadow-[0_0_8px_rgba(130,44,1,0.4)]" />}
                                         </button>
                                     ))}
                                 </div>
                             </div>
 
                             {/* View Mode */}
-                            <div>
-                                <h3 className="font-bold text-stone-900 dark:text-stone-100 mb-3 text-lg uppercase tracking-wider">Layout</h3>
-                                <div className="flex p-1 bg-stone-100 dark:bg-stone-900 rounded-xl">
+                            <div className="space-y-4">
+                                <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-400 dark:text-stone-500">Layout</h3>
+                                <div className="relative flex p-1 bg-stone-100 dark:bg-stone-900 rounded-2xl">
+                                    <div 
+                                        className={cn(
+                                            "absolute inset-y-1 w-[calc(50%-4px)] bg-white dark:bg-stone-800 rounded-xl shadow-sm transition-transform duration-300 ease-out",
+                                            viewMode === 'masonry' ? "translate-x-0" : "translate-x-full"
+                                        )}
+                                    />
                                     <button
                                         onClick={() => onViewModeChange('masonry')}
                                         className={cn(
-                                            "flex-1 py-3 text-sm font-bold rounded-lg transition-all duration-200",
+                                            "relative z-10 flex-1 py-3 text-sm font-bold transition-all duration-200",
                                             viewMode === 'masonry'
-                                                ? "bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
-                                                : "text-stone-500 hover:text-stone-900 dark:hover:text-stone-300"
+                                                ? "text-stone-900 dark:text-white"
+                                                : "text-stone-500"
                                         )}
                                     >
                                         Masonry
@@ -256,10 +267,10 @@ export default function GalleryMobileFilters({
                                     <button
                                         onClick={() => onViewModeChange('grid')}
                                         className={cn(
-                                            "flex-1 py-3 text-sm font-bold rounded-lg transition-all duration-200",
+                                            "relative z-10 flex-1 py-3 text-sm font-bold transition-all duration-200",
                                             viewMode === 'grid'
-                                                ? "bg-white dark:bg-stone-800 text-stone-900 dark:text-white shadow-sm"
-                                                : "text-stone-500 hover:text-stone-900 dark:hover:text-stone-300"
+                                                ? "text-stone-900 dark:text-white"
+                                                : "text-stone-500"
                                         )}
                                     >
                                         Grid
@@ -294,19 +305,19 @@ export default function GalleryMobileFilters({
                         </div>
 
                         {/* Footer */}
-                        <div className="p-6 border-t border-stone-100 dark:border-stone-900 flex gap-4 bg-white dark:bg-stone-950 pb-safe">
+                        <div className="p-8 border-t border-stone-100 dark:border-stone-900 flex gap-4 bg-white dark:bg-stone-950 pb-safe-offset-4">
                             <button
                                 onClick={() => {
                                     onClear();
                                     setIsOpen(false);
                                 }}
-                                className="px-6 py-3 text-stone-600 dark:text-stone-400 font-medium"
+                                className="px-6 py-4 text-stone-500 dark:text-stone-400 font-bold text-sm uppercase tracking-wider"
                             >
                                 Clear all
                             </button>
                             <button
                                 onClick={() => setIsOpen(false)}
-                                className="flex-1 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-bold py-3 shadow-lg"
+                                className="flex-1 bg-stone-900 dark:bg-[#822c01] text-white rounded-[1.25rem] font-bold py-4 shadow-xl shadow-stone-900/10 dark:shadow-orange-950/20 active:scale-[0.98] transition-transform"
                             >
                                 Show Results
                             </button>
@@ -320,18 +331,18 @@ export default function GalleryMobileFilters({
 
 function MobileFilterGroup({ title, options, selected, onChange }: { title: string, options: string[], selected: string[], onChange: (val: string) => void }) {
     return (
-        <div>
-            <h3 className="font-bold text-stone-900 dark:text-stone-100 mb-3">{title}</h3>
-            <div className="flex flex-wrap gap-2">
+        <div className="space-y-4">
+            <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-400 dark:text-stone-500">{title}</h3>
+            <div className="flex flex-wrap gap-2.5">
                 {options.map((option) => (
                     <button
                         key={option}
                         onClick={() => onChange(option)}
                         className={cn(
-                            "px-4 py-2 rounded-full text-sm border transition-all duration-200",
+                            "px-5 py-2.5 rounded-full text-sm font-semibold border transition-all duration-300",
                             selected.includes(option)
-                                ? "bg-stone-900 text-white border-stone-900 dark:bg-stone-100 dark:text-stone-900 dark:border-stone-100"
-                                : "bg-white text-stone-600 border-stone-200 dark:bg-stone-900 dark:text-stone-400 dark:border-stone-800"
+                                ? "bg-[#822c01] text-white border-[#822c01] shadow-lg shadow-orange-900/10"
+                                : "bg-white text-stone-600 border-stone-100 dark:bg-stone-900 dark:text-stone-400 dark:border-stone-800 hover:border-stone-200"
                         )}
                     >
                         {option}

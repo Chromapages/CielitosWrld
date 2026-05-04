@@ -75,6 +75,18 @@ const TestimonialsCarousel = ({ data }: TestimonialsSectionProps) => {
     };
   }, [emblaApi, onSelect]);
 
+  // Hide navbar when modal opens
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.classList.add('navbar-hidden');
+    } else {
+      document.body.classList.remove('navbar-hidden');
+    }
+    return () => {
+      document.body.classList.remove('navbar-hidden');
+    };
+  }, [isModalOpen]);
+
   const testimonials = data?.items || [];
   if (testimonials.length === 0) return null;
 
