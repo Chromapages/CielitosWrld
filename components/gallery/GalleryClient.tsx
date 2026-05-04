@@ -241,7 +241,8 @@ export default function GalleryClient({ initialItems, pageData, initialCategory 
 
                 <div className="container mx-auto max-w-[1600px] flex flex-col md:flex-row gap-8 lg:gap-12 relative px-4 sm:px-8">
                     {/* Desktop Sidebar */}
-                    <aside className="hidden md:block w-72 flex-shrink-0 sticky top-32 self-start h-[calc(100vh-10rem)] pr-4 scrollbar-thin">
+                    <aside className="hidden md:flex w-64 xl:w-72 flex-shrink-0 sticky top-32 self-start max-h-[calc(100vh-8rem)] z-10">
+                        <div className="flex-1 overflow-hidden">
                         <GallerySidebar
                             filters={filters}
                             onFilterChange={handleFilterChange}
@@ -250,6 +251,7 @@ export default function GalleryClient({ initialItems, pageData, initialCategory 
                             mediaType={mediaType}
                             onMediaTypeChange={setMediaType}
                         />
+                        </div>
                     </aside>
 
                     {/* Mobile Filter Bar - Sticky with System Height */}
