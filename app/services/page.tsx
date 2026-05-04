@@ -8,6 +8,7 @@ import ProcessSection from "@/components/services/ProcessSection";
 import ProcessGallery from "@/components/services/ProcessGallery";
 import FAQAccordion from "@/components/services/FAQAccordion";
 import FinalCTA from "@/components/services/FinalCTA";
+import ContactCTA from "@/components/home/ContactCTA";
 import { FAQPageSchema, ProfessionalServiceSchema } from "@/components/seo/JsonLd";
 import { ServicePackage, ProcessStep, FAQ } from "@/types/services";
 
@@ -190,7 +191,7 @@ export default async function ServicesPage() {
                 <ProcessGallery items={page?.processGallery || placeholderGalleryItems} />
             </section>
             {page?.faqs && page.faqs.length > 0 && <FAQAccordion faqs={page.faqs} />}
-            <FinalCTA heading={page?.finalCtaHeading} text={page?.finalCtaText} />
+            <ContactCTA data={page?.finalCtaHeading ? { title: page.finalCtaHeading, text: page.finalCtaText } : undefined} />
         </main>
     );
 }
