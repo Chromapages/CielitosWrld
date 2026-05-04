@@ -60,7 +60,7 @@ export default function ProcessGallery({ items }: ProcessGalleryProps) {
     if (!items || items.length === 0) return null;
 
     return (
-        <div className="w-full relative">
+        <div className="w-full relative max-w-[1200px] mx-auto">
             {/* Controls Header */}
             <MobileSection className="flex-row items-center justify-between mb-8 py-0 lg:py-0" hasGutter={true}>
                 <div className="flex items-center gap-2 text-stone-900 dark:text-white">

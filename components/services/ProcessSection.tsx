@@ -10,7 +10,7 @@ interface ProcessSectionProps {
 export default function ProcessSection({ steps }: ProcessSectionProps) {
     return (
         <MobileSection className="bg-brand-50 dark:bg-brand-950 border-t border-brand-100 dark:border-brand-800" hasGutter={true}>
-            <div className="lg:flex lg:gap-16">
+            <div className="max-w-[1200px] mx-auto lg:flex lg:gap-16">
 
                     {/* Left Column - Sticky Title & Progress */}
                     <div className="lg:w-[33%] lg:sticky lg:top-32 lg:self-start mb-12 lg:mb-0">
