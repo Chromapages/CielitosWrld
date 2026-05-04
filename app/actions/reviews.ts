@@ -2,6 +2,8 @@
 
 import { createClient } from 'next-sanity'
 import { z } from 'zod'
+
+import { getErrorMetadata, logger } from '@/lib/logger'
 import { apiVersion, dataset, projectId } from '@/sanity/env'
 
 const writeClient = createClient({
@@ -85,7 +87,11 @@ export async function createReview(prevState: ReviewFormState, formData: FormDat
             message: 'Thank you for your kind words! Your review will appear after moderation.',
         }
     } catch (error) {
-        console.error('Error creating review:', error)
+        logger.error('Error creating review', {
+            route: 'createReview',
+            metadata: getErrorMetadata(error),
+        })
+
         return {
             success: false,
             message: `Failed to submit review. Please try again.`,

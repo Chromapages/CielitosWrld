@@ -3,6 +3,8 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 
+import { getErrorMetadata, logger } from '@/lib/logger';
+
 interface ErrorTemplateProps {
     error: Error & { digest?: string };
     reset: () => void;
@@ -10,8 +12,13 @@ interface ErrorTemplateProps {
 
 export default function ErrorTemplate({ error, reset }: ErrorTemplateProps) {
     useEffect(() => {
-        // Log the error to an error reporting service
-        console.error('Route Error:', error);
+        logger.error('Route error boundary triggered', {
+            route: 'ErrorTemplate',
+            metadata: {
+                ...getErrorMetadata(error),
+                digest: error.digest,
+            },
+        });
     }, [error]);
 
     return (

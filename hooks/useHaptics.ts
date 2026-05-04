@@ -20,6 +20,7 @@ export const useHaptics = () => {
         navigator.vibrate(pattern);
       } catch (e) {
         // Silently fail if blocked by permissions or other browser logic
+        // eslint-disable-next-line no-console -- debug only, not for production errors
         console.debug('Haptics not supported or blocked:', e);
       }
     }

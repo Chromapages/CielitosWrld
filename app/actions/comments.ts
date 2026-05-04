@@ -3,6 +3,8 @@
 import { createClient } from 'next-sanity'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
+
+import { getErrorMetadata, logger } from '@/lib/logger'
 import { apiVersion, dataset, projectId } from '@/sanity/env'
 
 const writeClient = createClient({
@@ -22,7 +24,19 @@ const commentSchema = z.object({
     gotcha: z.string().optional(),
 })
 
-export async function createComment(prevState: any, formData: FormData) {
+type CommentFormState = {
+    success: boolean
+    message: string
+    errors?: {
+        postId?: string[]
+        name?: string[]
+        comment?: string[]
+        parentId?: string[]
+        gotcha?: string[]
+    }
+}
+
+export async function createComment(prevState: CommentFormState | null, formData: FormData): Promise<CommentFormState> {
     if (!process.env.SANITY_API_WRITE_TOKEN) {
         return {
             success: false,
@@ -83,10 +97,14 @@ export async function createComment(prevState: any, formData: FormData) {
             message: 'Comment submitted! It will appear after moderation.',
         }
     } catch (error) {
-        console.error('Error creating comment:', error)
+        logger.error('Error creating comment', {
+            route: 'createComment',
+            metadata: getErrorMetadata(error),
+        })
+
         return {
             success: false,
-            message: `Failed to submit: ${(error as Error).message}`,
+            message: 'Failed to submit comment. Please try again.',
         }
     }
 }

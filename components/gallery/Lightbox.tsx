@@ -55,9 +55,6 @@ function OptimizedLightboxImage({
   // Handle video vs image assets
   const mainImage = item.mediaType === 'video' ? item.videoThumbnail : item.image;
 
-  // If no image is available at all, we can't render much
-  if (!mainImage && item.mediaType !== 'video') return null;
-
   // Get the thumbnail URL (same as used in gallery grid)
   const thumbnailUrl = mainImage
     ? (() => {
@@ -100,6 +97,9 @@ function OptimizedLightboxImage({
     console.error('Failed to load image:', fullSizeUrl);
     setStatus('error');
   }, [directUrl, fullSizeUrl, transformedUrl, useDirectUrlFallback]);
+
+  // If no image is available at all, we can't render much
+  if (!mainImage && item.mediaType !== 'video') return null;
 
   return (
     <div className="relative w-full h-full">

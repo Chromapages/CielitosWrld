@@ -1,7 +1,9 @@
+import type { ElementType, ReactNode } from 'react';
+
 import { cn } from '@/lib/utils';
 
 interface GlassCardProps {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
   variant?: 'default' | 'light' | 'heavy';
   hover?: boolean;
@@ -49,9 +51,9 @@ export function GlassCard({
  * Typography wrapper for consistent text hierarchy
  */
 interface TypographyProps {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: ElementType;
 }
 
 export function Display({ children, className, as: Component = 'h1' }: TypographyProps) {

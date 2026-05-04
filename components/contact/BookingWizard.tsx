@@ -7,6 +7,7 @@ import VisionStep from './wizard-steps/VisionStep';
 import TimelineStep from './wizard-steps/TimelineStep';
 import CanvasStep from './wizard-steps/CanvasStep';
 import ConnectionStep from './wizard-steps/ConnectionStep';
+import { getErrorMetadata, logger } from '@/lib/logger';
 
 interface BookingWizardProps {
     onClose: () => void;
@@ -104,7 +105,10 @@ export default function BookingWizard({ onClose, isEmbedded = false }: BookingWi
 
             setIsSuccess(true);
         } catch (err) {
-            console.error('Submission error:', err);
+            logger.error('Booking wizard submission error', {
+                route: 'BookingWizard',
+                metadata: getErrorMetadata(err),
+            });
             setError('Something went wrong. Please try again or reach out directly.');
         } finally {
             setIsSubmitting(false);

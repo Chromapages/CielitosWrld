@@ -9,6 +9,28 @@ export default defineConfig({
     environment: 'jsdom',
     globals: true,
     setupFiles: './__tests__/setup.ts',
+    exclude: ['tests/**', 'node_modules/**', '.next/**', 'dist/**'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      thresholds: {
+        lines: 70,
+        functions: 70,
+        branches: 70,
+        statements: 70,
+      },
+      exclude: [
+        '.next/**',
+        'coverage/**',
+        'node_modules/**',
+        'public/**',
+        'sanity/**',
+        'tests/**',
+        'lib/emails/**',
+        '**/*.config.*',
+        '**/*.d.ts',
+      ],
+    },
   },
   resolve: {
     alias: {

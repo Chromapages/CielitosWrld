@@ -87,7 +87,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
             type="search"
             aria-label="Search posts"
             aria-controls="search-results"
-            aria-expanded={results.length > 0}
             placeholder="Search posts..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}

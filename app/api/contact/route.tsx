@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import React from 'react';
+
 import { ContactFormEmail } from '@/lib/emails/ContactFormEmail';
+import { getErrorMetadata, logger } from '@/lib/logger';
+import { getClientIp, getRequestId } from '@/lib/request';
 import { contactFormSchema } from '@/lib/validations/contact';
-import { contactRateLimit } from '@/lib/ratelimit';
+import { getContactRateLimit, hasRateLimitConfig } from '@/lib/ratelimit';
 
 /**
  * Initialize Resend client lazily to avoid build-time errors
@@ -21,15 +24,22 @@ function getResendClient() {
 const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'Abajo.Del.Cieloo@gmail.com';
 
 export async function POST(request: NextRequest) {
+  const requestId = getRequestId(request);
+  const route = '/api/contact';
+
   try {
-    // 1. Rate Limiting
-    const ip = (request as any).ip ?? request.headers.get('x-forwarded-for') ?? '127.0.0.1';
+    const ip = getClientIp(request);
     
-    // Only apply rate limit if env vars are present (prevents breaking dev if not configured)
-    if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
-      const { success, limit, reset, remaining } = await contactRateLimit.limit(ip);
+    if (hasRateLimitConfig()) {
+      const { success, limit, reset, remaining } = await getContactRateLimit().limit(ip);
       
       if (!success) {
+        logger.warn('Contact form rate limit exceeded', {
+          requestId,
+          route,
+          metadata: { ip },
+        });
+
         return NextResponse.json(
           { error: 'Too many requests. Please try again later.' },
           { 
@@ -65,7 +75,12 @@ export async function POST(request: NextRequest) {
     try {
       resend = getResendClient();
     } catch (error) {
-      console.error('Resend configuration error:', error);
+      logger.error('Resend configuration error', {
+        requestId,
+        route,
+        metadata: getErrorMetadata(error),
+      });
+
       return NextResponse.json(
         { error: 'Email service is not configured' },
         { status: 500 }
@@ -81,7 +96,15 @@ export async function POST(request: NextRequest) {
     });
 
     if (error) {
-      console.error('Resend error:', error);
+      logger.error('Resend send error', {
+        requestId,
+        route,
+        metadata: {
+          ...getErrorMetadata(error),
+          email: result.data.email,
+        },
+      });
+
       return NextResponse.json(
         { error: 'Failed to send email' },
         { status: 500 }
@@ -93,7 +116,12 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error('Contact form error:', error);
+    logger.error('Contact form error', {
+      requestId,
+      route,
+      metadata: getErrorMetadata(error),
+    });
+
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

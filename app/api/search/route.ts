@@ -1,11 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server';
+import type { QueryParams } from 'next-sanity';
+import { z } from 'zod';
+
+import { getErrorMetadata, logger } from '@/lib/logger';
+import { getRequestId } from '@/lib/request';
 import { client } from '@/sanity/lib/client';
 
-export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
-  const query = searchParams.get('q');
+const searchParamsSchema = z.object({
+  q: z.string().trim().min(2).max(100),
+});
 
-  if (!query || query.length < 2) {
+export type SearchPost = {
+  _id: string;
+  title?: string;
+  slug?: string;
+  excerpt?: string;
+  postType?: string;
+};
+
+export async function GET(request: NextRequest) {
+  const route = '/api/search';
+  const requestId = getRequestId(request);
+  const params = searchParamsSchema.safeParse({
+    q: request.nextUrl.searchParams.get('q'),
+  });
+
+  if (!params.success) {
     return NextResponse.json({ posts: [] });
   }
 
@@ -22,11 +42,17 @@ export async function GET(request: NextRequest) {
       postType
     }`;
 
-    const posts = await client.fetch<any[]>(searchQuery, { query } as any);
+    const queryParams = { query: params.data.q } as unknown as QueryParams;
+    const posts = await client.fetch<SearchPost[]>(searchQuery, queryParams);
 
     return NextResponse.json({ posts });
   } catch (error) {
-    console.error('Search error:', error);
+    logger.error('Search error', {
+      requestId,
+      route,
+      metadata: getErrorMetadata(error),
+    });
+
     return NextResponse.json({ posts: [], error: 'Search failed' }, { status: 500 });
   }
 }

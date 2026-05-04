@@ -13,6 +13,7 @@ import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import ImageProtection from '@/components/providers/ImageProtection';
 import LoadingScreen from '@/components/LoadingScreen';
 import PageTransition from '@/components/PageTransition';
+import { getErrorMetadata, logger } from '@/lib/logger';
 import { client } from '@/sanity/lib/client';
 import { SITE_SETTINGS_QUERY } from '@/sanity/lib/queries';
 
@@ -59,7 +60,10 @@ async function getSiteSettings() {
     const settings = await client.fetch(SITE_SETTINGS_QUERY, {}, { next: { revalidate: 60 } });
     return settings;
   } catch (error) {
-    console.error('Failed to load site settings for metadata:', error);
+    logger.error('Failed to load site settings for metadata', {
+      route: 'generateMetadata',
+      metadata: getErrorMetadata(error),
+    });
     return null;
   }
 }
@@ -141,10 +145,13 @@ async function getContactInfo() {
       phone,
       location,
       socialLinks
-    }`, {}, { next: { revalidate: 60 } });
+  }`, {}, { next: { revalidate: 60 } });
     return contact;
   } catch (error) {
-    console.error('Failed to load contact info:', error);
+    logger.error('Failed to load contact info', {
+      route: 'RootLayout',
+      metadata: getErrorMetadata(error),
+    });
     return null;
   }
 }
