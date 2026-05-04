@@ -7,19 +7,19 @@ import GalleryGrid from '@/components/gallery/GalleryGrid';
 import GallerySkeleton from '@/components/gallery/GallerySkeleton';
 import EmptyState from '@/components/gallery/EmptyState';
 import Lightbox from '@/components/gallery/Lightbox';
-import { FilterX, Search, X, ArrowUpDown, LayoutGrid, Columns3 } from 'lucide-react';
+import { MobileSection } from '@/components/layout/MobileSection';
 import PageBackground from '@/components/ui/PageBackground';
 import { GalleryItem } from '@/app/gallery/page';
+import { Search, X, ArrowUpDown, LayoutGrid, Columns3 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface GalleryClientProps {
     initialItems: GalleryItem[];
     pageData: any;
+    initialCategory?: string;
 }
 
-import { MobileSection } from '../layout/MobileSection';
-
-export default function GalleryClient({ initialItems, pageData }: GalleryClientProps) {
+export default function GalleryClient({ initialItems, pageData, initialCategory }: GalleryClientProps) {
     const [items] = useState<GalleryItem[]>(initialItems);
     const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
     const [mediaType, setMediaType] = useState<'photo' | 'video'>('photo');
@@ -33,9 +33,9 @@ export default function GalleryClient({ initialItems, pageData }: GalleryClientP
     // View Mode State
     const [viewMode, setViewMode] = useState<'masonry' | 'grid'>('masonry');
 
-    // Filter State
+    // Filter State — initialize with initialCategory if provided (from category page route)
     const [filters, setFilters] = useState({
-        category: [] as string[],
+        category: initialCategory ? [initialCategory] : ([] as string[]),
         medium: [] as string[],
         vibe: [] as string[],
         location: [] as string[],
@@ -147,7 +147,7 @@ export default function GalleryClient({ initialItems, pageData }: GalleryClientP
                                     href={pageData.youtubeChannelUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="btn-press inline-flex items-center gap-2 px-6 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-bold rounded-xl transition-all shadow-xl shadow-red-900/20"
+                                    className="btn-press inline-flex items-center gap-2 px-6 py-2 bg-red-600 hover:bg-red-700 text-white dark:bg-red-700 dark:hover:bg-red-600 text-sm font-bold rounded-xl transition-all shadow-xl shadow-red-900/20 dark:shadow-red-950/40"
                                 >
                                     <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
                                         <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />

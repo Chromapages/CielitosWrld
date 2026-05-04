@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { SlidersHorizontal, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -38,31 +39,36 @@ export default function GalleryMobileFilters({
 
     // Predefined quick filters
     const quickFilters = [
-        { label: 'All', type: 'all', value: 'all' },
-        { label: 'Videos', type: 'mediaType', value: 'video' },
-        { label: 'Portraits', type: 'category', value: 'Portraits' },
-        { label: 'Events', type: 'category', value: 'Events' },
-        { label: 'Brands', type: 'category', value: 'Brands' },
-        { label: 'Film', type: 'medium', value: 'Film' },
-        { label: 'B&W', type: 'vibe', value: 'Black & white' },
+        { label: 'All', href: '/gallery', type: 'all' as const },
+        { label: 'Videos', href: null, type: 'mediaType' as const, value: 'video' as const },
+        { label: 'Portraits', href: '/gallery/category/portraits', type: 'category' as const },
+        { label: 'Events', href: '/gallery/category/events', type: 'category' as const },
+        { label: 'Brands', href: '/gallery/category/brands', type: 'category' as const },
+        { label: 'Film', href: null, type: 'medium' as const, value: 'Film' as const },
+        { label: 'B&W', href: null, type: 'vibe' as const, value: 'Black & white' as const },
     ];
 
     // Helper to check if a filter is active
-    const isActive = (type: string, value: string) => {
+    const isActive = (type: string, value: string, href: string | null) => {
         if (type === 'all') return activeCount === 0 && mediaType === 'photo';
         if (type === 'mediaType') return mediaType === value;
         return filters[type as keyof typeof filters]?.includes(value);
     };
 
     // Helper to handle quick filter click
-    const handleQuickFilter = (type: string, value: string) => {
+    const handleQuickFilter = (e: React.MouseEvent, type: string, value: string | undefined, href: string | null) => {
+        if (href) {
+            // Navigate to dedicated category page
+            window.location.assign(href);
+            return;
+        }
         if (type === 'all') {
             onClear();
             onMediaTypeChange('photo');
-        } else if (type === 'mediaType') {
-            onMediaTypeChange(value as any);
-        } else {
-            onFilterChange(type as any, value);
+        } else if (type === 'mediaType' && value) {
+            onMediaTypeChange(value as 'photo' | 'video');
+        } else if (value) {
+            onFilterChange(type as keyof typeof filters, value);
         }
     };
 
@@ -111,11 +117,15 @@ export default function GalleryMobileFilters({
 
                 {/* Quick Chips */}
                 {quickFilters.map((filter) => {
-                    const active = isActive(filter.type, filter.value);
+                    const active = isActive(filter.type, filter.value ?? '', filter.href);
+                    const Wrapper = filter.href ? 'a' : 'button';
+                    const wrapperProps = filter.href
+                        ? { href: filter.href }
+                        : { onClick: (e: React.MouseEvent) => handleQuickFilter(e, filter.type, filter.value, filter.href) };
                     return (
-                        <button
+                        <Wrapper
                             key={filter.label}
-                            onClick={() => handleQuickFilter(filter.type, filter.value)}
+                            {...wrapperProps}
                             className={cn(
                                 "px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 flex-shrink-0 shadow-sm border",
                                 active
@@ -124,7 +134,7 @@ export default function GalleryMobileFilters({
                             )}
                         >
                             {filter.label}
-                        </button>
+                        </Wrapper>
                     );
                 })}
                 </div>

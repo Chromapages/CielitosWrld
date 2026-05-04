@@ -1,9 +1,11 @@
 'use client';
 
 import { ChevronDown, X } from 'lucide-react';
+import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { GalleryItem } from '@/app/gallery/page';
 import { useState } from 'react';
+import { CATEGORY_SLUG_TO_VALUE, CategorySlug } from '@/lib/validations/gallery';
 
 interface FilterGroupProps {
     title: string;
@@ -138,6 +140,28 @@ export default function GallerySidebar({ filters, onFilterChange, onClear, count
                         Videos
                     </button>
                 </div>
+            </div>
+
+            {/* Category Navigation */}
+            <div className="mb-6">
+                <h3 className="font-bold text-stone-900 dark:text-stone-100 mb-3">Collections</h3>
+                <nav className="space-y-1">
+                    <Link
+                        href="/gallery"
+                        className="flex items-center justify-between px-3 py-2 text-sm rounded-lg text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800/60 hover:text-stone-900 dark:hover:text-stone-100 transition-colors"
+                    >
+                        <span>All Photos</span>
+                    </Link>
+                    {(Object.entries(CATEGORY_SLUG_TO_VALUE) as [CategorySlug, string][]).map(([slug, label]) => (
+                        <Link
+                            key={slug}
+                            href={`/gallery/category/${slug}`}
+                            className="flex items-center justify-between px-3 py-2 text-sm rounded-lg text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800/60 hover:text-stone-900 dark:hover:text-stone-100 transition-colors"
+                        >
+                            <span>{label}</span>
+                        </Link>
+                    ))}
+                </nav>
             </div>
 
             {/* Filters */}

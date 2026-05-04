@@ -1281,6 +1281,10 @@ html {
   color: #d6d3d1;
 }
 
+.dark .prose-custom blockquote {
+  border-left-color: #f472b6;
+}
+
 .prose-custom ul {
   list-style-type: disc;
   padding-left: 1.5rem;
@@ -1319,6 +1323,14 @@ html {
 
 .prose-custom a:hover {
   color: #DB2777;
+}
+
+.dark .prose-custom a {
+  color: #f472b6;
+}
+
+.dark .prose-custom a:hover {
+  color: #fb7185;
 }
 
 .prose-custom img {

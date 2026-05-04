@@ -86,13 +86,26 @@ export const GALLERY_QUERY = `
 `
 
 // Query for gallery assets by category
+// NOTE: Keep in sync with GALLERY_QUERY fields — GalleryClient expects all these fields
 export const GALLERY_BY_CATEGORY_QUERY = `
   *[_type == "galleryAsset" && category == $category && archived != true] | order(_createdAt desc) {
     _id,
     title,
     slug,
     category,
+    collection,
+    medium,
+    vibe,
+    location,
     mediaType,
+    videoEmbedUrl,
+    "videoStats": videoStats {
+      duration,
+      views
+    },
+    "hoverVideo": hoverVideo.asset->url,
+    isShort,
+    featured,
     image {
       asset-> {
         _id,
@@ -104,6 +117,17 @@ export const GALLERY_BY_CATEGORY_QUERY = `
       },
       alt,
       caption
+    },
+    videoThumbnail {
+      asset-> {
+        _id,
+        url,
+        metadata {
+          dimensions,
+          lqip
+        }
+      },
+      alt
     },
     _createdAt
   }
