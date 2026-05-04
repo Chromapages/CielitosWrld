@@ -122,7 +122,7 @@ export default function GalleryClient({ initialItems, pageData, initialCategory 
     return (
         <div className={cn(
             "relative transition-colors duration-700 ease-in-out",
-            mediaType === 'video' ? "bg-stone-950 text-white" : "bg-white dark:bg-stone-950"
+            "bg-white dark:bg-stone-950"
         )}>
             {/* Background Image */}
             {pageData?.pageBackground && (
