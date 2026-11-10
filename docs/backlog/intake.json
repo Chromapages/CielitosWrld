@@ -1,0 +1,813 @@
+{
+  "date": "2026-11-09",
+  "phase": "P0 DISCOVERY",
+  "approval": "Intake and direction only; no implementation approval",
+  "humanDirections": {
+    "source": "Explicit human form answers, 2026-11-09",
+    "first_outcome": "reliable_inquiries",
+    "content_retention": "preserve",
+    "decision": "DECISIONS.md D004",
+    "phase_exit": false,
+    "spec_approved": false,
+    "plan_approved": false
+  },
+  "tickets": [
+    {
+      "key": "CW-001",
+      "title": "Confirm first user problem, outcome metric and baseline",
+      "owner": "cielitos-lead",
+      "label": "question",
+      "kind": "Discovery gate",
+      "evidence": "Documented",
+      "sources": [
+        "cielitos-wrld-prd.md:8-24",
+        "STATE.md"
+      ],
+      "problem": "Human confirmed reliable client inquiries as the first outcome on 2026-11-09. Exact audience, approved destination/status, success metric, baseline window and guardrails remain unresolved; old PRD targets are hypotheses.",
+      "criterion": "The human records one confirmed problem/user and a success-metric sentence with inclusions, exclusions, window, baseline period and guardrails, allowing P0 to exit.",
+      "deps": [],
+      "decision": "First outcome accepted: trustworthy inquiries. Confirm the exact metric/audience, inclusions/exclusions, destination/status and baseline window before P0 exit; no implementation spec approved."
+    },
+    {
+      "key": "CW-002",
+      "title": "Decide new Sanity account, project ownership and content retention",
+      "owner": "cielitos-lead",
+      "label": "question",
+      "kind": "Discovery gate",
+      "evidence": "Documented",
+      "sources": [
+        "DECISIONS.md:D002",
+        "sanity/env.ts:1-19",
+        "sanity.config.ts:13-19"
+      ],
+      "problem": "Human confirmed a new Sanity account and preservation of existing content/images. Existing-project access/ownership versus new-project migration and exact retained document/private-data scope remain unresolved; no reset/deletion authorized.",
+      "criterion": "The content owner approves a named account/project/dataset transition and preservation scope with access prerequisites and a reversible migration or access-transfer decision.",
+      "deps": [
+        "CW-001"
+      ],
+      "decision": "Preserve existing content/images; determine access and exact retention scope before selecting access-transfer versus migration. No deletion/reset, account creation, paid-tier or credential change is implied."
+    },
+    {
+      "key": "CW-003",
+      "title": "Connect approved Sanity project and permission-scoped environments",
+      "owner": "cielitos-dev",
+      "label": "enhancement",
+      "kind": "Blocked integration",
+      "evidence": "Observed",
+      "sources": [
+        "sanity/env.ts:1-19",
+        "sanity/lib/client.ts:1-10",
+        "app/actions/comments.ts:8-14",
+        "app/actions/reviews.ts:7-13",
+        ".env.local.example"
+      ],
+      "problem": "Earlier local browser inspection failed on missing NEXT_PUBLIC_SANITY_DATASET. Current environment example documents dormant WordPress rather than the active Sanity configuration.",
+      "criterion": "In the approved nonproduction environment, public pages read the approved dataset and authorized Studio/comment/review operations use their approved permissions without exposing write credentials to the browser.",
+      "deps": [
+        "CW-002"
+      ],
+      "decision": "Human provides credentials through an approved secret mechanism and authorizes environment/CORS changes; no secrets in issues."
+    },
+    {
+      "key": "CW-004",
+      "title": "Restore referenced assets and prove retained content survives the transition",
+      "owner": "cielitos-dev",
+      "label": "bug",
+      "kind": "Defect / migration dependency",
+      "evidence": "Observed",
+      "sources": [
+        "app/layout.tsx:81",
+        "components/home/AboutSnippet.tsx",
+        "components/home/ContactCTA.tsx",
+        "lib/optimized-gallery.ts"
+      ],
+      "problem": "No public directory was discovered although active components and metadata reference local fallback assets. A new project may also need asset/document references preserved.",
+      "criterion": "Every active local asset reference and every document/asset reference in the approved retained-content scope resolves in the nonproduction target, with a recorded restoration path for migration failure.",
+      "deps": [
+        "CW-002",
+        "CW-003"
+      ],
+      "decision": "Human confirms asset ownership/source and retained-content inventory; do not fetch or migrate live data without permission."
+    },
+    {
+      "key": "CW-005",
+      "title": "Replace false contact-delivery success with an approved real inquiry flow",
+      "owner": "cielitos-dev",
+      "label": "bug",
+      "kind": "Defect",
+      "evidence": "Observed",
+      "sources": [
+        "app/api/contact/route.ts:26-53",
+        "components/contact/ContactForm.tsx:28-75"
+      ],
+      "problem": "The endpoint logs personal fields, delays and returns success without persisting or emailing the inquiry; the UI tells visitors their message was sent.",
+      "criterion": "A synthetic inquiry reaches the approved test destination with evidence for the exact accepted/persisted/provider-accepted/delivered state claimed by the UI, and a failure never produces a false success.",
+      "deps": [
+        "CW-001",
+        "CW-003"
+      ],
+      "decision": "P1 must select receipt/delivery contract, owner destination, provider/storage approach, failure recovery and duplicate-submission policy. Real email/DNS/spend remain human gates."
+    },
+    {
+      "key": "CW-006",
+      "title": "Honor contact budget and field-validation feedback end to end",
+      "owner": "cielitos-dev",
+      "label": "bug",
+      "kind": "Defect",
+      "evidence": "Observed",
+      "sources": [
+        "components/contact/ContactForm.tsx:6-18,28-52,85-159",
+        "app/api/contact/route.ts:4-24"
+      ],
+      "problem": "The form requires and submits budget, but the server drops it. Server validation is basic truthiness/email checking, and the UI hides structured validation errors.",
+      "criterion": "Every approved contact field, including budget, is validated server-side and reaches its approved destination unchanged or explicitly normalized, while rejected inputs display the corresponding accessible field error without losing correct input.",
+      "deps": [
+        "CW-005"
+      ],
+      "decision": "Dev is integration owner; UI may change ContactForm only in a sequential assigned task after the shared contract is approved."
+    },
+    {
+      "key": "CW-007",
+      "title": "Define and enforce submission privacy, moderation and abuse boundaries",
+      "owner": "cielitos-dev",
+      "label": "bug",
+      "kind": "Security/privacy discovery",
+      "evidence": "Observed",
+      "sources": [
+        "app/api/contact/route.ts:33-39",
+        "app/actions/comments.ts:16-90",
+        "app/actions/reviews.ts:15-94",
+        "sanity/schemaTypes/comment.ts:36-47",
+        "components/blog/Comments.tsx:9-18",
+        "components/home/ReviewForm.tsx:68-81"
+      ],
+      "problem": "Contact logs personal data; review emails are stored and labeled private without known dataset access rules; comments expose write errors and filter approval but not spam; parent/post membership validation and abuse controls need an explicit threat/retention contract. Developer halted further discovery on apparently personal hardcoded contact fallback values; their public ownership/approval is unconfirmed and values are not reproduced.",
+      "criterion": "An independent reviewer demonstrates that the approved personal-data access/retention and abuse rules hold for synthetic contact/comment/review inputs, including no personal data in logs, no public private-email access, and no displayed spam or cross-post replies.",
+      "deps": [
+        "CW-002",
+        "CW-005"
+      ],
+      "decision": "Lead obtains human privacy/retention requirements and independent review; do not invent legal compliance claims or add a rate-limit vendor."
+    },
+    {
+      "key": "CW-008",
+      "title": "Connect approved review submissions to published testimonials",
+      "owner": "cielitos-dev",
+      "label": "bug",
+      "kind": "Defect",
+      "evidence": "Observed",
+      "sources": [
+        "app/actions/reviews.ts:62-85",
+        "sanity/lib/queries.ts:257-267",
+        "sanity/schemaTypes/kindWords.ts"
+      ],
+      "problem": "Submissions create kindWords documents while the homepage reads embedded homeTestimonials.testimonials. Approval alone cannot publish a submission in the current carousel.",
+      "criterion": "Under the approved single testimonial-source contract, a synthetic pending review is absent publicly, appears after authorized approval and refresh, and disappears after approval is revoked without exposing its private fields.",
+      "deps": [
+        "CW-002",
+        "CW-003",
+        "CW-007"
+      ],
+      "decision": "Choose one source of truth and treatment of existing embedded testimonials before migration; preserve existing content unless explicitly approved otherwise."
+    },
+    {
+      "key": "CW-009",
+      "title": "Keep review submission reachable when no testimonials exist",
+      "owner": "cielitos-ui",
+      "label": "bug",
+      "kind": "Defect",
+      "evidence": "Observed",
+      "sources": [
+        "components/home/TestimonialsCarousel.tsx:77-85,120-131"
+      ],
+      "problem": "An empty testimonials array hides the entire section, including the Leave a Review entry point.",
+      "criterion": "When there are no published testimonials, a visitor can still discover and open the approved review form and sees the approved empty/submission/error states.",
+      "deps": [
+        "CW-008"
+      ],
+      "decision": "Human approves empty-state copy and placement; UI owns the carousel file."
+    },
+    {
+      "key": "CW-010",
+      "title": "Apply gallery media selection without requiring attribute filters",
+      "owner": "cielitos-ui",
+      "label": "bug",
+      "kind": "Defect",
+      "evidence": "Observed",
+      "sources": [
+        "components/gallery/GalleryClient.tsx:31-66,86-87,119-149"
+      ],
+      "problem": "The displayed list, count and lightbox use all items when no attribute filter is active, ignoring the Photos/Videos media selection.",
+      "criterion": "Selecting Photos or Videos with zero attribute filters makes the cards, count and lightbox contain only that media type, with the same result when attribute filters are added or removed.",
+      "deps": [
+        "CW-003"
+      ],
+      "decision": "Preserve approved exact-match attribute semantics; no redesign or extra search scope."
+    },
+    {
+      "key": "CW-011",
+      "title": "Show correct gallery empty results and deterministic clear behavior",
+      "owner": "cielitos-ui",
+      "label": "bug",
+      "kind": "Defect",
+      "evidence": "Observed",
+      "sources": [
+        "components/gallery/GalleryClient.tsx:52-66,119-137"
+      ],
+      "problem": "Empty-state logic checks the full items collection rather than displayed matches. Clear resets attributes but leaves media unchanged without a confirmed reset contract.",
+      "criterion": "A filter combination with no matches displays the approved no-results/reset state, and reset returns exactly the approved media-and-attribute baseline with synchronized count and lightbox.",
+      "deps": [
+        "CW-010"
+      ],
+      "decision": "P1 defines whether Clear resets media as well as attributes and how total-empty differs from filtered-empty."
+    },
+    {
+      "key": "CW-012",
+      "title": "Reconcile mobile gallery filters with media and editable CMS fields",
+      "owner": "cielitos-ui",
+      "label": "enhancement",
+      "kind": "Contract decision",
+      "evidence": "Observed",
+      "sources": [
+        "components/gallery/GalleryMobileFilters.tsx:19-45,123-181",
+        "sanity/schemaTypes/galleryAsset.ts:121-153",
+        "sanity/lib/queries.ts:43-53"
+      ],
+      "problem": "Mobile lacks the desktop media switch and exposes vibe/location controls not exposed by the current gallery schema; defaults also differ from older wireframes.",
+      "criterion": "Every exposed mobile filter has an approved editable/queryable content field and produces the documented result, including an approved way to select media or an explicit removal of that promise.",
+      "deps": [
+        "CW-010",
+        "CW-025"
+      ],
+      "decision": "Decide supported attributes and mobile scope; do not silently resurrect old schema fields or promise an unapproved three-column layout."
+    },
+    {
+      "key": "CW-013",
+      "title": "Make the gallery lightbox operable and understandable by keyboard and assistive technology",
+      "owner": "cielitos-ui",
+      "label": "bug",
+      "kind": "Accessibility defect",
+      "evidence": "Observed",
+      "sources": [
+        "components/gallery/Lightbox.tsx:204-306"
+      ],
+      "problem": "Custom overlay lacks explicit dialog/focus management; some navigation controls lack accessible names and iframes lack titles. Source review is not a conformance audit.",
+      "criterion": "A fresh independent keyboard/assistive-technology review confirms the approved dialog semantics, focus containment/restoration, named controls, media labels and close/navigation behavior.",
+      "deps": [
+        "CW-010"
+      ],
+      "decision": "P1 selects accessibility target and manual test matrix; reuse existing dialog convention where appropriate without changing unrelated UI."
+    },
+    {
+      "key": "CW-014",
+      "title": "Prevent inactive lightbox videos from playing and handle missing embeds",
+      "owner": "cielitos-ui",
+      "label": "bug",
+      "kind": "Defect / feasibility check",
+      "evidence": "Inferred",
+      "sources": [
+        "components/gallery/Lightbox.tsx:17-29,213-233",
+        "sanity/schemaTypes/galleryAsset.ts:83-120"
+      ],
+      "problem": "Every video iframe is mounted with autoplay parameters rather than only the selected slide; offscreen playback is inferred, not runtime reproduced. Missing embed URLs fall into the image renderer.",
+      "criterion": "With two synthetic videos and one malformed video item, only the selected valid video may play, leaving/closing stops playback, and invalid media produces the approved nonplaying fallback.",
+      "deps": [
+        "CW-003",
+        "CW-013"
+      ],
+      "decision": "Confirm permitted hosts, autoplay policy and fallback semantics; do not contact real third-party media during intake."
+    },
+    {
+      "key": "CW-015",
+      "title": "Make posts beyond the first blog batch reachable",
+      "owner": "cielitos-dev",
+      "label": "bug",
+      "kind": "Defect",
+      "evidence": "Observed",
+      "sources": [
+        "app/blog/page.tsx:40-65,109-118",
+        "sanity/lib/queries.ts:311-327"
+      ],
+      "problem": "Only the initial configured batch loads. Older/Newer controls have no working navigation; there is no infinite loading.",
+      "criterion": "For a synthetic collection larger than one approved page, a visitor can reach every eligible post in the documented order without duplicate/omitted boundary items and recover from a failed next-page request.",
+      "deps": [
+        "CW-003",
+        "CW-018",
+        "CW-019"
+      ],
+      "decision": "P1 chooses pagination versus infinite loading and URL/back-button behavior; dev owns shared route integration, UI review does not write the same file concurrently."
+    },
+    {
+      "key": "CW-016",
+      "title": "Resolve the blog search field that currently performs no search",
+      "owner": "cielitos-ui",
+      "label": "question",
+      "kind": "Behavior decision",
+      "evidence": "Observed",
+      "sources": [
+        "components/blog/BlogSidebar.tsx:24-118"
+      ],
+      "problem": "The sidebar presents an unconnected search field. Search desirability, corpus, matching rules and budget are not established.",
+      "criterion": "The sidebar either performs the approved search with normal/empty/loading/error states or no longer presents an input that promises unavailable search.",
+      "deps": [
+        "CW-001",
+        "CW-021"
+      ],
+      "decision": "Removal or implementation needs human-approved scope; no external search service by default."
+    },
+    {
+      "key": "CW-017",
+      "title": "Resolve nonfunctional Like, Reblog and misleading Share controls",
+      "owner": "cielitos-ui",
+      "label": "question",
+      "kind": "Behavior decision",
+      "evidence": "Observed",
+      "sources": [
+        "components/blog/BlogPost.tsx:170-199"
+      ],
+      "problem": "Like/Reblog have no handlers, while Share is another permalink. Their existence does not prove a requirement to build social state.",
+      "criterion": "Every remaining feed action produces its explicitly approved observable behavior, and no unavailable action remains presented as working.",
+      "deps": [
+        "CW-001",
+        "CW-018"
+      ],
+      "decision": "Human selects remove versus implement and confirms labels; persistence/identity for engagement is not authorized."
+    },
+    {
+      "key": "CW-018",
+      "title": "Align blog post schema, feed query and permalink rendering",
+      "owner": "cielitos-dev",
+      "label": "bug",
+      "kind": "Contract defect",
+      "evidence": "Observed",
+      "sources": [
+        "sanity/schemaTypes/post.ts",
+        "sanity/lib/queries.ts:311-327,392-420",
+        "components/blog/BlogPost.tsx:14-164",
+        "app/blog/[slug]/page.tsx:80-164"
+      ],
+      "problem": "Feed supports photo/quote/link types absent from the active schema; detail query/renderer omits specialized content and custom Portable Text image rendering is not defined.",
+      "criterion": "Each approved authorable post type, including body media, renders its primary content consistently in the feed and permalink from the same validated contract, with approved handling of legacy records.",
+      "deps": [
+        "CW-002",
+        "CW-003"
+      ],
+      "decision": "Human/content owner selects supported types and legacy migration scope; dev integrates query/schema/detail while UI owns feed changes only by sequenced assignment."
+    },
+    {
+      "key": "CW-019",
+      "title": "Enforce the approved blog archive visibility contract",
+      "owner": "cielitos-dev",
+      "label": "bug",
+      "kind": "Defect",
+      "evidence": "Observed",
+      "sources": [
+        "sanity/schemaTypes/post.ts:199-206",
+        "sanity/lib/queries.ts:311-327,392-420"
+      ],
+      "problem": "The schema describes archive as hiding public lists, but list queries do not exclude archived posts; permalink visibility is unspecified.",
+      "criterion": "Archived synthetic posts obey the approved list/permalink visibility rule across feed queries and cached responses, and unarchiving restores only the approved visibility.",
+      "deps": [
+        "CW-018"
+      ],
+      "decision": "Confirm list-only versus permalink hiding; do not delete archived content."
+    },
+    {
+      "key": "CW-020",
+      "title": "Resolve About, Privacy and Terms links without matching pages",
+      "owner": "cielitos-ui",
+      "label": "bug",
+      "kind": "Content / routing defect",
+      "evidence": "Observed",
+      "sources": [
+        "components/home/AboutSnippet.tsx:62-65",
+        "components/layout/Footer.tsx:168-187",
+        "app/"
+      ],
+      "problem": "Active links point to /about, /privacy and /terms with no matching page implementation discovered. Legal copy must not be invented. Footer hides below md, so any retained required legal/contact information also needs an approved mobile access path.",
+      "criterion": "Every About/legal link exposed to visitors resolves to its approved accessible destination with human-approved content, or is intentionally removed through the approved navigation decision.",
+      "deps": [
+        "CW-001",
+        "CW-007"
+      ],
+      "decision": "Human supplies/approves legal and About content and chooses build versus removal; no AI legal compliance claims."
+    },
+    {
+      "key": "CW-021",
+      "title": "Resolve blog tag, Archive, Ask and Submit destinations",
+      "owner": "cielitos-ui",
+      "label": "bug",
+      "kind": "Routing defect",
+      "evidence": "Observed",
+      "sources": [
+        "components/blog/BlogPost.tsx:170-177",
+        "components/blog/BlogSidebar.tsx:73-84",
+        "app/blog/[slug]/page.tsx:151-155"
+      ],
+      "problem": "Tag routes are missing; Archive/Ask/Submit have no dedicated routes and instead fall through to ordinary post slug lookups.",
+      "criterion": "Each exposed blog navigation destination performs its approved function with defined empty/error behavior and cannot accidentally resolve as an unrelated ordinary post.",
+      "deps": [
+        "CW-001",
+        "CW-018"
+      ],
+      "decision": "Decide supported destinations; a request for tickets is not approval to build an anonymous ask or content-submission service."
+    },
+    {
+      "key": "CW-022",
+      "title": "Fix navigation visibility across breakpoints and nested-route active state",
+      "owner": "cielitos-ui",
+      "label": "bug",
+      "kind": "Responsive defect",
+      "evidence": "Inferred",
+      "sources": [
+        "components/layout/Navbar.tsx:9-19,33-62",
+        "components/layout/MobileNavbar.tsx:8-35"
+      ],
+      "problem": "Desktop appears at md while mobile disappears at sm, suggesting a 640–767px gap. Exact-path active checks do not highlight Blog on a post permalink. Gap is source-inferred, not visually reproduced.",
+      "criterion": "Across the approved viewport matrix including both breakpoint boundaries, at least one usable primary navigation is visible and nested blog routes expose the approved Blog active state.",
+      "deps": [
+        "CW-003"
+      ],
+      "decision": "Approve viewport/reflow matrix and active-state semantics; preserve current information architecture pending CW-020/021."
+    },
+    {
+      "key": "CW-023",
+      "title": "Decide and reconcile Work routes with missing CMS content types",
+      "owner": "cielitos-dev",
+      "label": "question",
+      "kind": "Architecture decision",
+      "evidence": "Observed",
+      "sources": [
+        "sanity/schemaTypes/index.ts:23-44",
+        "sanity/lib/queries.ts:339-390",
+        "app/work/page.tsx",
+        "app/work/[slug]/page.tsx:27-76"
+      ],
+      "problem": "Work routes query work/workPage types absent from active Studio registration; missing detail renders null, and primary navigation does not expose Work.",
+      "criterion": "The approved keep/consolidate/retire decision leaves no active Work query or public route without an editable source and defined empty/not-found behavior, preserving retained project content.",
+      "deps": [
+        "CW-001",
+        "CW-002"
+      ],
+      "decision": "Portfolio gallery versus separate projects needs a product/content decision before new schemas or route retirement."
+    },
+    {
+      "key": "CW-024",
+      "title": "Align homepage View Project links with approved portfolio destinations",
+      "owner": "cielitos-ui",
+      "label": "bug",
+      "kind": "Navigation contract",
+      "evidence": "Observed",
+      "sources": [
+        "components/home/FeaturedWork.tsx:90-131",
+        "app/work/page.tsx:42-61"
+      ],
+      "problem": "Every View Project featured card links to the generic gallery instead of an individual project; intended destination depends on the Work/Gallery decision.",
+      "criterion": "Each featured card label and destination match the approved item-level or collection-level navigation contract, with no misleading View Project link.",
+      "deps": [
+        "CW-023"
+      ],
+      "decision": "No blind switch to /work/[slug] when featured items are galleryAsset documents rather than work documents."
+    },
+    {
+      "key": "CW-025",
+      "title": "Reconcile active Sanity schemas and editable page/query contracts",
+      "owner": "cielitos-dev",
+      "label": "bug",
+      "kind": "Content-contract discovery",
+      "evidence": "Observed",
+      "sources": [
+        "sanity/schemaTypes/homePage.ts",
+        "sanity/schemaTypes/homeAbout.ts",
+        "sanity/schemaTypes/siteSettings.ts",
+        "sanity/schemaTypes/galleryAsset.ts",
+        "sanity/lib/queries.ts:130-283,346-362",
+        "sanity/structure.ts"
+      ],
+      "problem": "Queries expect several fields not exposed by current schemas; homePage embeds section settings while active reads use separate section documents. Contact query repeats pageBackground and singleton selection conventions differ.",
+      "criterion": "For each approved active page setting, one documented authoring location controls the rendered value under a consistent selection contract, with no uneditable promised field or ambiguous duplicate source.",
+      "deps": [
+        "CW-002",
+        "CW-023"
+      ],
+      "decision": "Inventory before removal; existing content may use legacy fields. Shared queries/schema files have one dev integration owner."
+    },
+    {
+      "key": "CW-026",
+      "title": "Restore truthful typecheck and lint gates compatible with installed Next",
+      "owner": "cielitos-dev",
+      "label": "bug",
+      "kind": "Tooling defect",
+      "evidence": "Observed",
+      "sources": [
+        "next.config.js:36-40",
+        "package.json:5-9,53-65,85-90",
+        ".eslintrc.json",
+        "tsconfig.json"
+      ],
+      "problem": "Build ignores TypeScript errors; npm lint calls next lint, absent from installed Next 16 CLI; ESLint config/SWC packages remain on Next 13 and React 19 types differ from React 18 runtime.",
+      "criterion": "Approved deterministic type/lint/build checks use a compatible toolchain and fail on genuine violations without ignored build errors or weakened rules, with real outputs attached.",
+      "deps": [
+        "CW-001"
+      ],
+      "decision": "Config, tests and lockfiles are protected; authorize an explicit scoped tooling task and repository trust before any edits or installs."
+    },
+    {
+      "key": "CW-027",
+      "title": "Define independent acceptance verification and PR evidence gates",
+      "owner": "cielitos-lead",
+      "label": "documentation",
+      "kind": "Delivery gate",
+      "evidence": "Observed",
+      "sources": [
+        "package.json:5-9",
+        "AGENTS.md",
+        "STATE.md"
+      ],
+      "problem": "No test script or test files were discovered and no independent verifier is assigned. Builder opinion or pane state cannot establish readiness.",
+      "criterion": "The human-approved plan maps every accepted criterion to a proving command/scenario and a named fresh read-only verifier or human, with done-unverified/verified transitions and protected-file checks defined.",
+      "deps": [
+        "CW-001",
+        "CW-026"
+      ],
+      "decision": "No test framework/vendor chosen during intake; deterministic output counts only for the behavior it exercises."
+    },
+    {
+      "key": "CW-028",
+      "title": "Establish measurable analytics, reliability and performance objectives",
+      "owner": "cielitos-lead",
+      "label": "question",
+      "kind": "Measurement discovery",
+      "evidence": "Unknown",
+      "sources": [
+        "cielitos-wrld-prd.md:8-16,134-138",
+        "STATE.md"
+      ],
+      "problem": "PRD aspirational targets have no supplied baseline or event definitions; lab/field performance, reliability windows, monitoring and privacy consent requirements are unconfirmed.",
+      "criterion": "An approved measurement contract defines the outcome event, audience/exclusions/window, diagnostic and guardrail events, baseline period, relevant SLIs/SLOs and collection/verification ownership without inventing results.",
+      "deps": [
+        "CW-001",
+        "CW-007"
+      ],
+      "decision": "Choose first outcome before tracking; avoid third-party analytics, consent changes or numeric SLOs without approved requirements."
+    },
+    {
+      "key": "CW-029",
+      "title": "Replace placeholder SEO/domain metadata and missing share-image fallback",
+      "owner": "cielitos-dev",
+      "label": "bug",
+      "kind": "Metadata defect",
+      "evidence": "Observed",
+      "sources": [
+        "app/layout.tsx:71-129",
+        "app/blog/[slug]/page.tsx:11-78",
+        "sanity/schemaTypes/siteSettings.ts:31-56"
+      ],
+      "problem": "Root metadata hardcodes a production URL and placeholder Google verification code and falls back to /og-image.jpg without discovered public assets; canonical/domain ownership is unconfirmed.",
+      "criterion": "In the approved environment, generated metadata and share images resolve to the approved owned domain/assets and contain no placeholder verification value, with page-specific values checked independently.",
+      "deps": [
+        "CW-004",
+        "CW-037"
+      ],
+      "decision": "Human supplies authoritative domain/verification requirements; no DNS or Search Console mutation."
+    },
+    {
+      "key": "CW-030",
+      "title": "Update owner and developer docs to the approved actual workflow",
+      "owner": "cielitos-lead",
+      "label": "documentation",
+      "kind": "Documentation debt",
+      "evidence": "Documented",
+      "sources": [
+        "STUDIO_GUIDE.md",
+        "cielitos-wrld-sanity-setup.md",
+        "cielitos-wrld-prd.md",
+        ".env.local.example",
+        "sanity.config.ts:9-19"
+      ],
+      "problem": "Docs describe inactive Studio dashboard/Work authoring, older Node requirements, missing write-token setup and features not implemented. Environment template only documents dormant WordPress.",
+      "criterion": "A fresh reader can follow the approved setup, content-editing/moderation and verification instructions without invoking inactive features or exposing credentials; implementation status is explicitly separated from product intent.",
+      "deps": [
+        "CW-002",
+        "CW-008",
+        "CW-023",
+        "CW-026",
+        "CW-037"
+      ],
+      "decision": "Lead owns prose; dev owns any separately authorized environment-template/config changes. Historical PRD intent should not be silently rewritten as approval."
+    },
+    {
+      "key": "CW-031",
+      "title": "Use one approved source for visible contact details and claims",
+      "owner": "cielitos-ui",
+      "label": "bug",
+      "kind": "Content consistency defect",
+      "evidence": "Observed",
+      "sources": [
+        "components/home/ContactCTA.tsx:16-45,65-145",
+        "app/contact/page.tsx:14-40,68-149",
+        "components/layout/Footer.tsx:6-38"
+      ],
+      "problem": "Homepage CTA hardcodes contact details/service claims, while Contact/Footer use CMS values or other fallbacks; displayed/copy-to-clipboard destinations can diverge.",
+      "criterion": "All active displayed/copied email, phone, social destinations and service claims match the single human-approved contact content source in normal and missing-content states.",
+      "deps": [
+        "CW-025"
+      ],
+      "decision": "Human approves public details and service claims; do not copy values from unused cards or invent services."
+    },
+    {
+      "key": "CW-032",
+      "title": "Assess and retire unused integrations, components and divergent types safely",
+      "owner": "cielitos-dev",
+      "label": "enhancement",
+      "kind": "Maintenance discovery",
+      "evidence": "Observed",
+      "sources": [
+        "lib/wordpress/",
+        "lib/apollo-wrapper.tsx",
+        "lib/gallery-metadata.ts",
+        "lib/optimized-gallery.ts",
+        "lib/types.ts",
+        "lib/types/gallery.ts",
+        "components/home/Hero.tsx",
+        "components/gallery/GalleryFeed.tsx",
+        "sanity/deskStructure.tsx",
+        "components/home/GalleryPreview.tsx:430-436"
+      ],
+      "problem": "Dormant WordPress clients, generated local gallery data, alternate UI paths and divergent models increase maintenance ambiguity; presence alone is not proof every dependency is removable. UI intake also found a close button in the previously identified inactive GalleryPreview that only stops propagation; retain/retire its path before treating this as a live-site fix.",
+      "criterion": "An approved reference-backed retirement inventory identifies each retained/deleted path and its active consumers, and any executed cutover leaves no broken caller or second competing contract.",
+      "deps": [
+        "CW-018",
+        "CW-023",
+        "CW-025"
+      ],
+      "decision": "Discovery first; no broad cleanup, lockfile edits or dependency removal during intake. UI reviews removals in its components."
+    },
+    {
+      "key": "CW-033",
+      "title": "Decide whether dark mode belongs in the first supported experience",
+      "owner": "cielitos-lead",
+      "label": "question",
+      "kind": "Optional enhancement",
+      "evidence": "Observed",
+      "sources": [
+        "lib/contexts/DarkModeContext.tsx",
+        "components/DarkModeSwitcher.tsx",
+        "app/layout.tsx:164-174",
+        "cielitos-wrld-prd.md:149-152"
+      ],
+      "problem": "Dark-mode state/switcher exists but is unmounted; old PRD lists dark mode as future enhancement. There is no current user evidence or approved launch requirement.",
+      "criterion": "The human records include/defer/remove for dark mode with an outcome rationale and, only if included, approved preference/persistence, contrast and first-render criteria.",
+      "deps": [
+        "CW-001",
+        "CW-036"
+      ],
+      "decision": "No automatic activation or redesign based on dormant code."
+    },
+    {
+      "key": "CW-034",
+      "title": "Decide homepage video scope and media delivery constraints",
+      "owner": "cielitos-lead",
+      "label": "question",
+      "kind": "Optional enhancement",
+      "evidence": "Observed",
+      "sources": [
+        "components/HeroSection.tsx:21-88",
+        "components/home/VideoSection.tsx",
+        "app/page.tsx:17-22",
+        "cielitos-wrld-prd.md:66-76,129-130"
+      ],
+      "problem": "PRD requests autoplay hero/video snippet, but active hero is image-based and standalone video component is unused. MP4 branch still renders img.",
+      "criterion": "The human records image-only versus video scope with owned media, fallback, autoplay/reduced-motion, mobile data and performance acceptance requirements before implementation.",
+      "deps": [
+        "CW-001",
+        "CW-004",
+        "CW-028"
+      ],
+      "decision": "A documented aspiration is not current build authorization; do not enable external embeds or invent performance thresholds."
+    },
+    {
+      "key": "CW-035",
+      "title": "Decide whether generic page builder and live-preview infrastructure are needed",
+      "owner": "cielitos-lead",
+      "label": "question",
+      "kind": "Architecture discovery",
+      "evidence": "Observed",
+      "sources": [
+        "sanity/schemaTypes/page.ts",
+        "components/sections/PageSections.tsx",
+        "sanity/lib/queries.ts:179-211",
+        "sanity/lib/live.ts",
+        "app/page.tsx"
+      ],
+      "problem": "Page builder schemas/renderers/query and SanityLive helpers exist without active route consumers; homepage uses fixed composition. Maintenance value is unproven.",
+      "criterion": "The content owner records the concrete authoring job and include/defer/retire decision for generic pages/live preview with an explicit reversal path for retained content.",
+      "deps": [
+        "CW-001",
+        "CW-025"
+      ],
+      "decision": "Do not wire a new CMS page router, draft-preview token or live service without approved spec and demand."
+    },
+    {
+      "key": "CW-036",
+      "title": "Confirm current brand, content authority and design acceptance rubric",
+      "owner": "cielitos-lead",
+      "label": "question",
+      "kind": "Design discovery",
+      "evidence": "Documented",
+      "sources": [
+        "cielitos-design-system.json",
+        "cielitos-wrld-wireframes.md",
+        "app/globals.css:7-106",
+        "tailwind.config.ts:30-138"
+      ],
+      "problem": "Original docs specify Fitzgerald typography while active UI uses Pattaya/Inter. Approved copy, responsive behavior, accessibility target and design approver are not established. Hero still references the old Fitzgerald class while local font loading is commented out.",
+      "criterion": "A human-approved current design/content rubric identifies authoritative fonts/tokens/copy, allowed changes, required states, viewport and accessibility checks so UI can implement without guessing.",
+      "deps": [
+        "CW-001"
+      ],
+      "decision": "Preserve current photography-first earth-tone direction until approved; no speculative redesign."
+    },
+    {
+      "key": "CW-037",
+      "title": "Confirm environments, repository trust, CI and progressive-release ownership",
+      "owner": "cielitos-lead",
+      "label": "question",
+      "kind": "Operations gate",
+      "evidence": "Observed",
+      "sources": [
+        ".git/config:8-13",
+        ".git/HEAD",
+        "STATE.md",
+        "cielitos-wrld-prd.md:142-145"
+      ],
+      "problem": "Git status was refused for dubious ownership; hosting/preview environments, branch protection, CI requirements and rollback owner are unknown. Vercel is documented intent, not established live configuration.",
+      "criterion": "The human approves repository trust and delivery ownership with named nonproduction/production environments, branch/PR rules, independent checks, rollout/rollback criteria and explicit release authority before build or deployment work.",
+      "deps": [
+        "CW-001",
+        "CW-002"
+      ],
+      "decision": "Do not add global safe.directory, alter CI/secrets, provision infrastructure, deploy or stop herdr on behalf of this ticket without explicit authorization."
+    },
+    {
+      "key": "CW-038",
+      "title": "Define predictable CMS outage, missing-content and refresh behavior",
+      "owner": "cielitos-dev",
+      "label": "enhancement",
+      "kind": "Reliability discovery",
+      "evidence": "Observed",
+      "sources": [
+        "app/page.tsx:12-22",
+        "app/layout.tsx:61-68,132-144",
+        "components/blog/Comments.tsx:9-18",
+        "sanity/lib/client.ts",
+        "app/actions/reviews.ts:62-94"
+      ],
+      "problem": "Page read failure handling and fallback contracts differ; comment reads propagate errors, some pages use hardcoded fallbacks, and review approval/cache refresh behavior lacks a measured freshness contract.",
+      "criterion": "For each approved critical CMS read/write flow, a synthetic outage/missing-document/recovery scenario produces the specified truthful state and meets the approved freshness/reliability indicator without silently showing invented content.",
+      "deps": [
+        "CW-003",
+        "CW-008",
+        "CW-028"
+      ],
+      "decision": "Define critical flows, fresh/stale limits and recovery first; no blanket retries, fake fallbacks or live-content service additions."
+    },
+    {
+      "key": "CW-039",
+      "title": "Make gallery cards reachable and activatable by keyboard",
+      "owner": "cielitos-ui",
+      "label": "bug",
+      "kind": "Accessibility defect",
+      "evidence": "Observed",
+      "sources": [
+        "components/gallery/GalleryCard.tsx:22-26",
+        "components/gallery/GalleryGrid.tsx:16-18"
+      ],
+      "problem": "UI source intake found a click-only div opening the lightbox, without native keyboard focus/activation. No runtime accessibility test has run.",
+      "criterion": "Each gallery card can be reached and activated through approved native keyboard behavior with an accessible name and visible focus, opening the corresponding item and returning focus on close.",
+      "deps": [
+        "CW-013",
+        "CW-036"
+      ],
+      "decision": "Approve accessible naming/focus rubric; UI owns cards while lightbox/shared integration is sequenced."
+    },
+    {
+      "key": "CW-040",
+      "title": "Expose mobile gallery filter dialog and selection state accessibly",
+      "owner": "cielitos-ui",
+      "label": "bug",
+      "kind": "Accessibility defect",
+      "evidence": "Observed",
+      "sources": [
+        "components/gallery/GalleryMobileFilters.tsx:126-136,198-210"
+      ],
+      "problem": "UI intake found an unnamed close button, missing modal focus management and visually selected buttons without exposed selected state. Behavior was not runtime tested.",
+      "criterion": "Keyboard and assistive-technology users can open, understand, select within and close the approved filter sheet with contained/restored focus, named controls and programmatically exposed selections.",
+      "deps": [
+        "CW-012",
+        "CW-036"
+      ],
+      "decision": "Confirm modal semantics and immediate versus Show Results application before implementation."
+    }
+  ]
+}

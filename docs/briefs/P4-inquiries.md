@@ -1,0 +1,20 @@
+# JOB
+In a FRESH read-only context, independently try to disprove completion of inquiry AC1–8 and report exact evidence/defects/unchecked criteria; never edit or ship.
+
+# CONTEXT
+NOT ACTIVE until human P2 plan approval and actual dev/UI done-unverified commits are assigned. Read docs/plans/2026-11-09-reliable-inquiries-plan.md and effective specs reliable-inquiries.md plus v2 overrides. You are not a builder or lead; no author opinions count as proof. Proposed kind Codex CLI 0.166.0 with read-only sandbox/on-request approval in a new Checks pane; IDs/candidate commit must come from actual output. Initial user lockfile change is allowed baseline, not a defect to restore. No LSP configured. Build bypasses type errors; removed next lint and missing-Sanity startup are known failures, don't rerun unchanged to confirm them.
+
+# BOUNDARIES
+READ ONLY: no source/test/config/docs/index/branch edits, installs/autofix, thresholds, environments/credentials, account/DNS/CMS/provider calls, emails, main pushes/merge/deploy. No auth/trust/permission prompt approval. Execute only assigned local checks on synthetic isolated no-egress fixtures; no actual .env values or real destination fixture. Do not start/stop any server unless separately assigned; browser uses an explicitly supplied local/nonproduction URL. If tool/browser/auth/config is missing, report exactly what cannot be checked; do not replace with static source or builder self-check as proof. Capture any reports/screenshots outside repo only if approved, otherwise pane output; lead owns evidence files.
+
+# OUTPUT CONTRACT
+One acceptance criterion: a criterion-by-criterion report states conditions, actual command output/observations, pass/fail/unchecked and defects without mutations or overclaim. Initial local commands after frozen candidate: node --test --test-concurrency=1 tests/contact.test.cjs; node node_modules/typescript/bin/tsc --noEmit --incremental false --pretty false; direct ESLint owned files as listed in plan (no autofix). First native-runner result is a real feasibility gate; if cannot load actual modules, report, don't fake a harness or install tools. Existing unrelated config/type failures are logged, not suppressed.
+
+Exercise wrong-destination/header attacks, budget/field/stream bounds and no-send guards, accepted versus malformed/mismatched success, known rejection/quota versus possible-send error/conflict/timeout, stable immutable same-ID retry, exact privacy-safe event fields and no token/body/PII logs. Native controlled timeout plus no-store/status shape checks. Test mocks establish app contracts, never actual vendor dedup/mailbox receipt.
+
+For actual UI, use approved page plus deterministic response interception only for form-state proof: double activation/pending edits, field/general errors, strict success parsing, unknown/malformed/network, 409 modes, clock expiry, explicit duplicate confirmation, reference/reset/focus; keyboard/status/field semantics and 320/640/768/1280/reduced-motion cases. UI fixtures cannot prove emails. Record if actual page cannot render without human config. Assistive/manual and provider synthetic/real inbox checks remain unchecked absent approved resources.
+
+Before/after scoped diff/hash checks compare to initial protected baseline, acknowledging user lockfile and approved tsconfig/example edits. You must not change tracked files. Return defects with reproduction/environment/expected/actual/evidence/severity/owner; independent statuses only for exercised criteria. No Go claim. End exact marker CW-P4-INQUIRY-REPORT-COMPLETE.
+
+# STOP CONDITIONS
+One check pass up to 45 minutes; no repeated unchanged failed check, no automated loop or subagents. Stop on sensitive values/permission/auth/network scope, mutated candidate, missing environment or cap; preserve evidence. Defect goes to P3 on new branch; spec flaw to P1. A separately assigned affected/full-critical recheck is allowed only after an actual fix under plan caps. Do not weaken tests or approve your own prompt. No live send/launch.

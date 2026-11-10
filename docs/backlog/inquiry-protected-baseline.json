@@ -1,0 +1,19 @@
+{
+  "recorded": "2026-11-10",
+  "phase": "P3 preflight before branch/source mutation",
+  "initialBranch": "main",
+  "userOwnedModifiedFiles": ["package-lock.json"],
+  "sha256": {
+    "package-lock.json": "677011ba76e75d1fdc7f9bba7f97d8bb8916630b187536de48962248242471b8",
+    "package.json": "b3d4b9e5f134e51976e37f5f168652c4d560807dbdb0d7c3fdaf7cf0ee4ec6af",
+    "tsconfig.json": "292b6ca9c362f3349c8113a072d49a06f126eafec352d7a50572543f55755c58",
+    "next.config.js": "7619260fef3e9d7975b4e5ed5c8fd6a6894f9a2ae55eac44b440d457eac59513",
+    ".eslintrc.json": "0993e9be77702585464a3548cf07ae9e4a27de29507b524aeefe5c1047afedfe",
+    "tailwind.config.ts": "4d6823206b8844e8cffea3a074268af0647cc3d6403c893a60d1df4e1db6db77"
+  },
+  "allowedExceptions": {
+    "tsconfig.json": "allowImportingTsExtensions:true only, if needed by approved native test path",
+    ".env.local.example": "Active variable-name documentation with sending disabled and no actual values"
+  },
+  "evidence": "Actual scoped Git status and node:crypto SHA-256 fact command; no application verification implied. Preserve user lockfile, never restore/stage it."
+}
