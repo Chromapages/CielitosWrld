@@ -1,6 +1,6 @@
 # Cielito’s Wrld — Task inventory
 
-Updated: 2026-11-10. Phase: **P3 BUILD**, human approved exact plan v1/D011; L0 docs checkpoint begins, production implementation not yet started.
+Updated: 2026-11-10. Phase: **P4 acceptance blocked**. Source da568aa is implemented/done-unverified; independent local API fixtures passed, compiler failed and ESLint was unavailable. Actual environment explicitly not ready; operating handoff/draft publication in progress.
 
 ## Evidence and workflow
 - Observed: 40 GitHub issue creation URLs; a subsequent scoped GitHub count returned **40** open issues. This proves publication, not technical correctness or implementation completeness.
@@ -321,16 +321,16 @@ No production changes. Reports and estimate qualifications: docs/plans/inquiry-b
 
 No task is independently verified. UI estimated 8–14 active hours, conditional/not measured; dev elapsed estimate Unknown. No aggregate schedule or account/spend/delivery claim. Actual report completion, not idle pane state, established planning deliverable availability.
 
-## P3/P4 proposed tasks — NOT active before P2 approval
-Use the plan graph for dependencies and exact file scopes. Status for all below is planned; no builder/checker started.
+## Approved inquiry increment tasks
+D011 authorizes the bounded serial plan. Actual statuses below supersede the former proposal; partial local checks do not establish full AC1–8 acceptance.
 
 | Task | One owner | Status | Dependencies | Single acceptance criterion | Brief |
 |---|---|---|---|---|---|
-| L0 docs checkpoint | cielitos-lead | in flight | Human P2 approval, D011 | Lead-owned artifacts committed on approved nondefault docs branch with no unrelated staging. | docs/briefs/P3-docs-checkpoint.md |
-| D1 API/shared contract | cielitos-dev | planned | L0 actual docs commit and Git handoff | API/contract implements complete effective spec invariants with meaningful isolated regression cases and no unauthorized edits. | docs/briefs/P3-api.md |
-| U1 form | cielitos-ui | planned | D1 actual commit/shared contract freeze | Existing form implements complete v2 states, immutable retry and focus/error behavior without false success or lost input. | docs/briefs/P3-ui.md |
-| V1 fresh independent check | cielitos-verifier (proposed Codex, not started) | planned | D1/U1 frozen actual candidate and human-approved checker pane | Actual criterion-by-criterion output/observations expose failures and unchecked scenarios without editing or overclaim. | docs/briefs/P4-inquiries.md |
-| L1 operating runbook | cielitos-lead | planned | Actual candidate and independent check report | Operator runbook distinguishes evidenced local behavior from gated live/measurement checks and defines safe recovery. | docs/briefs/P3-runbook.md |
-| H1 live prerequisites | requesting human/environment owner | planned | Explicit separate access/send/privacy permissions | Approved nonproduction config/inbox and authority support fresh actual-page/provider/inbox proof without production guesses. | docs/briefs/H1-live-prerequisites.md |
+| L0 docs checkpoint | cielitos-lead | done-unverified | Human P2 approval, D011 | Actual docs-only commit 00afdf0 and draft PR #41; protected hashes unchanged, no unrelated staging. | docs/briefs/P3-docs-checkpoint.md |
+| D1 API/shared contract | cielitos-dev | done-unverified | Actual docs base 00afdf0 | Actual 7d174bb/frozen contract returned; fresh 72-case API fixture pass covers local portions, not complete live acceptance. | docs/briefs/P3-api.md |
+| U1 form | cielitos-ui | done-unverified | Actual API base 7d174bb | Actual one-file da568aa/report returned; actual React/browser/accessibility/navigation criteria remain unchecked, not replaced by author harness. | docs/briefs/P3-ui.md |
+| V1 fresh independent check | cielitos-verifier-local (fresh Codex context) | done-unverified | Frozen da568aa; approved read-only/local-only scope | Actual report/supplement delivered and logged in inquiry-independent-check.md: partial local API pass, compiler/lint failures and unchecked full criteria; no edits or live calls. | docs/briefs/P4-inquiries.md |
+| L1 operating runbook | cielitos-lead | in flight | Actual candidate and independent report | docs/CONTACT_INQUIRIES.md and independent evidence digest now distinguish local results/live gates and recovery; actual draft PR publication remains. | docs/briefs/P3-runbook.md |
+| H1 live prerequisites | requesting human/environment owner | blocked | User D013 explicitly not ready; separate access/send/privacy permissions still missing | Approved nonproduction config/inbox and authority support fresh actual-page/provider/inbox proof without production guesses. | docs/briefs/H1-live-prerequisites.md |
 
-No aggregate effort/date claim. Caps in the proposed plan are guards, not estimates or model-cost guarantees. No test/config exception or branch/PR/tab creation has occurred. Missing credentials/domain/real-inbox/Sanity rendering/export/accessibility proof remains a release blocker, not a shipped fallback.
+No aggregate effort/date or model-cost claim. Approved finite caps are guards, not estimates. Actual branches/source commits/docs PR #41 and scoped exceptions are recorded in STATE; no broader protected tooling repair authorized. Missing actual-page/accessibility/provider/inbox/hosting/privacy/export evidence and non-green type/lint remain release blockers, not shipped fallbacks.
