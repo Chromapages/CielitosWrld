@@ -113,3 +113,23 @@ Evidence tags: Observed (tool/source observation), Documented (existing text), I
 - Confidence: Medium for bounded scope, Unknown for total elapsed effort. Builder UI estimate 8–14 active hours conditional/not measured; developer elapsed estimate Unknown. Caps may stop work unfinished and require human extension; no date promised.
 - Reconsideration trigger: Spec defect, extra file/dependency/config needs, protected/user changes, runtime/verifier inability, cap or unsupported native runner. Preserve branch and escalate; do not reset user work or silently broaden scope.
 - Owner/date/stakeholders: Orin Vance proposes; requesting human decides / 2026-11-10 / dev, UI, fresh verifier, operator/release approver.
+
+## D012 — Approve Codex folder trust for this repository only
+- Status: Accepted — explicit human codex_folder_trust=approve_for_this_repository on 2026-11-10.
+- Context/problem: Fresh checker startup displayed a saved folder-trust prompt despite herdr reporting interactive_ready/idle. No project .codex settings directory was found; AGENTS.md exists; global Codex settings were not audited.
+- Options considered: Approve repository folder trust for the read-only checker; keep it blocked and require another verifier/human.
+- Decision/rationale: Human authorizes this repository's saved Codex trust with the existing read-only sandbox/on-request approvals only. No plugins, unsafe flags, source editing, credentials, live sends or later prompts approved.
+- Trade-offs/consequences: Original saved-trust transport failed with config/batchWrite remote app-server worker channel closed; no force-resume/shared restart. A fresh local no-daemon replacement used the same authorized repo trust/read-only scope and produced isolated reports. Offered upgrade and new/changed hook trust were declined. Actual hook execution was not audited; no future plugin/hook permission implied. Runtime readiness is not application acceptance.
+- Confidence: High for human permission; local replacement produced actual evidence, while real UI/provider/inbox readiness remains unproved.
+- Reconsideration trigger: Different folder/config/permission scope, another failure or inability to establish fresh read-only context. Preserve evidence, do not force-resume or repair shared infrastructure.
+- Owner/date/stakeholders: Requesting human authorizes; Orin Vance records / 2026-11-10 / checker, code builders, local runtime owner.
+
+## D013 — Keep verification isolated; actual-page environment not ready
+- Status: Accepted — explicit human preview_verification=not_ready_local_only on 2026-11-10.
+- Context/problem: Actual Contact-page proof requires approved nonproduction Sanity configuration/read permissions, not supplied. Prior missing-environment failure must not be rerun unchanged or replaced with invented CMS data.
+- Options considered: Human configures approved nonproduction resources/reads; continue isolated local checks and retain unverified actual-page/CMS/provider evidence.
+- Decision/rationale: Continue isolated local checks now. Do not start the site/CMS requests or invent settings; keep actual-page, provider/inbox and other live criteria unchecked. Accepted feature/metric scope is NOT reduced and release is not authorized.
+- Trade-offs/consequences: Candidate code/PR may be done-unverified; no full acceptance/Go claim. No signup, credentials, environment/DNS/CORS change, production read, send or paid usage. Human must later provide/authorize prerequisites outside chat.
+- Confidence: High for human availability/permission direction; runtime/delivery remains unobserved.
+- Reconsideration trigger: Human confirms approved configuration/access has changed, supplying new authority for the bounded real scenario.
+- Owner/date/stakeholders: Requesting human decides; Orin Vance records / 2026-11-10 / verifier, operator, builders, release approver.

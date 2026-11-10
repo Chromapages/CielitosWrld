@@ -90,3 +90,52 @@
 - Preflight: scoped Git status main...origin/main with only pre-existing package-lock.json tracked modification and lead untracked docs. Protected SHA-256 values captured to inquiry-protected-baseline.json. Git version/help and gh PR help read; no tests or application checks.
 - Change: plan/state/agent/task approval metadata updated; protected baseline added to explicit lead-only staging manifest. No production code, staging, branch/commit/PR or send yet.
 - Next: create docs branch, stage only manifest, docs-only commit/push/draft PR; then actual commit handoff to dev, UI waits. No self-verification. Source-observation reproduction and later independent behavior checks take precedence over the TDD skill's mid-flight loop.
+
+## 2026-11-10 — L0 checkpoint / D1 handoff
+- Change/evidence: created plan/inquiry-v2, staged only manifest paths and committed docs at actual 00afdf0 (67 files +4116/-0), pushed branch. Actual documentation draft PR: https://github.com/Chromapages/CielitosWrld/pull/41, base main. No feature code or delivery claim.
+- Protection: all six SHA-256 values after docs pass equal preflight, including the user-modified unstaged lockfile. No line-ending restyle/global config change; Git warnings left alone.
+- Handoff: docs commit/base 00afdf0 and approved P3-api brief/plan/spec provided for dev-owned ticket/5-reliable-inquiries. One bounded source/index owner; UI waits. Parent writes only its records, not production code or checks.
+- Next: consume actual completed D1 report/shared exports/commit before UI, then fresh independent checks after both slices. No account, credential, service, real send, merge or deploy.
+
+## 2026-11-10 — D1 dispatched / bounded report wait
+- Actual herdr submission returned agent_prompted; no idle-state success assumption or duplicate input. A finite exact-standalone-report-marker output guard is active; report content/commit and independent checks remain required.
+- Approved topology prep: created Checks tab wK:t4, shell pane wK:p4; read an available PowerShell prompt. No checker agent/P4 verification or server started.
+- Issue #5 progress comment created at actual https://github.com/Chromapages/CielitosWrld/issues/5#issuecomment-6762761987, explicitly unverified/live-disabled. Parent makes no source/index writes while dev owns the pass.
+- Next: await actual D1 report and frozen contract/commit, then UI assignment; no provider/account/live tests until separately authorized.
+
+## 2026-11-10 — D1 actual result / U1 handoff / checker startup failure
+- Actual completed D1 report/marker consumed. Commit 7d174bb on assigned API branch, seven owned files +783/-67, contract exports frozen. API handoff digest saved; no lead production-code edits.
+- Author reported 72 passing regression cases once at end of its slice, earlier than the plan's combined independent stage. This sequencing deviation is recorded, not hidden or relabeled as verified; fresh checking remains mandatory. No typecheck/lint/build/browser/live send.
+- Post-D1 hash fact: user lockfile and package/Next/ESLint/Tailwind match preflight; tsconfig changed within assigned exception (exact diff still independently unreviewed). UI component untouched per author report.
+- Human approved Codex folder trust (D012); exact prompt re-read, Enter sent once. Persistence failed with remote app-server worker channel closed. No repeated Enter or shared infrastructure restart; no actual verifier task or P4 checks. Tool readiness mismatch reported through QA.
+- Next: U1 on actual 7d174bb and frozen contract; bounded fresh local no-daemon checker preparation may avoid shared transport without weaker permissions. If unusable, require another approved verifier/human; never use lead/author as substitute.
+
+## 2026-11-10 — U1 dispatched / fresh local verifier ready in standby
+- Actual U1 prompt returned agent_prompted with actual base 7d174bb/frozen exports and one-file scope. No author checks permitted; independent check follows combined candidate. Finite standalone-report output wait active, no duplicate input.
+- Checker recovery: closed only lead-created failed wK:t4; created actual wK:t5/p5 and fresh cielitos-verifier-local with --no-daemon and unchanged read-only/on-request/no-alt-screen flags. No shared daemon/herdr restart.
+- Offered CLI upgrade was declined (no install). New/changed hook permission was declined using Continue without trusting; hooks not authorized/run. D012 covers same repository saved trust through local transport. Final fresh CLI prompt observed, model metadata GPT-6.1 Terra high; no verification task or application check yet.
+- Availability risk: CLI account-quota warning, no paid fallback or auto-upgrade. Runtime readiness is not verification. Parent still only records state, never authors code or checks own plan.
+- Next: actual U1 commit/report, protected-scope handoff and P4 fresh-check task; real environment/provider/accessibility/live gates remain unresolved.
+
+## 2026-11-10 — U1 actual result / P3 exit / P4 isolated handoff
+- Actual UI report consumed: one-file commit da568aaa1da4f7bf510d2574949a78673ac641ae, actual parent 7d174bb68b854356041bafd9b86b68b869676734; +327/-70, no push. D1/U1 source tasks implemented/done-unverified; candidate frozen.
+- UI author ran a hook/DOM substitute scenario despite requested check deferral; first throwaway traversal failed, then harness-only correction yielded author PASS. No files or actual browser proof. Record deviation; do not promote either author's checks to independent verification.
+- User preview_verification=not_ready_local_only accepted as D013; no site/CMS/provider request, real inbox or missing-env rerun. Actual-page/CMS/delivery acceptance remains unchecked and release blocked.
+- Post-U1 protected hash fact matches post-D1, including user lockfile and allowed tsconfig state. Lead makes no production source change. New UI handoff digest saved.
+- Next: fresh Codex read-only model context receives actual candidate and P4 brief, executes only scoped isolated checks/review, reports evidence/defects/unchecked. No source writes while check active. Runbook/actual draft feature PR follows the result, not a fabricated Go.
+
+## 2026-11-10 — P4 actual local evidence / operating handoff
+- Target: independent evidence for frozen da568aa without site/CMS/provider access under D013.
+- Actual fresh Codex reports consumed from cielitos-verifier-local wK:t5/p5, independent of lead/builders. Native API command exit 0, 72 passed/0 failed/0 skipped; controlled timeout and denied-egress fixtures. Local API behavior only, not full AC1–8.
+- Compiler result correction: checker prose called its result unavailable, but the existing expanded native transcript retained Sanity TS2345 diagnostics and exit indicator 1. Lead read that output without rerunning the compiler. Direct ESLint exited 1 before analysis because configured @typescript-eslint/eslint-plugin was missing. Existing #26 owns proposed tooling work; no fix/install or unchanged failure retry.
+- Scope: independent hashes matched protected/source before/after; approved tsconfig diff is exactly allowImportingTsExtensions:true. Repo-only per-command trust successfully obtained full short status. Untracked .omx/ is unattributed; preserve untouched/unstaged alongside the user lockfile. Do not claim new metadata is ours or publish its contents.
+- Runtime: herdr --wait returned done mid-turn despite Working output; QA report filed, prompt not repeated. Final reports established completion. Hook wording correction: the prior claim that hooks did not run exceeded evidence; new/changed hook TRUST was declined, execution was not audited.
+- Change: lead-only independent evidence digest and CONTACT_INQUIRIES operator runbook written; source frozen, no account/env/credential/DNS/CORS change, real send, site startup, merge or deploy. Actual UI/accessibility/vendor/inbox/retention/export/rollback and baseline remain unchecked; all source tasks done-unverified.
+- Next: checkpoint only explicit lead-owned files, push approved branch and create actual stacked draft PR; then record returned URL/issue evidence. No No-Go bypass, extra build/repair loop or public enablement.
+
+## 2026-11-10 — Actual feature draft and ticket handoff published
+- Actual lead-only handoff commit 6a9eab3: nine explicit owned documentation paths, +289/-50; pushed ticket/6-contact-form. User lockfile and unattributed .omx/ were not staged. Source candidate remains da568aa; no new functional check or source edit.
+- Actual stacked draft PR: https://github.com/Chromapages/CielitosWrld/pull/42, base plan/inquiry-v2; docs draft #41 targets main. Both are drafts, not merge/release authority. No issue closed.
+- Actual evidence comments: #5 https://github.com/Chromapages/CielitosWrld/issues/5#issuecomment-6772514188 ; #6 https://github.com/Chromapages/CielitosWrld/issues/6#issuecomment-6772514304 ; #26 https://github.com/Chromapages/CielitosWrld/issues/26#issuecomment-6772514223 . Compiler/lint issues recorded, no repair scope silently added.
+- Local inquiry ticket statuses/briefs and ledger now reflect done-unverified rather than obsolete planned-intake state; approved spec remains unchanged. L1 deliverable is actual; full feature acceptance is not.
+- Next / needs-human: remain P4. H1 actual-page/CMS/provider/inbox/hosting/privacy/export/rollback gates explicitly not ready under D013. Separate #26 scope required for protected tooling work. No automatic resume, credentials request in chat, account action, real send, main merge, deploy or baseline claim.

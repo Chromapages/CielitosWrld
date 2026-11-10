@@ -3,9 +3,9 @@
 Updated: 2026-11-10. Lead: Orin Vance (AI orchestrator, herdr name cielitos-lead).
 
 ## Phase and exit evidence
-**P3 BUILD — approved bounded increment beginning.** Human explicitly approved plan v1/D011, listed protected exceptions, serial branch/draft PR resources and fresh checker topology. Lead is performing L0 docs checkpoint; no production code yet. Effective spec v1+v2. Resend Free/no paid upgrades, preserved content/images and all live/account/release gates remain.
+**P4 VERIFY — local check complete; full acceptance blocked.** Frozen source candidate da568aaa1da4f7bf510d2574949a78673ac641ae on ticket/6-contact-form, API parent 7d174bb. Fresh independent checker passed 72 isolated API cases; retained compiler output shows failure and ESLint could not analyze because its configured plugin is missing. No complete AC1–8 is verified. Actual-page/CMS/provider/inbox proof remains unchecked under human D013. Operating handoff 6a9eab3 and actual draft PR #42 are published, not a launch.
 
-Transitions: P0 exited D006; P1 v1 exited D009; builder gaps returned P2 -> P1; human v2/D010 approval resumed P2. Human implementation_plan=approve_plan_v1_d011 on 2026-11-10 supplies P2 exit. P3 starts with owned docs checkpoint then dev/API -> UI; P4 requires a fresh independent report, not builder/lead opinion.
+Transitions: human P0/P1/P2 approvals D006/D009/D010/D011 -> actual D1/U1 commits/reports -> independent isolated P4 report/supplement. Remain in P4 until missing evidence/defects are resolved; no P5 Go or rollout authorization. Defect returns to bounded P3/new branch; spec flaw returns to P1. Details: docs/backlog/inquiry-independent-check.md; full historical pass log: progress.md.
 
 ## Product profile
 | Field | Evidence and state |
@@ -17,11 +17,11 @@ Transitions: P0 exited D006; P1 v1 exited D009; builder gaps returned P2 -> P1; 
 | Hosting | Documented: Vercel intended. Actual account, domain, environments and deployment pipeline [UNKNOWN]. |
 | Data | Unknown: no analytics export, research, support data or measured baseline provided. No live dataset queried. |
 | Agents | Observed: existing omp agents in Lead/Dev/UI tabs of workspace wK; names assigned below. Supported kind list is not proof of installed/authenticated CLI availability. |
-| Independent verifier | [NOT ASSIGNED]. Builders/intake authors cannot independently verify their own work. Later fresh read-only context or human required. |
-| Repo/default | Observed: https://github.com/Chromapages/CielitosWrld; GitHub default main; .git/HEAD points to main. GitHub issues enabled; initial issue/PR lists empty. |
-| Branch/worktree/CI | Repository-only per-command trust approved. Initial authorized status: main...origin/main, pre-existing modified package-lock.json and untracked lead coordination docs. No source edits, branch, staging or commit. Preserve lockfile; CI/worktree convention still unconfirmed. |
-| Protected resources | Existing package-lock.json modification is user-owned/untouched. Tests, thresholds, config, lockfiles, CI, secrets and environments require explicit task scope; P2 workers are read-only. State/spec/brief files are lead-only. |
-| Privacy/security/brand | Observed: contact data logged; reviews store email; live dataset access/privacy [UNKNOWN]. No real submissions or secret values in briefs. Preserve current photography-first earth-tone brand pending human design approval. Legal obligations [HUMAN TO CONFIRM]. |
+| Independent verifier | Observed fresh Codex 0.166.0 / GPT-6.1 Terra high on wK:p5; independent of builders/lead. Actual local report consumed; no actual-page/live evidence. |
+| Repo/default | https://github.com/Chromapages/CielitosWrld; default main. Current source branch ticket/6-contact-form; actual docs draft PR #41, base main. |
+| Branch/CI | D011 serial docs/API/UI branches and stacked draft review. Source da568aa, lead-only handoff 6a9eab3; actual feature draft #42 targets plan/inquiry-v2 above docs #41. Compiler failed, lint blocked; #26 needs separate tooling scope. Docs-base GitHub reads reported no checks/status/deployments; this does not prove future automation absent. |
+| Protected resources | User-modified package-lock.json preserved and matched recorded baseline. Only assigned source paths/tsconfig flag changed. Untracked .omx/ observed by checker is unattributed: preserve untouched/unstaged, do not inspect/publish. No test/config/lock/package/CI expansion authorized. |
+| Privacy/security/brand | Local fixture logs passed allowed-metadata checks; real retention/privacy/access remain Unknown. Reviews' email handling is deferred. No real submissions/secret values copied. Preserve existing content/images and photography-first earth-tone design. Legal obligations [HUMAN TO CONFIRM]. |
 | Cost/deadline | Human selected Resend Free with no paid upgrades/overages (D008); published allowance is not measured site demand. Agent monetary/token caps and delivery deadline [NOT PROVIDED]. No purchases, installs, provisioning or uncapped loops. |
 | Approvers | Requesting human is interim decision contact; named business/technical/design/release approvers [UNKNOWN]. |
 
@@ -30,47 +30,42 @@ Herdr client/server 0.9.5, protocol 22, compatible; observed 2026-11-09. All pan
 
 | Workspace | Tab | Pane | Agent name | Role | State |
 |---|---|---|---|---|---|
-| wK | wK:t1 Lead | wK:p1 | cielitos-lead | Orchestration, ticket/state-file writer | Performing approved L0 docs branch/checkpoint, no production-code authoring |
-| wK | wK:t2 Dev | wK:p2 | cielitos-dev | Backend/CMS/tooling role | Completed P2 source/feasibility report, done-unverified; no code assignment |
-| wK | wK:t3 UI | wK:p3 | cielitos-ui | Visitor/UI role | Completed P2 source/feasibility report, done-unverified; no code assignment |
+| wK | wK:t1 Lead | wK:p1 | cielitos-lead | Orchestration, state/runbook/draft PR owner | Handoff/draft published; no source or new agent assignment |
+| wK | wK:t2 Dev | wK:p2 | cielitos-dev | Backend/API integration owner | D1 commit 7d174bb done-unverified; idle, no new source assignment |
+| wK | wK:t3 UI | wK:p3 | cielitos-ui | Form owner | U1 commit da568aa done-unverified; idle, no new source assignment |
+| wK | wK:t5 Checks | wK:p5 | cielitos-verifier-local (Codex) | Fresh read-only checker, GPT-6.1 Terra high | Report/supplement complete; no new assignment; existing transcript inspected for compiler result |
 
-No extra panes created, no other workspaces touched. No verifier/dev server/check watcher launched. Existing role tabs retained; dev/check/log panes can be proposed at P2 if required.
+Only the lead-created failed Checks tab wK:t4 was closed after its error was recorded; replacement wK:t5/p5 came from actual JSON. No shared daemon/herdr restart. Checker used no-daemon/read-only/on-request/no-alt-screen. Upgrade and new/changed hook trust were declined; actual hook execution was not audited, so do not claim no hooks ran. CLI quota warning is an availability risk, not authority to buy/upgrade.
 
 ## Active tasks / caps
-See TASKS.md and docs/backlog/github-issues.json. Single intake pass finished; 40/40 allowed issue creations used (0 remaining under this pass). Worker reports received; no active build loop. Worker briefs capped each at 5 minutes active / 30 source reads, no retries/subagents/writes/runtime changes. No additional agent work is authorized until the next bounded brief. Agent monetary/token use [UNMETERED HERE]; no implementation loop starts before approved enforceable caps.
+No active build/check loop. D1/U1 used one bounded implementation pass each; independent check plus evidence-only supplement completed within approved finite caps. Lead operating handoff has a 30-minute stop cap. No corrective code pass launched or further checker work authorized. Model monetary/token usage is unmetered here; no financial estimate/guarantee. Intake used 40/40 issue creations (0 remaining); update existing issues rather than create duplicates.
 
 Both herdr prompt waits returned agent_prompt_stalled, but subsequent pane output showed delivered prompts and completed reports; no prompt was repeated. agent explain reports default_known_agent_idle_fallback with no evaluated manifest/rules. Treat textual reports/stops as the evidence, not idle lifecycle status. Dev halted on apparently personal hardcoded public-contact fallbacks; values were not reproduced and no removal/resume was attempted. See docs/backlog/P0-agent-intake.md. This runtime-classification risk must be addressed before relying on lifecycle-only build loops; no detection configuration was changed.
 
+Fresh Codex prompt --wait also returned done mid-turn while actual output remained Working; reported to tool QA. Complete reports/markers plus content established completion, not lifecycle state. The checker prose misclassified its compiler result as unavailable; retained expanded transcript actually shows diagnostics and exit 1. No application checks were rerun to recover that output.
+
 ## Open human gates
-1. P2 plan v1/D011 approved. Execute only bounded task briefs and serial Git handoffs; no uncapped loops or unassigned edits.
+1. Full actual-page/accessibility/retry/provider/inbox evidence remains missing under D013; local fixture passes are not full acceptance. Compiler/lint are not green; existing #26 needs separately approved protected-tooling work. Do not repeat unchanged failures.
 2. New account and preservation of content/images confirmed; existing-project access versus migration and retained private-data scope remain separate unresolved work. No project/token/CORS changes or deletion authorized.
 3. Repository-only trust approved, no global config changed. Initial status reveals modified package-lock.json; preserve it and scope staging to owned files.
-4. Exact shared-file/branch ownership, proving commands, finite caps and independent verifier need P2 approval. No production build task assigned.
+4. P2 file/branch/cap/check topology already approved. No new source or broader test/config permission; a defect requires its bounded new-branch assignment, and a spec flaw requires human decision.
 5. Literal sender/recipient/test inbox, scoped credentials, domain verification, hosting/export retention, privacy and abuse controls require human approval before live checks/enablement.
 6. Previous public-contact SOURCE-READING stop cleared explicitly for bounded read-only work; no values copied or reused as destinations/fixtures. Secret exposure still stops work.
 
 ## PR and recovery policy
-No empty or placeholder PRs. Proposed future flow: issue -> approved acceptance spec -> approved task plan -> task-specific branch/worktree -> builder output done-unverified -> fresh independent check -> draft PR with evidence -> human merge/release decision. Never push main, merge, deploy or advance rollout autonomously. Branch naming proposed: ticket/<issue-number>-<short-slug>, not adopted yet. Coupled UI/API files get one integration owner or sequential writers.
+D011's current flow produced actual docs PR #41 (base main) and feature draft #42 (base plan/inquiry-v2). Neither is authorized for merge/release. Future increments require their own approved acceptance/spec/plan; one source/index writer at a time. Never push main, merge, deploy or advance rollout autonomously.
 
 GitHub issue bodies and local backlog are intake proposals, not an approved implementation plan. Do not change scopes silently. No production data access. On resumed session read STATE/DECISIONS/TASKS/progress and agent output before input. Detaching herdr does not stop processes; do not stop its server. If it restarts, re-inventory actual panes/processes; never assume servers survived.
 
-## Latest request — implementation / provider prerequisite
-Human approved Resend for specification (D005), then the P0 inquiry problem/baseline metric and server-configured owner/test inbox policy (D006). Provider prerequisites/research remain at docs/backlog/inquiry-provider-recommendation.md. Version 1 of docs/specs/reliable-inquiries.md proposes direct provider acceptance without a private application outbox (D007). No agents resumed, production files edited, dependencies installed, accounts connected, sends attempted or further Git commands run. Remaining human gates above are not waived.
+## Current evidence and recovery handoff
 
-## Latest confirmation — Resend Free
-Human selected the free tier after asking whether one exists; D008 records provider spending at $0 with no automatic paid upgrades/overages. This does not create an account or approve an unseen P1/P2 artifact. Exact version 1/D007 approval and repository-specific trust/read permissions are now being requested explicitly. No worker resumed, Git failure repeated, production code edited, account connected or test email sent.
-
-## P2 current pass
-Herdr 0.9.5 client/server compatible; HERDR_ENV=1 rechecked. Existing dev/UI output read before reassignment. docs/briefs/P2-dev-feasibility.md and P2-ui-feasibility.md allow one read-only pass (6 minutes, 35/30 source reads), no tests/build/install/Git mutations/live services/subagents. Prior prompt --wait false-negative is not retried; one-shot submission and actual completed report evidence are used, not idle-state claims. No autonomous implementation loop is authorized. Lead prepares the plan, builders supply conditional estimates/commands; no self-verification.
-
-## P2 tooling facts
-Observed: xd://lsp status reports no configured language servers. Codex CLI 0.166.0 is installed; its --help confirms read-only sandbox, on-request approvals and no-alt-screen options. Authentication, local browser/tool capability and an actual verifier session are Unknown; none started. claude --version returned command not found; no retry/install. These are capability metadata, not verification of application behavior.
-
-## Latest completed builder reports / clarification
-Actual output ended with CW-P2-DEV-REPORT-COMPLETE and CW-P2-UI-REPORT-COMPLETE. They report read-only work/no repository or environment changes. Developer ran version/help commands only; UI used source tools only. Reports are not independent acceptance checks. Digest: docs/plans/inquiry-builder-findings.md. UI effort is an agent estimate of 8–14 active hours under stated assumptions; dev elapsed effort remains Unknown. No aggregate schedule or cost invented. Native node:test/TypeScript-stripping path and optional protected tsconfig flag are unproved planning proposals. Both agents await a new bounded brief, not a force-resume/build loop.
-
-## P2 plan deliverable
-Plan v1 and ownership/verification graph: docs/plans/2026-11-09-reliable-inquiries-plan.md. P3 API/UI, P4 checker, lead checkpoint/runbook and human live prerequisites each have a five-section file in docs/briefs. docs/plans/inquiry-docs-manifest.txt enumerates 66 lead-created paths for future scoped staging, not code/lockfile/secret directories. Nothing staged or committed. Plan chooses a serial shared-checkout branch strategy explicitly rather than silently choosing worktree/dependency setup; human approval required. Model-dollar use unmetered; proposal has finite supervised time/pass caps and no autonomous loop. Native runner, Codex auth/browser and full actual-page/provider evidence remain unproved/unavailable, never called verified.
-
-## P3 preflight / approved scope
-Actual Git preflight remains main...origin/main with user-owned package-lock.json modification and lead-created untracked documentation. Protected SHA-256 baseline recorded in docs/backlog/inquiry-protected-baseline.json; manifest now includes this necessary preflight artifact (67 explicit lead-owned paths). Git 2.52.0.windows.1 help confirms pathspec-from-file staging; gh PR create help confirms explicit base/head/draft options. No main commit, source mutation or live operation. One index writer: lead until docs commit/handoff, then dev, then UI. TDD skill's per-edit red/green loop is not used here: approved bug observation and final independent checks govern; meaningful public-boundary regressions remain required.
+- Approved source of truth: docs/specs/reliable-inquiries.md plus explicit v2 overrides; plan docs/plans/2026-11-09-reliable-inquiries-plan.md. D002's new Sanity-account intent does not authorize migration, data deletion or credential changes.
+- Actual docs checkpoint: 00afdf06b5536055b87d7cffb8ddb87f9c1f366f on plan/inquiry-v2; draft https://github.com/Chromapages/CielitosWrld/pull/41. First checkpoint contained 67 explicit lead-created files and excluded user lockfile/source.
+- D1: 7d174bb68b854356041bafd9b86b68b869676734, seven assigned files, frozen browser-safe exports; docs/backlog/inquiry-api-handoff.md.
+- U1: da568aaa1da4f7bf510d2574949a78673ac641ae, actual parent D1, only ContactForm.tsx; docs/backlog/inquiry-ui-handoff.md.
+- Authors ran their own checks despite deferral instructions; recorded as deviations, never independent proof. Fresh P4 local results supersede neither actual-browser nor live-delivery requirements.
+- Independent report/scope/limitations: docs/backlog/inquiry-independent-check.md. Operator configuration/recovery/baseline/rollback: docs/CONTACT_INQUIRIES.md. No new permanent check, mock site, SDK, datastore, outbox, background retry or webhook platform.
+- Checker hashes matched scoped source/protected files before/after, including user lockfile. Allowed tsconfig hash db1d39a0f8f6e99c312a6880646effd3debeee13cea5033eedc0c4661fbd952d; exact candidate diff independently adds only allowImportingTsExtensions:true. Other recorded protected hashes match preflight.
+- Do not rerun removed next lint, compiler/lint failures or missing-Sanity startup unchanged. No real account, credential, env/DNS/CORS change, site/CMS/provider request, send, merge, deployment or measured baseline occurred.
+- Human later supplies/authorizes nonproduction prerequisites outside chat; fresh verifier then exercises actual UI, vendor dedup/delivery/inbox, hosting/privacy/abuse/export and rollback. No automatic resume, new budget or rollout is implied.
+- Actual feature draft: https://github.com/Chromapages/CielitosWrld/pull/42, base plan/inquiry-v2, handoff 6a9eab3. Evidence comments are on #5/#6/#26. No issue closed. H1 remains blocked by D013; when ready, human supplies/authorizes nonproduction prerequisites outside chat. #26 tooling repair needs its own approved scope. No automatic resume, extra checks or public enablement.
