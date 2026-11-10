@@ -1,0 +1,479 @@
+{
+  "date": "2026-11-09",
+  "repo": "Chromapages/CielitosWrld",
+  "phase": "P0 DISCOVERY",
+  "issues": [
+    {
+      "key": "CW-001",
+      "number": 1,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/1",
+      "title": "Confirm first user problem, outcome metric and baseline",
+      "owner": "cielitos-lead",
+      "status": "planned",
+      "dependencies": []
+    },
+    {
+      "key": "CW-002",
+      "number": 2,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/2",
+      "title": "Decide new Sanity account, project ownership and content retention",
+      "owner": "cielitos-lead",
+      "status": "planned",
+      "dependencies": [
+        "CW-001"
+      ]
+    },
+    {
+      "key": "CW-003",
+      "number": 3,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/3",
+      "title": "Connect approved Sanity project and permission-scoped environments",
+      "owner": "cielitos-dev",
+      "status": "planned",
+      "dependencies": [
+        "CW-002"
+      ]
+    },
+    {
+      "key": "CW-004",
+      "number": 4,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/4",
+      "title": "Restore referenced assets and prove retained content survives the transition",
+      "owner": "cielitos-dev",
+      "status": "planned",
+      "dependencies": [
+        "CW-002",
+        "CW-003"
+      ]
+    },
+    {
+      "key": "CW-005",
+      "number": 5,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/5",
+      "title": "Replace false contact-delivery success with an approved real inquiry flow",
+      "owner": "cielitos-dev",
+      "status": "planned",
+      "dependencies": [
+        "CW-001",
+        "CW-003"
+      ]
+    },
+    {
+      "key": "CW-006",
+      "number": 6,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/6",
+      "title": "Honor contact budget and field-validation feedback end to end",
+      "owner": "cielitos-dev",
+      "status": "planned",
+      "dependencies": [
+        "CW-005"
+      ]
+    },
+    {
+      "key": "CW-007",
+      "number": 7,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/7",
+      "title": "Define and enforce submission privacy, moderation and abuse boundaries",
+      "owner": "cielitos-dev",
+      "status": "planned",
+      "dependencies": [
+        "CW-002",
+        "CW-005"
+      ]
+    },
+    {
+      "key": "CW-008",
+      "number": 8,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/8",
+      "title": "Connect approved review submissions to published testimonials",
+      "owner": "cielitos-dev",
+      "status": "planned",
+      "dependencies": [
+        "CW-002",
+        "CW-003",
+        "CW-007"
+      ]
+    },
+    {
+      "key": "CW-009",
+      "number": 9,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/9",
+      "title": "Keep review submission reachable when no testimonials exist",
+      "owner": "cielitos-ui",
+      "status": "planned",
+      "dependencies": [
+        "CW-008"
+      ]
+    },
+    {
+      "key": "CW-010",
+      "number": 10,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/10",
+      "title": "Apply gallery media selection without requiring attribute filters",
+      "owner": "cielitos-ui",
+      "status": "planned",
+      "dependencies": [
+        "CW-003"
+      ]
+    },
+    {
+      "key": "CW-011",
+      "number": 11,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/11",
+      "title": "Show correct gallery empty results and deterministic clear behavior",
+      "owner": "cielitos-ui",
+      "status": "planned",
+      "dependencies": [
+        "CW-010"
+      ]
+    },
+    {
+      "key": "CW-013",
+      "number": 12,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/12",
+      "title": "Make the gallery lightbox operable and understandable by keyboard and assistive technology",
+      "owner": "cielitos-ui",
+      "status": "planned",
+      "dependencies": [
+        "CW-010"
+      ]
+    },
+    {
+      "key": "CW-014",
+      "number": 13,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/13",
+      "title": "Prevent inactive lightbox videos from playing and handle missing embeds",
+      "owner": "cielitos-ui",
+      "status": "planned",
+      "dependencies": [
+        "CW-003",
+        "CW-013"
+      ]
+    },
+    {
+      "key": "CW-018",
+      "number": 14,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/14",
+      "title": "Align blog post schema, feed query and permalink rendering",
+      "owner": "cielitos-dev",
+      "status": "planned",
+      "dependencies": [
+        "CW-002",
+        "CW-003"
+      ]
+    },
+    {
+      "key": "CW-017",
+      "number": 15,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/15",
+      "title": "Resolve nonfunctional Like, Reblog and misleading Share controls",
+      "owner": "cielitos-ui",
+      "status": "planned",
+      "dependencies": [
+        "CW-001",
+        "CW-018"
+      ]
+    },
+    {
+      "key": "CW-019",
+      "number": 16,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/16",
+      "title": "Enforce the approved blog archive visibility contract",
+      "owner": "cielitos-dev",
+      "status": "planned",
+      "dependencies": [
+        "CW-018"
+      ]
+    },
+    {
+      "key": "CW-015",
+      "number": 17,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/17",
+      "title": "Make posts beyond the first blog batch reachable",
+      "owner": "cielitos-dev",
+      "status": "planned",
+      "dependencies": [
+        "CW-003",
+        "CW-018",
+        "CW-019"
+      ]
+    },
+    {
+      "key": "CW-020",
+      "number": 18,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/18",
+      "title": "Resolve About, Privacy and Terms links without matching pages",
+      "owner": "cielitos-ui",
+      "status": "planned",
+      "dependencies": [
+        "CW-001",
+        "CW-007"
+      ]
+    },
+    {
+      "key": "CW-021",
+      "number": 19,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/19",
+      "title": "Resolve blog tag, Archive, Ask and Submit destinations",
+      "owner": "cielitos-ui",
+      "status": "planned",
+      "dependencies": [
+        "CW-001",
+        "CW-018"
+      ]
+    },
+    {
+      "key": "CW-016",
+      "number": 20,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/20",
+      "title": "Resolve the blog search field that currently performs no search",
+      "owner": "cielitos-ui",
+      "status": "planned",
+      "dependencies": [
+        "CW-001",
+        "CW-021"
+      ]
+    },
+    {
+      "key": "CW-022",
+      "number": 21,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/21",
+      "title": "Fix navigation visibility across breakpoints and nested-route active state",
+      "owner": "cielitos-ui",
+      "status": "planned",
+      "dependencies": [
+        "CW-003"
+      ]
+    },
+    {
+      "key": "CW-023",
+      "number": 22,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/22",
+      "title": "Decide and reconcile Work routes with missing CMS content types",
+      "owner": "cielitos-dev",
+      "status": "planned",
+      "dependencies": [
+        "CW-001",
+        "CW-002"
+      ]
+    },
+    {
+      "key": "CW-024",
+      "number": 23,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/23",
+      "title": "Align homepage View Project links with approved portfolio destinations",
+      "owner": "cielitos-ui",
+      "status": "planned",
+      "dependencies": [
+        "CW-023"
+      ]
+    },
+    {
+      "key": "CW-025",
+      "number": 24,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/24",
+      "title": "Reconcile active Sanity schemas and editable page/query contracts",
+      "owner": "cielitos-dev",
+      "status": "planned",
+      "dependencies": [
+        "CW-002",
+        "CW-023"
+      ]
+    },
+    {
+      "key": "CW-012",
+      "number": 25,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/25",
+      "title": "Reconcile mobile gallery filters with media and editable CMS fields",
+      "owner": "cielitos-ui",
+      "status": "planned",
+      "dependencies": [
+        "CW-010",
+        "CW-025"
+      ]
+    },
+    {
+      "key": "CW-026",
+      "number": 26,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/26",
+      "title": "Restore truthful typecheck and lint gates compatible with installed Next",
+      "owner": "cielitos-dev",
+      "status": "planned",
+      "dependencies": [
+        "CW-001"
+      ]
+    },
+    {
+      "key": "CW-027",
+      "number": 27,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/27",
+      "title": "Define independent acceptance verification and PR evidence gates",
+      "owner": "cielitos-lead",
+      "status": "planned",
+      "dependencies": [
+        "CW-001",
+        "CW-026"
+      ]
+    },
+    {
+      "key": "CW-028",
+      "number": 28,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/28",
+      "title": "Establish measurable analytics, reliability and performance objectives",
+      "owner": "cielitos-lead",
+      "status": "planned",
+      "dependencies": [
+        "CW-001",
+        "CW-007"
+      ]
+    },
+    {
+      "key": "CW-031",
+      "number": 29,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/29",
+      "title": "Use one approved source for visible contact details and claims",
+      "owner": "cielitos-ui",
+      "status": "planned",
+      "dependencies": [
+        "CW-025"
+      ]
+    },
+    {
+      "key": "CW-032",
+      "number": 30,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/30",
+      "title": "Assess and retire unused integrations, components and divergent types safely",
+      "owner": "cielitos-dev",
+      "status": "planned",
+      "dependencies": [
+        "CW-018",
+        "CW-023",
+        "CW-025"
+      ]
+    },
+    {
+      "key": "CW-034",
+      "number": 31,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/31",
+      "title": "Decide homepage video scope and media delivery constraints",
+      "owner": "cielitos-lead",
+      "status": "planned",
+      "dependencies": [
+        "CW-001",
+        "CW-004",
+        "CW-028"
+      ]
+    },
+    {
+      "key": "CW-035",
+      "number": 32,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/32",
+      "title": "Decide whether generic page builder and live-preview infrastructure are needed",
+      "owner": "cielitos-lead",
+      "status": "planned",
+      "dependencies": [
+        "CW-001",
+        "CW-025"
+      ]
+    },
+    {
+      "key": "CW-036",
+      "number": 33,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/33",
+      "title": "Confirm current brand, content authority and design acceptance rubric",
+      "owner": "cielitos-lead",
+      "status": "planned",
+      "dependencies": [
+        "CW-001"
+      ]
+    },
+    {
+      "key": "CW-033",
+      "number": 34,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/34",
+      "title": "Decide whether dark mode belongs in the first supported experience",
+      "owner": "cielitos-lead",
+      "status": "planned",
+      "dependencies": [
+        "CW-001",
+        "CW-036"
+      ]
+    },
+    {
+      "key": "CW-037",
+      "number": 35,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/35",
+      "title": "Confirm environments, repository trust, CI and progressive-release ownership",
+      "owner": "cielitos-lead",
+      "status": "planned",
+      "dependencies": [
+        "CW-001",
+        "CW-002"
+      ]
+    },
+    {
+      "key": "CW-029",
+      "number": 36,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/36",
+      "title": "Replace placeholder SEO/domain metadata and missing share-image fallback",
+      "owner": "cielitos-dev",
+      "status": "planned",
+      "dependencies": [
+        "CW-004",
+        "CW-037"
+      ]
+    },
+    {
+      "key": "CW-030",
+      "number": 37,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/37",
+      "title": "Update owner and developer docs to the approved actual workflow",
+      "owner": "cielitos-lead",
+      "status": "planned",
+      "dependencies": [
+        "CW-002",
+        "CW-008",
+        "CW-023",
+        "CW-026",
+        "CW-037"
+      ]
+    },
+    {
+      "key": "CW-038",
+      "number": 38,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/38",
+      "title": "Define predictable CMS outage, missing-content and refresh behavior",
+      "owner": "cielitos-dev",
+      "status": "planned",
+      "dependencies": [
+        "CW-003",
+        "CW-008",
+        "CW-028"
+      ]
+    },
+    {
+      "key": "CW-039",
+      "number": 39,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/39",
+      "title": "Make gallery cards reachable and activatable by keyboard",
+      "owner": "cielitos-ui",
+      "status": "planned",
+      "dependencies": [
+        "CW-013",
+        "CW-036"
+      ]
+    },
+    {
+      "key": "CW-040",
+      "number": 40,
+      "url": "https://github.com/Chromapages/CielitosWrld/issues/40",
+      "title": "Expose mobile gallery filter dialog and selection state accessibly",
+      "owner": "cielitos-ui",
+      "status": "planned",
+      "dependencies": [
+        "CW-012",
+        "CW-036"
+      ]
+    }
+  ]
+}
