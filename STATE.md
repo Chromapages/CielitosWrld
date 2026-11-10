@@ -3,7 +3,7 @@
 Updated: 2026-11-10. Lead: Orin Vance (AI orchestrator, herdr name cielitos-lead).
 
 ## Phase and exit evidence
-**P4 VERIFY — local check complete; full acceptance blocked.** Frozen source candidate da568aaa1da4f7bf510d2574949a78673ac641ae on ticket/6-contact-form, API parent 7d174bb. Fresh independent checker passed 72 isolated API cases; retained compiler output shows failure and ESLint could not analyze because its configured plugin is missing. No complete AC1–8 is verified. Actual-page/CMS/provider/inbox proof remains unchecked under human D013. Lead is preparing operating evidence/draft PR, not production code or launch.
+**P4 VERIFY — local check complete; full acceptance blocked.** Frozen source candidate da568aaa1da4f7bf510d2574949a78673ac641ae on ticket/6-contact-form, API parent 7d174bb. Fresh independent checker passed 72 isolated API cases; retained compiler output shows failure and ESLint could not analyze because its configured plugin is missing. No complete AC1–8 is verified. Actual-page/CMS/provider/inbox proof remains unchecked under human D013. Operating handoff 6a9eab3 and actual draft PR #42 are published, not a launch.
 
 Transitions: human P0/P1/P2 approvals D006/D009/D010/D011 -> actual D1/U1 commits/reports -> independent isolated P4 report/supplement. Remain in P4 until missing evidence/defects are resolved; no P5 Go or rollout authorization. Defect returns to bounded P3/new branch; spec flaw returns to P1. Details: docs/backlog/inquiry-independent-check.md; full historical pass log: progress.md.
 
@@ -19,7 +19,7 @@ Transitions: human P0/P1/P2 approvals D006/D009/D010/D011 -> actual D1/U1 commit
 | Agents | Observed: existing omp agents in Lead/Dev/UI tabs of workspace wK; names assigned below. Supported kind list is not proof of installed/authenticated CLI availability. |
 | Independent verifier | Observed fresh Codex 0.166.0 / GPT-6.1 Terra high on wK:p5; independent of builders/lead. Actual local report consumed; no actual-page/live evidence. |
 | Repo/default | https://github.com/Chromapages/CielitosWrld; default main. Current source branch ticket/6-contact-form; actual docs draft PR #41, base main. |
-| Branch/CI | D011 approves serial docs/API/UI branches and stacked draft review. Source da568aa; lead-only handoff checkpoint/publication in progress. Compiler failed, lint blocked; existing #26 requires separate tooling scope. No checks/status/deployments were reported for docs-base SHA by scoped GitHub reads; that does not prove future automation absent. |
+| Branch/CI | D011 serial docs/API/UI branches and stacked draft review. Source da568aa, lead-only handoff 6a9eab3; actual feature draft #42 targets plan/inquiry-v2 above docs #41. Compiler failed, lint blocked; #26 needs separate tooling scope. Docs-base GitHub reads reported no checks/status/deployments; this does not prove future automation absent. |
 | Protected resources | User-modified package-lock.json preserved and matched recorded baseline. Only assigned source paths/tsconfig flag changed. Untracked .omx/ observed by checker is unattributed: preserve untouched/unstaged, do not inspect/publish. No test/config/lock/package/CI expansion authorized. |
 | Privacy/security/brand | Local fixture logs passed allowed-metadata checks; real retention/privacy/access remain Unknown. Reviews' email handling is deferred. No real submissions/secret values copied. Preserve existing content/images and photography-first earth-tone design. Legal obligations [HUMAN TO CONFIRM]. |
 | Cost/deadline | Human selected Resend Free with no paid upgrades/overages (D008); published allowance is not measured site demand. Agent monetary/token caps and delivery deadline [NOT PROVIDED]. No purchases, installs, provisioning or uncapped loops. |
@@ -30,7 +30,7 @@ Herdr client/server 0.9.5, protocol 22, compatible; observed 2026-11-09. All pan
 
 | Workspace | Tab | Pane | Agent name | Role | State |
 |---|---|---|---|---|---|
-| wK | wK:t1 Lead | wK:p1 | cielitos-lead | Orchestration, state/runbook/draft PR owner | Source frozen; lead-only evidence/Git handoff |
+| wK | wK:t1 Lead | wK:p1 | cielitos-lead | Orchestration, state/runbook/draft PR owner | Handoff/draft published; no source or new agent assignment |
 | wK | wK:t2 Dev | wK:p2 | cielitos-dev | Backend/API integration owner | D1 commit 7d174bb done-unverified; idle, no new source assignment |
 | wK | wK:t3 UI | wK:p3 | cielitos-ui | Form owner | U1 commit da568aa done-unverified; idle, no new source assignment |
 | wK | wK:t5 Checks | wK:p5 | cielitos-verifier-local (Codex) | Fresh read-only checker, GPT-6.1 Terra high | Report/supplement complete; no new assignment; existing transcript inspected for compiler result |
@@ -53,7 +53,7 @@ Fresh Codex prompt --wait also returned done mid-turn while actual output remain
 6. Previous public-contact SOURCE-READING stop cleared explicitly for bounded read-only work; no values copied or reused as destinations/fixtures. Secret exposure still stops work.
 
 ## PR and recovery policy
-D011's current flow is docs checkpoint -> serial API/UI branches -> fresh isolated report -> operating handoff/stacked draft PR -> human review. Docs PR #41 is actual; feature publication is the lead's remaining step. Never push main, merge, deploy or advance rollout autonomously. Future increments require their own approved acceptance/spec/plan. One source/index writer at a time; coupled writes are never parallel.
+D011's current flow produced actual docs PR #41 (base main) and feature draft #42 (base plan/inquiry-v2). Neither is authorized for merge/release. Future increments require their own approved acceptance/spec/plan; one source/index writer at a time. Never push main, merge, deploy or advance rollout autonomously.
 
 GitHub issue bodies and local backlog are intake proposals, not an approved implementation plan. Do not change scopes silently. No production data access. On resumed session read STATE/DECISIONS/TASKS/progress and agent output before input. Detaching herdr does not stop processes; do not stop its server. If it restarts, re-inventory actual panes/processes; never assume servers survived.
 
@@ -68,4 +68,4 @@ GitHub issue bodies and local backlog are intake proposals, not an approved impl
 - Checker hashes matched scoped source/protected files before/after, including user lockfile. Allowed tsconfig hash db1d39a0f8f6e99c312a6880646effd3debeee13cea5033eedc0c4661fbd952d; exact candidate diff independently adds only allowImportingTsExtensions:true. Other recorded protected hashes match preflight.
 - Do not rerun removed next lint, compiler/lint failures or missing-Sanity startup unchanged. No real account, credential, env/DNS/CORS change, site/CMS/provider request, send, merge, deployment or measured baseline occurred.
 - Human later supplies/authorizes nonproduction prerequisites outside chat; fresh verifier then exercises actual UI, vendor dedup/delivery/inbox, hosting/privacy/abuse/export and rollback. No automatic resume, new budget or rollout is implied.
-- Next: checkpoint only lead-owned evidence/runbook/state, push the approved feature branch, create actual draft against plan/inquiry-v2 and record returned URL. Preserve package-lock.json and unattributed .omx/ unstaged.
+- Actual feature draft: https://github.com/Chromapages/CielitosWrld/pull/42, base plan/inquiry-v2, handoff 6a9eab3. Evidence comments are on #5/#6/#26. No issue closed. H1 remains blocked by D013; when ready, human supplies/authorizes nonproduction prerequisites outside chat. #26 tooling repair needs its own approved scope. No automatic resume, extra checks or public enablement.

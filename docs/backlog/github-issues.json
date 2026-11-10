@@ -52,7 +52,7 @@
       "url": "https://github.com/Chromapages/CielitosWrld/issues/5",
       "title": "Replace false contact-delivery success with an approved real inquiry flow",
       "owner": "cielitos-dev",
-      "status": "planned",
+      "status": "done-unverified",
       "dependencies": [
         "CW-001",
         "CW-003"
@@ -64,7 +64,7 @@
       "url": "https://github.com/Chromapages/CielitosWrld/issues/6",
       "title": "Honor contact budget and field-validation feedback end to end",
       "owner": "cielitos-dev",
-      "status": "planned",
+      "status": "done-unverified",
       "dependencies": [
         "CW-005"
       ]
